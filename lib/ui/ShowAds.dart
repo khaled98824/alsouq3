@@ -8,6 +8,7 @@ import 'package:carousel_slider/carousel_slider.dart';
 import 'package:intl/intl.dart';
 import 'package:photo_view/photo_view.dart';
 import 'package:photo_view/photo_view_gallery.dart';
+import 'package:sooq1alzour/Auth/Login.dart';
 import 'package:sooq1alzour/models/PageRoute.dart';
 import 'package:url_launcher/url_launcher.dart';
 import 'package:http/http.dart';
@@ -19,7 +20,7 @@ class ShowAd extends StatefulWidget {
   ShowAd({this.documentId, this.indexDocument});
   @override
   _ShowAdState createState() =>
-      _ShowAdState(documentId: documentId, indexDocument: indexDocument);
+      _ShowAdState(documentId: documentId);
 }
 List<DocumentSnapshot> docs ;
 var  currectUser ;
@@ -27,6 +28,7 @@ DocumentSnapshot documentsAds;
 DocumentSnapshot documentsUser;
 DocumentSnapshot documentMessages;
 List<Widget> messages;
+bool showMessages=false;
 TextEditingController messageController = TextEditingController();
 ScrollController scrollController = ScrollController();
 
@@ -38,13 +40,20 @@ class _ShowAdState extends State<ShowAd> {
   String Messgetext;
   String documentId;
   int indexDocument;
-  _ShowAdState({this.documentId, this.indexDocument});
+  _ShowAdState({this.documentId});
 
   @override
   void initState() {
     // TODO: implement initState
     super.initState();
    getDocumentValue();
+   Timer(Duration(microseconds: 200), (){
+     print(documentId);
+     setState(() {
+       showMessages=true;
+
+     });
+   });
   }
 
   getDocumentValue()async{
@@ -497,7 +506,7 @@ class _ShowAdState extends State<ShowAd> {
                   ),
                 ),
 
-                   Padding(
+                   showMessages? Padding(
                     padding:EdgeInsets.only(top: 10,right: 10,left: 10),
                     child: StreamBuilder<QuerySnapshot>(
                       stream: _firestore.collection("messages").where('Ad_id',isEqualTo:documentId ).orderBy('date').snapshots(),
@@ -506,7 +515,7 @@ class _ShowAdState extends State<ShowAd> {
                           return Center(
                             child:Column(
                               children: <Widget>[
-                                CircularProgressIndicator(strokeWidth: 1,),
+                               // CircularProgressIndicator(strokeWidth: 1,),
                                 SizedBox(height: 8,),
                                 Text('!...لا توجد تعليقات ',style: TextStyle(
                                   fontSize: 16,
@@ -536,14 +545,14 @@ class _ShowAdState extends State<ShowAd> {
                         );
                       },
                     ),
-                  ),
+                  ):Container(),
 
                 SizedBox(
                   height: 10,
                 ),
                 SizedBox(
                   height: 42,
-                  child: Container(
+                  child: loginStatus?Container(
                     child: Row(
                       children: <Widget>[
                         Expanded(
@@ -567,7 +576,7 @@ class _ShowAdState extends State<ShowAd> {
                         )
                       ],
                     ),
-                  ),
+                  ):Container(),
                 )
               ],
             ),
@@ -582,7 +591,7 @@ class _ShowAdState extends State<ShowAd> {
   void dispose() {
     // TODO: implement dispose
     super.dispose();
-    docs.clear();
+    //docs.clear();
 
   }
 }
@@ -620,7 +629,7 @@ class _PageImageState extends State<PageImage> {
         backgroundDecoration: BoxDecoration(
           color: Theme.of(context).canvasColor,
         ),
-        loadingChild: CircularProgressIndicator(),
+        //loadingChild: CircularProgressIndicator(),
       )
     );
 

@@ -2,6 +2,7 @@ import 'dart:async';
 
 import 'package:curved_navigation_bar/curved_navigation_bar.dart';
 import 'package:flutter/material.dart';
+import 'package:sooq1alzour/Auth/Login.dart';
 import 'package:sooq1alzour/models/PageRoute.dart';
 import 'package:sooq1alzour/ui/SearchUi.dart';
 
@@ -278,28 +279,44 @@ class _MobileState extends State<Mobile> {
             ),
           ),
           bottomNavigationBar: CurvedNavigationBar(
-              color: Colors.red[500],
+              color: Color(0xffF26726),
               backgroundColor: Colors.orange,
               buttonBackgroundColor: Colors.white,
               animationDuration: Duration(milliseconds: 300),
-              height: 63,
+              height: 66,
               animationCurve: Curves.bounceInOut,
-              index: 1,
+              index: 2,
               onTap: (index) {
                 Timer(Duration(milliseconds: 300), () {
                   if (index == 0) {
-                    Navigator.of(context).pushNamed(MyAccount.id);
+                    if (loginStatus){
+                      Navigator.of(context).pushNamed(MyAccount.id);
+                    }else{
+                      print('no');
+                      Navigator.pushReplacement(context,
+                          MaterialPageRoute(builder: (context) {
+                            return LoginScreen(autoLogin: false,);
+                          }));
+                    }
                   } else if (index == 1) {
-                    Navigator.of(context).pushNamed(AddNewAd.id);
-                  } else if (index == 2) {
-                    Navigator.of(context).pushNamed(Home.id);
+                    if (loginStatus){
+                      Navigator.of(context).pushNamed(AddNewAd.id);
+                    }else{
+                      loginStatus=false;
+                      print('no');
+                      Navigator.pushReplacement(context,
+                          MaterialPageRoute(builder: (context) {
+                            return LoginScreen(autoLogin: false,);
+                          }));
+                    }
+
                   }
                 });
               },
               items: <Widget>[
                 Icon(
                   Icons.person,
-                  color: Colors.blue[900],
+                  color:  Colors.blue[900],
                   size: 29,
                 ),
                 Icon(
@@ -309,15 +326,15 @@ class _MobileState extends State<Mobile> {
                 ),
                 Icon(
                   Icons.home,
+                  size: 32,
                   color: Colors.blue[900],
-                  size: 29,
                 ),
               ]),
         ),
         Align(
           alignment: Alignment(1, 1),
           child: Padding(
-            padding: EdgeInsets.symmetric(vertical: 7, horizontal: 48),
+            padding: EdgeInsets.symmetric(vertical: 10, horizontal:screenSizeWidth<400?38: 49),
             child: Text(
               'الرئيسية',
               style: TextStyle(
@@ -332,7 +349,7 @@ class _MobileState extends State<Mobile> {
         Align(
           alignment: Alignment(-1, 1),
           child: Padding(
-            padding: EdgeInsets.symmetric(vertical: 7, horizontal: 53),
+            padding: EdgeInsets.symmetric(vertical: 10, horizontal:screenSizeWidth<400?40: 51),
             child: Text(
               'حسابي',
               style: TextStyle(

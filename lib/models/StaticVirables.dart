@@ -5,7 +5,8 @@ class Virables {
   static String departmentStatic2 ;
   static var screenSizeHeight;
   static var screenSizeWidth;
-
+  static bool login ;
+  static bool autoLogin ;
 
 
 }

@@ -10,26 +10,46 @@ import 'package:sooq1alzour/models/StaticVirables.dart';
 import 'package:sooq1alzour/ui/Home.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
-class LoginScreen extends StatefulWidget{
-  bool autoLogin;
+class LoginScreen extends StatefulWidget {
+  static const String id = "LoginScreen";
+  bool autoLogin  ;
   LoginScreen({this.autoLogin});
   @override
   _LoginScreenState createState() => _LoginScreenState(autoLogin: autoLogin);
 }
-double screenSizeWidth ;
+
+double screenSizeWidth;
 double screenSizeHieght;
+bool loginStatus = false;
+bool checkboxVal = false;
+bool logout ;
+bool checkLogin=false;
 class _LoginScreenState extends State<LoginScreen> {
-  bool autoLogin  ;
+  bool autoLogin ;
   _LoginScreenState({this.autoLogin});
 
-  void initState()
-  {
+  void initState() {
     super.initState();
-    if(autoLogin!=false){
-      autoLoginF();
+    if (autoLogin == false) {
+      checkboxVal = false;
+    } else {
+      checkAutoLogin();
     }
   }
 
+  checkAutoLogin()async {
+    SharedPreferences sharedPref = await SharedPreferences.getInstance();
+    if(sharedPref.getBool('autoLogin') ==true){
+      setState(() {
+        checkboxVal = sharedPref.getBool('autoLogin');
+        if(checkboxVal){
+          autoLoginF();
+        }
+      });
+    }
+
+    print(checkboxVal);
+  }
   autoLoginF()async{
     SharedPreferences sharedPref = await SharedPreferences.getInstance();
     setState(() {
@@ -41,27 +61,39 @@ class _LoginScreenState extends State<LoginScreen> {
       login();
     });
   }
-  saveShared()async{
+  saveLoginAutoStatus()async{
+    SharedPreferences sharedPref = await SharedPreferences.getInstance();
+    sharedPref.setBool('autoLogin',autoLogin);
+  }
+  saveShared() async {
     SharedPreferences sharedPref = await SharedPreferences.getInstance();
     sharedPref.setString('email', _emailcontroller.text);
     sharedPref.setString('password', _passwordcontroller.text);
+    sharedPref.setInt('navigatorSelect', 1);
   }
-  login()async{
+
+  login() async {
     FirebaseMessaging _firebaseMessaging = FirebaseMessaging();
-    if(_formkey.currentState.validate()){
+    if (_formkey.currentState.validate()) {
       saveShared();
-      var result = await FirebaseAuth.instance.signInWithEmailAndPassword(email: _emailcontroller.text, password: _passwordcontroller.text);
-      if(result != null){
+      var result = await FirebaseAuth.instance.signInWithEmailAndPassword(
+          email: _emailcontroller.text, password: _passwordcontroller.text);
+      if (result != null) {
         _firebaseMessaging.getToken().then((token) async {
-          print("token: "+token);
-          Firestore.instance.collection('users').document(result.user.uid).updateData({
-            "token":token,
-          });});
+          print("token: " + token);
+          Firestore.instance
+              .collection('users')
+              .document(result.user.uid)
+              .updateData({
+            "token": token,
+          });
+        });
+        loginStatus = true;
         Navigator.pushReplacement(
           context,
           MaterialPageRoute(builder: (context) => Home()),
         );
-      }else{
+      } else {
         print('user not found');
       }
     }
@@ -72,34 +104,40 @@ class _LoginScreenState extends State<LoginScreen> {
   TextEditingController _emailcontroller = TextEditingController();
   TextEditingController _passwordcontroller = TextEditingController();
 
-  @override
-  void dispose()
-  {
-    super.dispose();
-  }
+
 
   @override
   Widget build(BuildContext context) {
     // TODO: implement build
     screenSizeWidth = MediaQuery.of(context).size.width;
     screenSizeHieght = MediaQuery.of(context).size.height;
-    Virables.screenSizeWidth = screenSizeWidth ;
+    Virables.screenSizeWidth = screenSizeWidth;
     Virables.screenSizeHeight = screenSizeHieght;
+    Virables.login = loginStatus;
+    Virables.autoLogin = logout;
     return Scaffold(
-
-      body: Container(
+      body:Container(
         padding: EdgeInsets.all(16),
         child: Form(
             key: _formkey,
             child: ListView(
               children: <Widget>[
+                Padding(padding: EdgeInsets.only(top: 5)),
+                Center(
+                  child: Text(
+                    'تسجيل الدخول',
+                    style: TextStyle(
+                      fontSize: 22,
+                      fontFamily: 'AmiriQuran',
+                      height: 1,
+                    ),
+                  ),
+                ),
                 Padding(padding: EdgeInsets.only(top: 30)),
-                Center(child: Text('تسجيل الدخول',style: TextStyle(
-                  fontSize: 28,
-                  fontFamily: 'AmiriQuran',
-                  height: 1,
-                ),),),
-                Padding(padding: EdgeInsets.only(top: 220)),
+                ClipRRect(
+                  child: Image.asset('assets/images/souq1624wpng.png'),
+                ),
+                Padding(padding: EdgeInsets.only(top: 30)),
                 TextFormField(
                   controller: _emailcontroller,
                   keyboardType: TextInputType.emailAddress,
@@ -107,8 +145,8 @@ class _LoginScreenState extends State<LoginScreen> {
                   decoration: InputDecoration(
                     hintText: 'البريد الإلكتروني  (الإيميل)',
                   ),
-                  validator: (value){
-                    if(value.isEmpty){
+                  validator: (value) {
+                    if (value.isEmpty) {
                       return 'Please Fill Email Input';
                     }
                   },
@@ -123,8 +161,8 @@ class _LoginScreenState extends State<LoginScreen> {
                   decoration: InputDecoration(
                     hintText: 'كلمة المرور',
                   ),
-                  validator: (value){
-                    if(value.isEmpty){
+                  validator: (value) {
+                    if (value.isEmpty) {
                       return 'Please Fill Password Input';
                     }
                   },
@@ -134,33 +172,84 @@ class _LoginScreenState extends State<LoginScreen> {
                 ),
                 RaisedButton(
                   color: Colors.blue,
-                  child: Text('تسجيل الدخول',style: TextStyle(color: Colors.white,fontSize: 18,
-                      fontFamily: 'AmiriQuran',
-                      height: 1),),
+                  child: Text(
+                    'تسجيل الدخول',
+                    style: TextStyle(
+                        color: Colors.white,
+                        fontSize: 18,
+                        fontFamily: 'AmiriQuran',
+                        height: 1),
+                  ),
                   onPressed: () async {
                     login();
                   },
                 ),
-                SizedBox(height: 50,),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.end,
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  children: [
+                    Text('تسجيل دخول تلقائي',style: TextStyle(
+                        color: Colors.green[900],
+                        fontSize: 18,
+                        fontFamily: 'AmiriQuran',
+                        height: 1),),
+                    Checkbox(value: checkboxVal, onChanged: (bool val){
+                      autoLogin = val;
+                      setState(() {
+                        checkboxVal = val;
+                      });
+                      saveLoginAutoStatus();
+                    },
+
+                    ),
+                  ],
+                ),
+                SizedBox(
+                  height: 1,
+                ),
                 RaisedButton(
                   color: Colors.blue,
-                  child: Text('تسجيل مستخدم جديد ',style: TextStyle(color: Colors.white,
-                      fontSize: 18,
-                      fontFamily: 'AmiriQuran',
-                      height: 1
-                  ),
+                  child: Text(
+                    'تسجيل مستخدم جديد ',
+                    style: TextStyle(
+                        color: Colors.white,
+                        fontSize: 18,
+                        fontFamily: 'AmiriQuran',
+                        height: 1),
                   ),
                   onPressed: () async {
-                    Navigator.push(context, MaterialPageRoute(builder: (context) => RegisterScreen2() ) );
+                    Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                            builder: (context) => RegisterScreen2()));
                   },
                 ),
+                SizedBox(
+                  height: 30,
+                ),
+                InkWell(
+                  onTap: (){
+                    Navigator.pushReplacement(
+                        context,
+                        MaterialPageRoute(builder: (context) => Home()));
+                  },
+                  child: Container(
+                    decoration: BoxDecoration(
+                      borderRadius: BorderRadius.circular(10),
+                      color: Color(0xffF26726),),
+                    width: 324,
+                    height: 59,
+                    child: Center(child: Text('تصفح في السوق كزائر',style: TextStyle(
+                        color: Colors.white,
+                        fontSize: 22,
+                        fontFamily: 'AmiriQuran',
+                        height: 1),)),
+                  ),
+                ),
               ],
-            )
-        ),
+            )),
       ),
     );
   }
-
-
 
 }

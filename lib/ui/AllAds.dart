@@ -34,8 +34,6 @@ class _AdsFulState extends State<AdsFul> {
   void initState() {
     // TODO: implement initState
     super.initState();
-
-
   }
 
   @override
@@ -71,7 +69,7 @@ class _AdsFulState extends State<AdsFul> {
                         onTap: () {
                           print(department);
                           Navigator.push(context, BouncyPageRoute(widget: ShowAd(
-                            documentId: snapshot.data.documents[index].documentID,indexDocument: index,)));
+                            documentId: snapshot.data.documents[index].documentID)));
                         },
                         child: Card(
                           elevation: 6,
@@ -194,7 +192,7 @@ class _AdsFulState extends State<AdsFul> {
                               borderRadius: BorderRadius.circular(40),
                               color: Colors.grey[350]),
                           child: Stack(
-                            alignment: Alignment(0, 0),
+                            alignment: Alignment(-0.2, 0),
                             children: <Widget>[
                               Text('!... إبحث  في قسم $department',
                                   style: TextStyle(
@@ -207,7 +205,7 @@ class _AdsFulState extends State<AdsFul> {
                                   alignment: Alignment(0.9, 0),
                                   child: Icon(
                                     Icons.search,
-                                    size: 32,
+                                    size: 31,
                                   ))
                             ],
                           ),
@@ -218,7 +216,7 @@ class _AdsFulState extends State<AdsFul> {
                   Align(
                       alignment: Alignment(1, -0.9),
                       child: Padding(
-                          padding: EdgeInsets.symmetric(vertical:screenSizeHieght <890? 54:41,horizontal: 1),
+                          padding: EdgeInsets.symmetric(vertical:screenSizeHieght <890? 48:41,horizontal: 1),
                           child: InkWell(
                               onTap: (){
                                 Navigator.of(context).pop();

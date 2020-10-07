@@ -1,13 +1,17 @@
 import 'dart:async';
 import 'dart:ui';
+import 'package:carousel_slider/carousel_options.dart';
+import 'package:carousel_slider/carousel_slider.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:curved_navigation_bar/curved_navigation_bar.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:get_it/get_it.dart';
 import 'package:sooq1alzour/Auth/Login.dart';
 import 'package:sooq1alzour/Service/PushNotificationService.dart';
 import 'package:sooq1alzour/models/AdsModel.dart';
 import 'package:sooq1alzour/models/PageRoute.dart';
+import 'package:sooq1alzour/models/StaticVirables.dart';
 import 'package:sooq1alzour/ui/AddNewAd.dart';
 import 'package:sooq1alzour/ui/AllAds.dart';
 import 'package:sooq1alzour/ui/SerchData.dart';
@@ -29,9 +33,13 @@ class Home extends StatefulWidget {
   @override
   _HomeState createState() => _HomeState();
 }
+
 List<AdsModel> allList = List();
 var icons1 = Icons.burst_mode;
 var icons2 = Icons.home;
+var adImagesUrlF = List<dynamic>();
+bool showSliderAds = false;
+
 final List<String> _listItem = [
   'assets/images/Elct2.jpg',
   'assets/images/cars.jpg',
@@ -45,13 +53,13 @@ final List<String> _listItem = [
   'assets/images/game.jpg',
   'assets/images/clothes.jpg',
   'assets/images/food.jpg',
-
 ];
 
 bool categoryOrAds = true;
 
 class _HomeState extends State<Home> {
-  final PushNotificationService _pushNotificationService=GetIt.I<PushNotificationService>();
+  final PushNotificationService _pushNotificationService =
+      GetIt.I<PushNotificationService>();
   bool buttonPressed1 = false;
   bool buttonPressed2 = false;
   void _letsPress1() {
@@ -70,34 +78,68 @@ class _HomeState extends State<Home> {
       buttonPressed2 = true;
     });
   }
+
   @override
   void initState() {
     // TODO: implement initState
     super.initState();
+    getUrlsForAds();
+    Timer(Duration(microseconds: 700), () {
+      FirebaseAuth.instance.currentUser().then((value) {
+        if (value == null) {
+          setState(() {
+            checkLogin = false;
+            loginStatus = false;
+            print('object');
+          });
+        } else {
+          setState(() {
+            checkLogin = true;
+          });
+          print('checkLogincc${value.email}');
+        }
+      });
+    });
     _pushNotificationService.initialise();
   }
+
+  getUrlsForAds() async {
+    DocumentReference documentRef = Firestore.instance
+        .collection('UrlsForAds')
+        .document('gocqpQlhow2tfetqlGpP');
+    documentsAds = await documentRef.get();
+    adImagesUrlF = documentsAds.data['urls'];
+    setState(() {
+      showSliderAds = true;
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
+    Virables.screenSizeWidth = screenSizeWidth;
+    Virables.screenSizeHeight = screenSizeHieght;
+    screenSizeWidth = MediaQuery.of(context).size.width;
+    screenSizeHieght = MediaQuery.of(context).size.height;
     return Stack(
       children: <Widget>[
         Scaffold(
-          backgroundColor: Colors.white,
+          backgroundColor: Colors.grey[200],
           body: SafeArea(
               child: Column(
             children: <Widget>[
-              Padding(padding: EdgeInsets.only(top: 1)),
+              Padding(padding: EdgeInsets.only(top: 0)),
               Heade(),
               SizedBox(
-                height: 10,
+                height: 3,
               ),
               SearchAreaDesign(),
-              Padding(padding: EdgeInsets.only(top: 5)),
+              Padding(padding: EdgeInsets.only(top: 3)),
               Wrap(
                 crossAxisAlignment: WrapCrossAlignment.center,
                 alignment: WrapAlignment.spaceAround,
                 children: <Widget>[
                   SizedBox(
-                    width: 180,
+                    width: 170,
                     child: GestureDetector(
                         // FIRST BUTTON
                         onTap: _letsPress1,
@@ -112,7 +154,7 @@ class _HomeState extends State<Home> {
                               )),
                   ),
                   SizedBox(
-                    width: 180,
+                    width: 170,
                     child: GestureDetector(
                         // FIRST BUTTON
                         onTap: _letsPress2,
@@ -128,7 +170,15 @@ class _HomeState extends State<Home> {
                   ),
                 ],
               ),
-              Padding(padding: EdgeInsets.only(top: 60)),
+              Padding(
+                  padding: EdgeInsets.only(
+                top: 10,
+              )),
+               showSliderAds ? areaForAd() : Container(),
+              Padding(
+                  padding: EdgeInsets.only(
+                top: 3,
+              )),
               categoryOrAds
                   ? Expanded(
                       child: SingleChildScrollView(
@@ -172,7 +222,12 @@ class _HomeState extends State<Home> {
                                     text: "وظائف وأعمال",
                                     imagePath: _listItem[3],
                                     callback: () {
-                                      Navigator.push(context, BouncyPageRoute(widget: Ads(department: 'وظائف وأعمال',category: 'وظائف وأعمال',)));
+                                      Navigator.push(
+                                          context,
+                                          BouncyPageRoute(
+                                              widget: Ads(
+                                                  department: 'وظائف وأعمال',
+                                                  category: 'وظائف وأعمال')));
                                     },
                                   )
                                 ],
@@ -206,7 +261,13 @@ class _HomeState extends State<Home> {
                                     text: "المعدات والشاحنات",
                                     imagePath: _listItem[6],
                                     callback: () {
-                                     Navigator.push(context, BouncyPageRoute(widget: Ads(department:"االمعدات والشاحنات" ,category:"المعدات والشاحنات" ,)));
+                                      Navigator.push(
+                                          context,
+                                          BouncyPageRoute(
+                                              widget: Ads(
+                                            department: "المعدات والشاحنات",
+                                            category: "المعدات والشاحنات",
+                                          )));
                                     },
                                   ),
                                   GridViewItems(
@@ -272,21 +333,20 @@ class _HomeState extends State<Home> {
                       padding: EdgeInsets.only(top: 12),
                       child: Stack(
                         children: <Widget>[
-
                           Align(
                             alignment: Alignment(1, -1.1),
                             child: Padding(
                               padding: EdgeInsets.symmetric(
-                                  vertical: 16, horizontal: 2),
+                                  vertical: 13, horizontal: 4),
                               child: Card(
                                 child: Padding(
                                   padding: EdgeInsets.only(
-                                      bottom: 6, top: 10, right: 30, left: 30),
+                                      bottom: 6, top: 6, right: 30, left: 30),
                                   child: Text(
                                     'أحدث الإعلانات',
                                     textAlign: TextAlign.center,
                                     style: TextStyle(
-                                        fontSize: 18,
+                                        fontSize: 16,
                                         fontFamily: 'AmiriQuran',
                                         height: 1),
                                   ),
@@ -296,14 +356,14 @@ class _HomeState extends State<Home> {
                           ),
                           Padding(
                               padding: EdgeInsets.only(top: 30),
-                              child: AllAds()),
+                              child: NewAds()),
                         ],
                       ),
                     ))),
             ],
           )),
           bottomNavigationBar: CurvedNavigationBar(
-              color: Colors.red[500],
+              color: Color(0xffF26726),
               backgroundColor: Colors.orange,
               buttonBackgroundColor: Colors.white,
               animationDuration: Duration(milliseconds: 300),
@@ -313,9 +373,30 @@ class _HomeState extends State<Home> {
               onTap: (index) {
                 Timer(Duration(milliseconds: 300), () {
                   if (index == 0) {
-                    Navigator.of(context).pushNamed(MyAccount.id);
+                    if (loginStatus) {
+                      Navigator.of(context).pushNamed(MyAccount.id);
+                    } else {
+                      print('no');
+                      Navigator.pushReplacement(context,
+                          MaterialPageRoute(builder: (context) {
+                        return LoginScreen(
+                          autoLogin: false,
+                        );
+                      }));
+                    }
                   } else if (index == 1) {
-                    Navigator.of(context).pushNamed(AddNewAd.id);
+                    if (loginStatus) {
+                      Navigator.of(context).pushNamed(AddNewAd.id);
+                    } else {
+                      loginStatus = false;
+                      print('no');
+                      Navigator.pushReplacement(context,
+                          MaterialPageRoute(builder: (context) {
+                        return LoginScreen(
+                          autoLogin: false,
+                        );
+                      }));
+                    }
                   }
                 });
               },
@@ -332,15 +413,16 @@ class _HomeState extends State<Home> {
                 ),
                 Icon(
                   Icons.home,
+                  size: 32,
                   color: Colors.blue[900],
-                  size: 29,
                 ),
               ]),
         ),
         Align(
           alignment: Alignment(1, 1),
           child: Padding(
-            padding: EdgeInsets.symmetric(vertical: 10, horizontal:screenSizeWidth<400?38: 49),
+            padding: EdgeInsets.symmetric(
+                vertical: 10, horizontal: screenSizeWidth < 400 ? 38 : 49),
             child: Text(
               'الرئيسية',
               style: TextStyle(
@@ -355,7 +437,8 @@ class _HomeState extends State<Home> {
         Align(
           alignment: Alignment(-1, 1),
           child: Padding(
-            padding: EdgeInsets.symmetric(vertical: 10, horizontal:screenSizeWidth<400?40: 51),
+            padding: EdgeInsets.symmetric(
+                vertical: 10, horizontal: screenSizeWidth < 400 ? 40 : 51),
             child: Text(
               'حسابي',
               style: TextStyle(
@@ -398,10 +481,10 @@ Widget Heade() {
     children: <Widget>[
       Container(
           child: Row(
-        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        mainAxisAlignment: MainAxisAlignment.end,
         crossAxisAlignment: CrossAxisAlignment.center,
         children: <Widget>[
-          Padding(padding: EdgeInsets.only(left: 1)),
+          screenSizeWidth<380? SizedBox(width: 6,): SizedBox(width: 11,),
           Text(
             'بيع واشتري كل ما تريد بكل سهولة',
             style: TextStyle(
@@ -412,16 +495,13 @@ Widget Heade() {
             ),
           ),
           Padding(
-            padding: EdgeInsets.only(right: 10),
-            child: Container(
-              width: 80,
-              height: 40,
-              decoration: BoxDecoration(
-                borderRadius: BorderRadius.circular(14),
-                color: Colors.blue,
-              ),
-            ),
-          )
+              padding: EdgeInsets.only(right: screenSizeWidth<380?15:28, left: 3),
+              child: Image.asset(
+                'assets/images/logo.png',
+                height: 51,
+                width: 104,
+                fit: BoxFit.fill,
+              ))
         ],
       )),
     ],
@@ -451,7 +531,7 @@ class _SearchAreaDesignState extends State<SearchAreaDesign> {
             textDirection: TextDirection.rtl,
             alignment: Alignment(0.3, 0),
             children: <Widget>[
-              Text('!... إبحث في سوق الزور',
+              Text('!... إبحث في سوق الفرات',
                   style: TextStyle(
                     color: Colors.black,
                     fontSize: 20,
@@ -495,7 +575,7 @@ class ButtonTapped extends StatelessWidget {
                 child: Icon(
                   icon,
                   size: 30,
-                  color: Colors.redAccent[700],
+                  color: Color(0xffF26726),
                   textDirection: TextDirection.rtl,
                 ),
               ),
@@ -530,7 +610,7 @@ class ButtonTapped extends StatelessWidget {
               boxShadow: [
                 BoxShadow(
                     color: Colors.white,
-                    offset: Offset(4.0, 4.0),
+                    offset: Offset(0.5, 0.5),
                     spreadRadius: 3.0),
                 BoxShadow(
                   color: Colors.grey[600],
@@ -560,7 +640,7 @@ class ButtonTapped extends StatelessWidget {
             color: Colors.grey[300],
             boxShadow: [
               BoxShadow(
-                  color: Colors.white,
+                  color: Colors.grey[200],
                   offset: Offset(-4.0, -4.0),
                   blurRadius: 10.0,
                   spreadRadius: 1.0),
@@ -606,7 +686,7 @@ class MyButton extends StatelessWidget {
               child: Icon(
                 icon,
                 size: 30,
-                color: Colors.blueAccent[700],
+                color: Color(0xffF26726),
                 textDirection: TextDirection.rtl,
               ),
             ),
@@ -692,9 +772,9 @@ class GridViewItems extends StatelessWidget {
       onTap: callback,
       child: Card(
         elevation: 0,
-        color: Colors.white,
+        color: Colors.grey[200],
         child: SizedBox(
-          width: screenSizeWidth>395?190:172,
+          width: screenSizeWidth > 395 ? 190 : 172,
           height: 200,
           child: Container(
             width: 100,
@@ -708,7 +788,7 @@ class GridViewItems extends StatelessWidget {
             child: Transform.translate(
                 offset: Offset(22, -72),
                 child: Container(
-                    margin: EdgeInsets.symmetric(horizontal: 27, vertical: 82),
+                    margin: EdgeInsets.symmetric(horizontal: 27, vertical: 84),
                     decoration: BoxDecoration(
                         borderRadius: BorderRadius.circular(10),
                         color: Colors.grey[50]),
@@ -732,21 +812,59 @@ class GridViewItems extends StatelessWidget {
   }
 }
 
-class AllAds extends StatefulWidget {
+Widget areaForAd() {
+  return Container(
+    child: CarouselSlider(
+      items: adImagesUrlF.map((url) {
+        return Builder(builder: (BuildContext context) {
+          return InkWell(
+            onTap: () {
+              print('w$screenSizeWidth');
+              print('h$screenSizeHieght');
+            },
+            child: Container(
+              height: 60,
+             // margin: EdgeInsets.only(right: 1, left: 1),
+              padding: EdgeInsets.only(right: 1,left: 1),
+              child: Hero(
+                  tag: Text('imageAd'),
+                  child: ClipRRect(
+                      borderRadius: BorderRadius.circular(20),
+                      child: Image.network(url))),
+            ),
+          );
+        });
+      }).toList(),
+      options: CarouselOptions(
+        initialPage: 0,
+        autoPlay: true,
+        pauseAutoPlayOnTouch: false,
+        autoPlayAnimationDuration: Duration(seconds: 3),
+        autoPlayInterval: Duration(seconds: 15),
+        disableCenter: false,
+        height: 66,
+      ),
+    ),
+  );
+}
+
+class NewAds extends StatefulWidget {
   @override
-  _AllAdsState createState() => _AllAdsState();
+  _NewAdsState createState() => _NewAdsState();
 }
 
 String department;
 String category;
 
-class _AllAdsState extends State<AllAds> {
+class _NewAdsState extends State<NewAds> {
   @override
   Widget build(BuildContext context) {
     return Material(
         child: StreamBuilder(
             stream: Firestore.instance
-                .collection('Ads').orderBy('time').snapshots(),
+                .collection('Ads')
+                .orderBy('time')
+                .snapshots(),
             builder:
                 (BuildContext context, AsyncSnapshot<QuerySnapshot> snapshot) {
               if (!snapshot.hasData)
@@ -757,24 +875,32 @@ class _AllAdsState extends State<AllAds> {
               switch (snapshot.connectionState) {
                 case ConnectionState.waiting:
                   return new Text('Loading...');
-                 default:
+                default:
                   return Container(
                     child: new GridView.count(
                       crossAxisCount: 2,
                       crossAxisSpacing: 5,
                       mainAxisSpacing: 5,
-                      childAspectRatio:screenSizeHieght>800? 0.7:0.6,
-                      children: List.generate(snapshot.data.documents.length<20?4:19, (index) {
+                      childAspectRatio: screenSizeHieght > 800 ? 0.7 : 0.6,
+                      children: List.generate(
+                          snapshot.data.documents.length < 20 ? 4 : 13,
+                          (index) {
                         return InkWell(
                           onTap: () {
-                            Navigator.push(context, BouncyPageRoute(widget: ShowAd(documentId: snapshot.data.documents[index].documentID,)));
+                            Navigator.push(
+                                context,
+                                BouncyPageRoute(
+                                    widget: ShowAd(
+                                  documentId:
+                                      snapshot.data.documents[index].documentID,
+                                )));
                           },
                           child: Card(
                             elevation: 6,
                             child: Container(
                                 decoration: BoxDecoration(
                                   borderRadius: BorderRadius.circular(10),
-                                  color: Colors.white70,
+                                  color: Colors.grey[200],
                                 ),
                                 child: Column(
                                   mainAxisAlignment: MainAxisAlignment.start,
@@ -782,9 +908,10 @@ class _AllAdsState extends State<AllAds> {
                                   children: <Widget>[
                                     ClipRRect(
                                       child: Image.network(
-                                        snapshot.data.documents[index]['imagesUrl'][0],
-                                        height: 214,
-                                        width: 190,
+                                        snapshot.data.documents[index]
+                                            ['imagesUrl'][0],
+                                        height:screenSizeHieght>800? 192:218,
+                                        width:screenSizeWidth<750? 170:190,
                                         fit: BoxFit.fill,
                                       ),
                                       borderRadius: BorderRadius.circular(10),
@@ -798,7 +925,8 @@ class _AllAdsState extends State<AllAds> {
                                       mainAxisAlignment: MainAxisAlignment.end,
                                       children: <Widget>[
                                         Text(
-                                          snapshot.data.documents[index]['name'],
+                                          snapshot.data.documents[index]
+                                              ['name'],
                                           style: TextStyle(
                                             fontSize: 15,
                                             fontFamily: 'AmiriQuran',
@@ -819,7 +947,9 @@ class _AllAdsState extends State<AllAds> {
                                       mainAxisAlignment: MainAxisAlignment.end,
                                       children: <Widget>[
                                         Text(
-                                          snapshot.data.documents[index]['price'].toString(),
+                                          snapshot
+                                              .data.documents[index]['price']
+                                              .toString(),
                                           style: TextStyle(
                                             fontSize: 14,
                                             fontFamily: 'AmiriQuran',
@@ -845,7 +975,8 @@ class _AllAdsState extends State<AllAds> {
                                       mainAxisAlignment: MainAxisAlignment.end,
                                       children: <Widget>[
                                         Text(
-                                          snapshot.data.documents[index]['area'],
+                                          snapshot.data.documents[index]
+                                              ['area'],
                                           style: TextStyle(
                                             fontSize: 14,
                                             fontFamily: 'AmiriQuran',
