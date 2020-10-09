@@ -7,7 +7,7 @@ import 'package:curved_navigation_bar/curved_navigation_bar.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:get_it/get_it.dart';
-import 'package:sooq1alzour/Auth/Login.dart';
+import 'package:sooq1alzour/Auth/NewLogin.dart';
 import 'package:sooq1alzour/Service/PushNotificationService.dart';
 import 'package:sooq1alzour/models/AdsModel.dart';
 import 'package:sooq1alzour/models/PageRoute.dart';
@@ -84,25 +84,27 @@ class _HomeState extends State<Home> {
     // TODO: implement initState
     super.initState();
     getUrlsForAds();
-    Timer(Duration(microseconds: 700), () {
-      FirebaseAuth.instance.currentUser().then((value) {
-        if (value == null) {
-          setState(() {
-            checkLogin = false;
-            loginStatus = false;
-            print('object');
-          });
-        } else {
-          setState(() {
-            checkLogin = true;
-          });
-          print('checkLogincc${value.email}');
-        }
-      });
+    Timer(Duration(microseconds: 500), () {
+      //getUserData();
     });
     _pushNotificationService.initialise();
   }
-
+  getUserData()async{
+    var firestore = Firestore.instance;
+    QuerySnapshot qus = await firestore.collection('users').getDocuments();
+    if (qus == null) {
+      setState(() {
+        checkLogin = false;
+        loginStatus = false;
+        print('object');
+      });
+    } else {
+      setState(() {
+        checkLogin = true;
+      });
+      print('checkLogincc${qus.documents[0]['name']}');
+    }
+  }
   getUrlsForAds() async {
     DocumentReference documentRef = Firestore.instance
         .collection('UrlsForAds')
@@ -116,10 +118,10 @@ class _HomeState extends State<Home> {
 
   @override
   Widget build(BuildContext context) {
-    Virables.screenSizeWidth = screenSizeWidth;
-    Virables.screenSizeHeight = screenSizeHieght;
-    screenSizeWidth = MediaQuery.of(context).size.width;
-    screenSizeHieght = MediaQuery.of(context).size.height;
+    Virables.screenSizeWidth = screenSizeWidth2;
+    Virables.screenSizeHeight = screenSizeHieght2;
+    screenSizeWidth2 = MediaQuery.of(context).size.width;
+    screenSizeHieght2 = MediaQuery.of(context).size.height;
     return Stack(
       children: <Widget>[
         Scaffold(
@@ -376,10 +378,10 @@ class _HomeState extends State<Home> {
                     if (loginStatus) {
                       Navigator.of(context).pushNamed(MyAccount.id);
                     } else {
-                      print('no');
+                      print('no dd');
                       Navigator.pushReplacement(context,
                           MaterialPageRoute(builder: (context) {
-                        return LoginScreen(
+                        return NewLogin(
                           autoLogin: false,
                         );
                       }));
@@ -392,7 +394,7 @@ class _HomeState extends State<Home> {
                       print('no');
                       Navigator.pushReplacement(context,
                           MaterialPageRoute(builder: (context) {
-                        return LoginScreen(
+                        return NewLogin(
                           autoLogin: false,
                         );
                       }));
@@ -422,7 +424,7 @@ class _HomeState extends State<Home> {
           alignment: Alignment(1, 1),
           child: Padding(
             padding: EdgeInsets.symmetric(
-                vertical: 10, horizontal: screenSizeWidth < 400 ? 38 : 49),
+                vertical: 10, horizontal: screenSizeWidth2 < 400 ? 38 : 49),
             child: Text(
               'الرئيسية',
               style: TextStyle(
@@ -438,7 +440,7 @@ class _HomeState extends State<Home> {
           alignment: Alignment(-1, 1),
           child: Padding(
             padding: EdgeInsets.symmetric(
-                vertical: 10, horizontal: screenSizeWidth < 400 ? 40 : 51),
+                vertical: 10, horizontal: screenSizeWidth2 < 400 ? 40 : 51),
             child: Text(
               'حسابي',
               style: TextStyle(
@@ -484,7 +486,7 @@ Widget Heade() {
         mainAxisAlignment: MainAxisAlignment.end,
         crossAxisAlignment: CrossAxisAlignment.center,
         children: <Widget>[
-          screenSizeWidth<380? SizedBox(width: 6,): SizedBox(width: 11,),
+          screenSizeWidth2<380? SizedBox(width: 6,): SizedBox(width: 11,),
           Text(
             'بيع واشتري كل ما تريد بكل سهولة',
             style: TextStyle(
@@ -495,7 +497,7 @@ Widget Heade() {
             ),
           ),
           Padding(
-              padding: EdgeInsets.only(right: screenSizeWidth<380?15:28, left: 3),
+              padding: EdgeInsets.only(right: screenSizeWidth2<380?15:28, left: 3),
               child: Image.asset(
                 'assets/images/logo.png',
                 height: 51,
@@ -774,7 +776,7 @@ class GridViewItems extends StatelessWidget {
         elevation: 0,
         color: Colors.grey[200],
         child: SizedBox(
-          width: screenSizeWidth > 395 ? 190 : 172,
+          width: screenSizeWidth2 > 395 ? 190 : 172,
           height: 200,
           child: Container(
             width: 100,
@@ -819,8 +821,8 @@ Widget areaForAd() {
         return Builder(builder: (BuildContext context) {
           return InkWell(
             onTap: () {
-              print('w$screenSizeWidth');
-              print('h$screenSizeHieght');
+              print('w$screenSizeWidth2');
+              print('h$screenSizeHieght2');
             },
             child: Container(
               height: 60,
@@ -881,7 +883,7 @@ class _NewAdsState extends State<NewAds> {
                       crossAxisCount: 2,
                       crossAxisSpacing: 5,
                       mainAxisSpacing: 5,
-                      childAspectRatio: screenSizeHieght > 800 ? 0.7 : 0.6,
+                      childAspectRatio: screenSizeHieght2 > 800 ? 0.7 : 0.6,
                       children: List.generate(
                           snapshot.data.documents.length < 20 ? 4 : 13,
                           (index) {
@@ -910,8 +912,8 @@ class _NewAdsState extends State<NewAds> {
                                       child: Image.network(
                                         snapshot.data.documents[index]
                                             ['imagesUrl'][0],
-                                        height:screenSizeHieght>800? 192:218,
-                                        width:screenSizeWidth<750? 170:190,
+                                        height:screenSizeHieght2>800? 192:218,
+                                        width:screenSizeWidth2<750? 170:190,
                                         fit: BoxFit.fill,
                                       ),
                                       borderRadius: BorderRadius.circular(10),

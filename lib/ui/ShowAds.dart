@@ -8,7 +8,7 @@ import 'package:carousel_slider/carousel_slider.dart';
 import 'package:intl/intl.dart';
 import 'package:photo_view/photo_view.dart';
 import 'package:photo_view/photo_view_gallery.dart';
-import 'package:sooq1alzour/Auth/Login.dart';
+import 'package:sooq1alzour/Auth/NewLogin.dart';
 import 'package:sooq1alzour/models/PageRoute.dart';
 import 'package:url_launcher/url_launcher.dart';
 import 'package:http/http.dart';

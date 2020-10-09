@@ -2,34 +2,35 @@ import 'dart:async';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:get_it/get_it.dart';
-import 'package:sooq1alzour/Auth/Register2.dart';
 import 'package:sooq1alzour/Service/PushNotificationService.dart';
 import 'package:sooq1alzour/models/StaticVirables.dart';
 import 'package:sooq1alzour/ui/Home.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'NewReg2.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 
-class LoginScreen extends StatefulWidget {
+class NewLogin extends StatefulWidget {
   static const String id = "LoginScreen";
   bool autoLogin  ;
-  LoginScreen({this.autoLogin});
+  NewLogin({this.autoLogin});
   @override
-  _LoginScreenState createState() => _LoginScreenState(autoLogin: autoLogin);
+  _NewLoginState createState() => _NewLoginState(autoLogin: autoLogin);
 }
-
-double screenSizeWidth;
-double screenSizeHieght;
+double screenSizeWidth2;
+double screenSizeHieght2;
 bool loginStatus = false;
 bool checkboxVal = false;
 bool logout ;
 bool checkLogin=false;
-class _LoginScreenState extends State<LoginScreen> {
+
+class _NewLoginState extends State<NewLogin> {
   bool autoLogin ;
-  _LoginScreenState({this.autoLogin});
+  _NewLoginState({this.autoLogin});
 
   void initState() {
     super.initState();
+
     if (autoLogin == false) {
       checkboxVal = false;
     } else {
@@ -54,7 +55,7 @@ class _LoginScreenState extends State<LoginScreen> {
     SharedPreferences sharedPref = await SharedPreferences.getInstance();
     setState(() {
       _passwordcontroller = TextEditingController(text: sharedPref.getString('password'));
-      _emailcontroller = TextEditingController(text: sharedPref.getString('email'));
+      _namecontroller = TextEditingController(text: sharedPref.getString('name'));
     });
 
     Timer(Duration(milliseconds: 100),(){
@@ -67,7 +68,6 @@ class _LoginScreenState extends State<LoginScreen> {
   }
   saveShared() async {
     SharedPreferences sharedPref = await SharedPreferences.getInstance();
-    sharedPref.setString('email', _emailcontroller.text);
     sharedPref.setString('password', _passwordcontroller.text);
     sharedPref.setInt('navigatorSelect', 1);
   }
@@ -75,33 +75,39 @@ class _LoginScreenState extends State<LoginScreen> {
   login() async {
     FirebaseMessaging _firebaseMessaging = FirebaseMessaging();
     if (_formkey.currentState.validate()) {
+      var firestore = Firestore.instance;
+      QuerySnapshot qus = await firestore.collection('users').where('name',isEqualTo: _namecontroller.text).getDocuments();
       saveShared();
-      var result = await FirebaseAuth.instance.signInWithEmailAndPassword(
-          email: _emailcontroller.text, password: _passwordcontroller.text);
-      if (result != null) {
+      print(qus.documents[0]['password']);
         _firebaseMessaging.getToken().then((token) async {
           print("token: " + token);
           Firestore.instance
               .collection('users')
-              .document(result.user.uid)
+              .document(_namecontroller.text)
               .updateData({
             "token": token,
           });
         });
-        loginStatus = true;
-        Navigator.pushReplacement(
-          context,
-          MaterialPageRoute(builder: (context) => Home()),
-        );
-      } else {
-        print('user not found');
-      }
+
+
+        if(qus.documents[0]['password']==_passwordcontroller.text){
+          setState(() {
+            loginStatus = true;
+          });
+          Navigator.pushReplacement(
+            context,
+            MaterialPageRoute(builder: (context) => Home()),
+          );
+        }else{
+          showMessage('خطأ في البيانات المدخله');
+        }
+
     }
   }
 
   final _formkey = GlobalKey<FormState>();
 
-  TextEditingController _emailcontroller = TextEditingController();
+  TextEditingController _namecontroller = TextEditingController();
   TextEditingController _passwordcontroller = TextEditingController();
 
 
@@ -109,10 +115,10 @@ class _LoginScreenState extends State<LoginScreen> {
   @override
   Widget build(BuildContext context) {
     // TODO: implement build
-    screenSizeWidth = MediaQuery.of(context).size.width;
-    screenSizeHieght = MediaQuery.of(context).size.height;
-    Virables.screenSizeWidth = screenSizeWidth;
-    Virables.screenSizeHeight = screenSizeHieght;
+    screenSizeWidth2 = MediaQuery.of(context).size.width;
+    screenSizeHieght2 = MediaQuery.of(context).size.height;
+    Virables.screenSizeWidth = screenSizeWidth2;
+    Virables.screenSizeHeight = screenSizeHieght2;
     Virables.login = loginStatus;
     Virables.autoLogin = logout;
     return Scaffold(
@@ -139,11 +145,11 @@ class _LoginScreenState extends State<LoginScreen> {
                 ),
                 Padding(padding: EdgeInsets.only(top: 30)),
                 TextFormField(
-                  controller: _emailcontroller,
+                  controller: _namecontroller,
                   keyboardType: TextInputType.emailAddress,
                   textAlign: TextAlign.right,
                   decoration: InputDecoration(
-                    hintText: 'البريد الإلكتروني  (الإيميل)',
+                    hintText: 'إسم المستخدم',
                   ),
                   validator: (value) {
                     if (value.isEmpty) {
@@ -221,7 +227,7 @@ class _LoginScreenState extends State<LoginScreen> {
                     Navigator.push(
                         context,
                         MaterialPageRoute(
-                            builder: (context) => RegisterScreen2()));
+                            builder: (context) => NewReg()));
                   },
                 ),
                 SizedBox(
@@ -251,5 +257,13 @@ class _LoginScreenState extends State<LoginScreen> {
       ),
     );
   }
-
+  showMessage(String msg) {
+    Fluttertoast.showToast(
+        msg:msg,
+        gravity: ToastGravity.CENTER,
+        toastLength: Toast.LENGTH_LONG,
+        backgroundColor: Colors.blue,
+        fontSize: 15,
+        textColor: Colors.white);
+  }
 }

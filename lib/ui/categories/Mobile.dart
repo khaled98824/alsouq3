@@ -2,7 +2,7 @@ import 'dart:async';
 
 import 'package:curved_navigation_bar/curved_navigation_bar.dart';
 import 'package:flutter/material.dart';
-import 'package:sooq1alzour/Auth/Login.dart';
+import 'package:sooq1alzour/Auth/NewLogin.dart';
 import 'package:sooq1alzour/models/PageRoute.dart';
 import 'package:sooq1alzour/ui/SearchUi.dart';
 
@@ -295,7 +295,7 @@ class _MobileState extends State<Mobile> {
                       print('no');
                       Navigator.pushReplacement(context,
                           MaterialPageRoute(builder: (context) {
-                            return LoginScreen(autoLogin: false,);
+                            return NewLogin(autoLogin: false,);
                           }));
                     }
                   } else if (index == 1) {
@@ -306,7 +306,7 @@ class _MobileState extends State<Mobile> {
                       print('no');
                       Navigator.pushReplacement(context,
                           MaterialPageRoute(builder: (context) {
-                            return LoginScreen(autoLogin: false,);
+                            return NewLogin(autoLogin: false,);
                           }));
                     }
 
@@ -334,7 +334,7 @@ class _MobileState extends State<Mobile> {
         Align(
           alignment: Alignment(1, 1),
           child: Padding(
-            padding: EdgeInsets.symmetric(vertical: 10, horizontal:screenSizeWidth<400?38: 49),
+            padding: EdgeInsets.symmetric(vertical: 10, horizontal:screenSizeWidth2<400?38: 49),
             child: Text(
               'الرئيسية',
               style: TextStyle(
@@ -349,7 +349,7 @@ class _MobileState extends State<Mobile> {
         Align(
           alignment: Alignment(-1, 1),
           child: Padding(
-            padding: EdgeInsets.symmetric(vertical: 10, horizontal:screenSizeWidth<400?40: 51),
+            padding: EdgeInsets.symmetric(vertical: 10, horizontal:screenSizeWidth2<400?40: 51),
             child: Text(
               'حسابي',
               style: TextStyle(

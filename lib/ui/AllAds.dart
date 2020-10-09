@@ -1,6 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
-import 'package:sooq1alzour/Auth/Login.dart';
+import 'package:sooq1alzour/Auth/NewLogin.dart';
 import 'package:sooq1alzour/models/PageRoute.dart';
 import 'package:sooq1alzour/ui/Home.dart';
 import 'package:sooq1alzour/ui/ShowAds.dart';
@@ -62,7 +62,7 @@ class _AdsFulState extends State<AdsFul> {
                 crossAxisCount: 2,
                     crossAxisSpacing: 5,
                     mainAxisSpacing: 5,
-                    childAspectRatio:screenSizeHieght <895?0.6: 0.7,
+                    childAspectRatio:screenSizeHieght2 <895?0.6: 0.7,
                     children:
                     List.generate(snapshot.data.documents.length, (index) {
                       return InkWell(
@@ -216,7 +216,7 @@ class _AdsFulState extends State<AdsFul> {
                   Align(
                       alignment: Alignment(1, -0.9),
                       child: Padding(
-                          padding: EdgeInsets.symmetric(vertical:screenSizeHieght <890? 48:41,horizontal: 1),
+                          padding: EdgeInsets.symmetric(vertical:screenSizeHieght2 <890? 48:41,horizontal: 1),
                           child: InkWell(
                               onTap: (){
                                 Navigator.of(context).pop();

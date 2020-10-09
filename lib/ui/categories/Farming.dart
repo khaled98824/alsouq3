@@ -2,7 +2,7 @@ import 'dart:async';
 
 import 'package:curved_navigation_bar/curved_navigation_bar.dart';
 import 'package:flutter/material.dart';
-import 'package:sooq1alzour/Auth/Login.dart';
+import 'package:sooq1alzour/Auth/NewLogin.dart';
 import 'package:sooq1alzour/models/PageRoute.dart';
 
 import '../AddNewAd.dart';
@@ -61,7 +61,7 @@ class _Farming1State extends State<Farming1> {
                           borderRadius: BorderRadius.circular(40),
                           color: Colors.grey[350]),
                       child: Stack(
-                        alignment: Alignment(screenSizeWidth<412?-0.1:0.1, 0),
+                        alignment: Alignment(screenSizeWidth2<412?-0.1:0.1, 0),
                         children: <Widget>[
                           Text('!... إبحث في قسم الزراعة',
                               style: TextStyle(
@@ -258,7 +258,7 @@ class _Farming1State extends State<Farming1> {
                       print('no');
                       Navigator.pushReplacement(context,
                           MaterialPageRoute(builder: (context) {
-                            return LoginScreen(autoLogin: false,);
+                            return NewLogin(autoLogin: false,);
                           }));
                     }
                   } else if (index == 1) {
@@ -269,7 +269,7 @@ class _Farming1State extends State<Farming1> {
                       print('no');
                       Navigator.pushReplacement(context,
                           MaterialPageRoute(builder: (context) {
-                            return LoginScreen(autoLogin: false,);
+                            return NewLogin(autoLogin: false,);
                           }));
                     }
 
@@ -297,7 +297,7 @@ class _Farming1State extends State<Farming1> {
         Align(
           alignment: Alignment(1, 1),
           child: Padding(
-            padding: EdgeInsets.symmetric(vertical: 10, horizontal:screenSizeWidth<400?38: 49),
+            padding: EdgeInsets.symmetric(vertical: 10, horizontal:screenSizeWidth2< 400?38: 49),
             child: Text(
               'الرئيسية',
               style: TextStyle(
@@ -312,7 +312,7 @@ class _Farming1State extends State<Farming1> {
         Align(
           alignment: Alignment(-1, 1),
           child: Padding(
-            padding: EdgeInsets.symmetric(vertical: 10, horizontal:screenSizeWidth<400?40: 51),
+            padding: EdgeInsets.symmetric(vertical: 10, horizontal:screenSizeWidth2< 400?40: 51),
             child: Text(
               'حسابي',
               style: TextStyle(

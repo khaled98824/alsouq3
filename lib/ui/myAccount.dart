@@ -4,7 +4,7 @@ import 'package:curved_navigation_bar/curved_navigation_bar.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-import 'package:sooq1alzour/Auth/Login.dart';
+import 'package:sooq1alzour/Auth/NewLogin.dart';
 import 'package:sooq1alzour/models/PageRoute.dart';
 import 'package:sooq1alzour/Admin/Admin.dart';
 import 'package:sooq1alzour/ui/ComplaintsAndSuggestions.dart';
@@ -105,7 +105,7 @@ class _MyAccountFState extends State<MyAccountF> {
                         return Stack(
                           children: <Widget>[
                             Padding(
-                                padding: EdgeInsets.only(top:screenSizeHieght<895?443: 420),
+                                padding: EdgeInsets.only(top:screenSizeHieght2<895?443: 420),
                                 child: ListView.builder(
                                     itemCount: snapshot.data.documents.length,
                                     itemBuilder:
@@ -221,7 +221,7 @@ class _MyAccountFState extends State<MyAccountF> {
             mainAxisAlignment: MainAxisAlignment.center,
             crossAxisAlignment: CrossAxisAlignment.center,
             children: <Widget>[
-              Padding(padding: EdgeInsets.only(top:screenSizeHieght>750 ?110:300)),
+              Padding(padding: EdgeInsets.only(top:screenSizeHieght2>750 ?110:300)),
               Container(
                 color: Colors.white,
                 child: Center(
@@ -268,7 +268,7 @@ class _MyAccountFState extends State<MyAccountF> {
                               sharedPref.setInt('navigatorSelect', null);
                               Navigator.pushReplacement(context,
                                   MaterialPageRoute(builder: (context) {
-                                    return LoginScreen(autoLogin: false,);
+                                    return NewLogin(autoLogin: false,);
                                   }));
                             });
                           },
@@ -308,9 +308,9 @@ class _MyAccountFState extends State<MyAccountF> {
             ],
           ),
           Align(
-              alignment: Alignment(0.9,screenSizeHieght>750? 0:0.4),
+              alignment: Alignment(0.9,screenSizeHieght2>750? 0:0.4),
               child: Padding(
-                padding: EdgeInsets.symmetric(vertical:screenSizeHieght>750? 170:70, horizontal: 1),
+                padding: EdgeInsets.symmetric(vertical:screenSizeHieght2>750? 170:70, horizontal: 1),
                 child: Text(
                   'إعلاناتي',
                   style: TextStyle(

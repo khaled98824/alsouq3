@@ -4,7 +4,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:shimmer/shimmer.dart';
-import 'package:sooq1alzour/Auth/Login.dart';
+import 'package:sooq1alzour/Auth/NewLogin.dart';
 import 'package:sooq1alzour/models/PageRoute.dart';
 import 'Home.dart';
 
@@ -31,7 +31,7 @@ int loginOrHome;
       //sharedPref.setInt('navigatorSelect', 0);
       Navigator.pushReplacement(context, BouncyPageRoute(widget: Home()));
     }else if(sharedPref.getInt('navigatorSelect')==1){
-      Navigator.pushReplacement(context, BouncyPageRoute(widget: LoginScreen()));
+      Navigator.pushReplacement(context, BouncyPageRoute(widget: NewLogin()));
     }else if (sharedPref.getInt('navigatorSelect')==2){
 
     }

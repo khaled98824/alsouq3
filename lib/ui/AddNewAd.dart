@@ -9,7 +9,7 @@ import 'package:image_picker/image_picker.dart';
 import 'package:curved_navigation_bar/curved_navigation_bar.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
-import 'package:sooq1alzour/Auth/Login.dart';
+import 'package:sooq1alzour/Auth/NewLogin.dart';
 import 'package:sooq1alzour/models/PageRoute.dart';
 import 'package:sooq1alzour/ui/Home.dart';
 import 'package:firebase_storage/firebase_storage.dart';
@@ -1329,7 +1329,7 @@ class _AddNewAdState extends State<AddNewAd> {
         Align(
           alignment: Alignment(1, 1),
           child: Padding(
-            padding: EdgeInsets.symmetric(vertical: 10, horizontal:screenSizeWidth<400?38: 49),
+            padding: EdgeInsets.symmetric(vertical: 10, horizontal:screenSizeWidth2<400?38: 49),
             child: Text(
               'الرئيسية',
               style: TextStyle(
@@ -1344,7 +1344,7 @@ class _AddNewAdState extends State<AddNewAd> {
         Align(
           alignment: Alignment(-1, 1),
           child: Padding(
-            padding: EdgeInsets.symmetric(vertical: 10, horizontal:screenSizeWidth<400?40: 51),
+            padding: EdgeInsets.symmetric(vertical: 10, horizontal:screenSizeWidth2<400?40: 51),
             child: Text(
               'حسابي',
               style: TextStyle(
