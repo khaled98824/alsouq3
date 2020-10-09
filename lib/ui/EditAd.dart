@@ -5,11 +5,12 @@ import 'package:device_info/device_info.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:curved_navigation_bar/curved_navigation_bar.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
-import 'package:sooq1alzour/models/PageRoute.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import 'package:sooq1alzour/ui/Home.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'myAccount.dart';
@@ -163,7 +164,7 @@ class _EditAdState extends State<EditAd> {
   ];
   var dropSelectItemCategory = 'إختر القسم الرئيسي';
   String category = '';
-  var dropItemsArea = ['إختر المنطقة من هنا', 'العاصمة', 'الفروانية'];
+  var dropItemsArea = ['إختر المنطقة من هنا', 'العاصمة', 'الفروانية', 'حولي', 'الاحمدي', 'الجهراء', 'مبارك الكبير'];
   var dropSelectItemArea = 'إختر المنطقة من هنا';
   String area = '';
   bool chacked = false;
@@ -363,12 +364,35 @@ class _EditAdState extends State<EditAd> {
   void initState() {
     // TODO: implement initState
     super.initState();
+    addNewZ();
     if (Platform.isAndroid) {
       getInfoDevice();
     } else {
       getIosInfo();
     }
     getDocumentValue();
+
+  }
+  List<String> newZList = [];
+  addNewZ() async {
+    var firestore = Firestore.instance;
+
+    QuerySnapshot qusListUsers =
+    await firestore.collection('NewZ').getDocuments();
+    if (qusListUsers != null) {
+      for (int i = 0; qusListUsers.documents.length > newZList.length; i++) {
+        setState(() {
+          print(qusListUsers.documents.length);
+          newZList.add(qusListUsers.documents[i]['Z']);
+        });
+      }
+      print(newZList);
+      if (newZList.length > 1) {
+        setState(() {
+          dropItemsArea = newZList;
+        });
+      }
+    }
   }
 
   getDocumentValue()async{
@@ -857,7 +881,7 @@ class _EditAdState extends State<EditAd> {
                             right: 10, left: 10, bottom: 2, top: 2),
                         child: SizedBox(
                           height: 42,
-                          width: 280,
+                          width: 220,
                           child: TextFormField(
                             maxLines: 2,
                             controller: nameController,
@@ -896,7 +920,7 @@ class _EditAdState extends State<EditAd> {
                             right: 10, left: 10, bottom: 2, top: 4),
                         child: SizedBox(
                           height: 80,
-                          width: 278,
+                          width: 220,
                           child: TextFormField(
                             validator: (value) {
                               if (value.isEmpty) {
@@ -1410,28 +1434,44 @@ class _EditAdState extends State<EditAd> {
       _phone,
       context) async {
     var currentUser = await FirebaseAuth.instance.currentUser();
-    if (_formkey.currentState.validate()) {
-      Firestore.instance.collection('Ads').document(documentId).updateData({
-        'category': _category,
-        'department': _department,
-        'name': _name,
-        'time': DateFormat('yyyy-MM-dd-HH:mm').format(DateTime.now()),
-        'status': _status,
-        'description': _description,
-        'area': _area,
-        'price': _price,
-        'deviceNo': _deviceNo,
-        'imagesUrl':urlImages,
-        'phone': _phone,
-        'uid': currentUser.uid,
-      });
-      Navigator.pushReplacement(
-        context,
-        MaterialPageRoute(builder: (context) => MyAccount()),
-      );
-      loadingImage = false;
-    } else {
-      print('please try later');
+    if(_image1 !=null && category !=null && category2 !=null){
+      if (_formkey.currentState.validate()) {
+        SharedPreferences sharedPref = await SharedPreferences.getInstance();
+        Firestore.instance.collection('Ads').document().setData({
+          'category': _category,
+          'department': _department,
+          'name': _name,
+          'time': DateFormat('yyyy-MM-dd-HH:mm').format(DateTime.now()),
+          'status': _status,
+          'description': _description,
+          'area': _area,
+          'price': _price,
+          'deviceNo': _deviceNo,
+          'imagesUrl': urlImages,
+          'phone': _phone,
+          'uid': sharedPref.getString('name')
+        });
+        nameController.clear();
+        descriptionController.clear();
+        priceController.clear();
+        phoneController.clear();
+        imageUrl = null;
+        imageUrl2 = null;
+        imageUrl3 = null;
+        imageUrl4 = null;
+        imageUrl5 = null;
+        imageUrl6 = null;
+        imageUrl7 = null;
+        Navigator.pushReplacement(
+          context,
+          MaterialPageRoute(builder: (context) => Home()),
+        );
+        loadingImage = false;
+      } else {
+        print('please try later');
+      }
+    }else{
+      showMessage('رجائاً تأكد من إضافة صورة واختيار اقسام إعلانك');
     }
   }
 
@@ -1478,5 +1518,13 @@ class _EditAdState extends State<EditAd> {
       );
     });
   }
-
+  showMessage(String msg) {
+    Fluttertoast.showToast(
+        msg:msg,
+        gravity: ToastGravity.CENTER,
+        toastLength: Toast.LENGTH_LONG,
+        backgroundColor: Colors.blue,
+        fontSize: 17,
+        textColor: Colors.white);
+  }
 }

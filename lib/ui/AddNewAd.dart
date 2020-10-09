@@ -5,20 +5,19 @@ import 'package:device_info/device_info.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:curved_navigation_bar/curved_navigation_bar.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import 'package:sooq1alzour/Auth/NewLogin.dart';
 import 'package:sooq1alzour/models/PageRoute.dart';
 import 'package:sooq1alzour/ui/Home.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'myAccount.dart';
 import 'package:path/path.dart';
-import 'package:flutter_image_compress/flutter_image_compress.dart';
 import 'package:image_cropper/image_cropper.dart';
-
-
 
 class AddNewAd extends StatefulWidget {
   static const String id = "AddNewAd";
@@ -48,7 +47,7 @@ String imageUrl7;
 int phone;
 
 class _AddNewAdState extends State<AddNewAd> {
-  bool choseCategory = false;
+  bool choseCategory = true;
   bool choseCategory2 = true;
   bool statusShow = true;
 
@@ -132,7 +131,6 @@ class _AddNewAdState extends State<AddNewAd> {
   ];
   var dropItemsCategory2 = [
     'إختر القسم الفرعي',
-
   ];
   var dropSelectItemCategory2 = 'إختر القسم الفرعي';
   String category2 = '';
@@ -154,20 +152,9 @@ class _AddNewAdState extends State<AddNewAd> {
   ];
   var dropSelectItemCategory = 'إختر القسم الرئيسي';
   String category = '';
-  List <String> dropItemsArea = ['إختر المنطقة من هنا',
-    'الباغوز', 'السوسة',
-    'الشعفة', 'البوخاطر', 'هجين', 'البحرة',
-    'غرانيج', 'الكشكية', 'ابو حمام', 'ابو حردوب',
-    'البورحمة', 'سويدان', 'درنج', 'جمة',
-    'الشنان', 'الطيانة', 'ذيبان', 'الحوايج',
-    'الشحيل', 'الزر', 'البصيرة', 'الحجنة',
-    'الصور', 'الشدادي',
-    'الحسكة', 'جديد عقيدات', 'جديد بكارة', 'خشام',
-    'مراط', 'حطلة', 'الحسينية', 'الكسرة',
-    'حمار العلي','دير الزور',
-    'الرقة', 'منبج', 'حلب',
-    'إدلب', 'حمص', 'حماة',
-    'دمشق', 'درعا', 'حلب',
+  List<String> dropItemsArea = [
+    'إختر المنطقة من هنا','العاصمة', 'حولي',
+    'الفروانية' 'الاحمدي' ,'الجهراء',' مبارك', 'الكبير',
   ];
   var dropSelectItemArea = 'إختر المنطقة من هنا';
   String area = '';
@@ -180,7 +167,7 @@ class _AddNewAdState extends State<AddNewAd> {
   final _formkey = GlobalKey<FormState>();
 
   var status = 'مستعمل';
-  var urlImages= List<String>();
+  var urlImages = List<String>();
   Future uploadImage(BuildContext context) async {
     String fileName = basename(image.path);
     StorageReference firebaseStorageRef =
@@ -306,6 +293,7 @@ class _AddNewAdState extends State<AddNewAd> {
       loadingImage = false;
     });
   }
+
   File _image;
   Future getImage(context) async {
     imageG = await ImagePicker.pickImage(source: ImageSource.gallery);
@@ -391,32 +379,31 @@ class _AddNewAdState extends State<AddNewAd> {
     }
     addNewZ();
   }
+
   QuerySnapshot documentsAds;
-  List<String> newZList =[];
+  List<String> newZList = [];
   DocumentSnapshot usersList;
 
-  addNewZ()async{
+  addNewZ() async {
     var firestore = Firestore.instance;
 
-    QuerySnapshot qusListUsers = await firestore.collection('NewZ').getDocuments();
-    if(qusListUsers!=null){
-      for (int i=0; qusListUsers.documents.length>newZList.length;  i ++){
+    QuerySnapshot qusListUsers =
+        await firestore.collection('NewZ').getDocuments();
+    if (qusListUsers != null) {
+      for (int i = 0; qusListUsers.documents.length > newZList.length; i++) {
         setState(() {
           print(qusListUsers.documents.length);
           newZList.add(qusListUsers.documents[i]['Z']);
-
         });
       }
-       print(newZList);
-      if(newZList.length>2){
+      print(newZList);
+      if (newZList.length > 1) {
         setState(() {
-          dropItemsArea=newZList;
-
+          dropItemsArea = newZList;
         });
       }
     }
   }
-
 
   @override
   Widget build(BuildContext context) {
@@ -443,8 +430,8 @@ class _AddNewAdState extends State<AddNewAd> {
                       ),
                       InkWell(
                           onTap: () {
-                            Navigator.pushReplacement(context,
-                                BouncyPageRoute(widget: Home()));
+                            Navigator.pushReplacement(
+                                context, BouncyPageRoute(widget: Home()));
                             loadingImage = false;
                           },
                           child: Icon(
@@ -711,80 +698,107 @@ class _AddNewAdState extends State<AddNewAd> {
                                         )),
                                     onChanged: (String theDate) {
                                       setState(() {
-                                        dropItemsCategory2=null;
-                                        dropSelectItemCategory=null;
-                                        dropSelectItemCategory2=null;
+                                        dropItemsCategory2 = null;
+                                        dropSelectItemCategory = null;
+                                        dropSelectItemCategory2 = null;
                                         dropSelectItemCategory = theDate;
                                         category = dropSelectItemCategory;
-                                        if (dropSelectItemCategory == dropItemsCategory[2]) {
-
+                                        if (dropSelectItemCategory ==
+                                            dropItemsCategory[2]) {
                                           dropItemsCategory2 = dropItemsMobile;
                                           choseCategory2 = true;
                                           statusShow = true;
-                                          dropSelectItemCategory2 =dropSelectItemCategory2;
-                                          category2=dropItemsMobile[1];
-                                        } else if (dropSelectItemCategory == dropItemsCategory[1]) {
+                                          dropSelectItemCategory2 =
+                                              dropSelectItemCategory2;
+                                          category2 = dropItemsMobile[1];
+                                        } else if (dropSelectItemCategory ==
+                                            dropItemsCategory[1]) {
                                           choseCategory2 = true;
                                           statusShow = true;
                                           dropItemsCategory2 = dropItemsCars;
-                                          dropSelectItemCategory2 = dropSelectItemCategory2;
-                                          category2=dropItemsCars[1];
-                                        } else if (dropSelectItemCategory == dropItemsCategory[3]) {
+                                          dropSelectItemCategory2 =
+                                              dropSelectItemCategory2;
+                                          category2 = dropItemsCars[1];
+                                        } else if (dropSelectItemCategory ==
+                                            dropItemsCategory[3]) {
                                           choseCategory2 = true;
                                           statusShow = true;
-                                          dropItemsCategory2 = dropItemsDevicesAndElectronics;
-                                          dropSelectItemCategory2 = dropSelectItemCategory2;
-                                          category2=dropItemsDevicesAndElectronics[1];
-                                        } else if (dropSelectItemCategory == dropItemsCategory[4]) {
+                                          dropItemsCategory2 =
+                                              dropItemsDevicesAndElectronics;
+                                          dropSelectItemCategory2 =
+                                              dropSelectItemCategory2;
+                                          category2 =
+                                              dropItemsDevicesAndElectronics[1];
+                                        } else if (dropSelectItemCategory ==
+                                            dropItemsCategory[4]) {
                                           choseCategory2 = false;
                                           statusShow = false;
                                           category2 = dropSelectItemCategory;
-                                        } else if (dropSelectItemCategory == dropItemsCategory[5]) {
+                                        } else if (dropSelectItemCategory ==
+                                            dropItemsCategory[5]) {
                                           choseCategory2 = true;
                                           statusShow = false;
-                                          dropItemsCategory2 = dropItemsOccupationsAndServices;
-                                          dropSelectItemCategory2 = dropSelectItemCategory2;
-                                          category2=dropItemsOccupationsAndServices[1];
-                                        } else if (dropSelectItemCategory == dropItemsCategory[6]) {
+                                          dropItemsCategory2 =
+                                              dropItemsOccupationsAndServices;
+                                          dropSelectItemCategory2 =
+                                              dropSelectItemCategory2;
+                                          category2 =
+                                              dropItemsOccupationsAndServices[
+                                                  1];
+                                        } else if (dropSelectItemCategory ==
+                                            dropItemsCategory[6]) {
                                           choseCategory2 = true;
                                           statusShow = true;
                                           dropItemsCategory2 = dropItemsHome;
-                                          dropSelectItemCategory2 = dropSelectItemCategory2;
-                                          category2=dropItemsHome[1];
-                                        } else if (dropSelectItemCategory == dropItemsCategory[7]) {
+                                          dropSelectItemCategory2 =
+                                              dropSelectItemCategory2;
+                                          category2 = dropItemsHome[1];
+                                        } else if (dropSelectItemCategory ==
+                                            dropItemsCategory[7]) {
                                           choseCategory2 = false;
                                           statusShow = true;
                                           category2 = dropSelectItemCategory;
                                           category = dropSelectItemCategory;
-                                        } else if (dropSelectItemCategory == dropItemsCategory[8]) {
+                                        } else if (dropSelectItemCategory ==
+                                            dropItemsCategory[8]) {
                                           choseCategory2 = true;
                                           statusShow = false;
-                                          dropItemsCategory2 = dropItemsLivestocks;
-                                          dropSelectItemCategory2 = dropSelectItemCategory2;
+                                          dropItemsCategory2 =
+                                              dropItemsLivestocks;
+                                          dropSelectItemCategory2 =
+                                              dropSelectItemCategory2;
                                           category2 = dropItemsLivestocks[1];
-                                        } else if (dropSelectItemCategory == dropItemsCategory[9]) {
+                                        } else if (dropSelectItemCategory ==
+                                            dropItemsCategory[9]) {
                                           choseCategory2 = true;
                                           statusShow = true;
                                           dropItemsCategory2 = dropItemsFarming;
-                                          dropSelectItemCategory2 = dropSelectItemCategory2;
+                                          dropSelectItemCategory2 =
+                                              dropSelectItemCategory2;
                                           category2 = dropItemsFarming[1];
-                                        } else if (dropSelectItemCategory == dropItemsCategory[10]) {
+                                        } else if (dropSelectItemCategory ==
+                                            dropItemsCategory[10]) {
                                           choseCategory2 = true;
                                           statusShow = true;
                                           dropItemsCategory2 = dropItemsGames;
-                                          dropSelectItemCategory2 = dropSelectItemCategory2;
+                                          dropSelectItemCategory2 =
+                                              dropSelectItemCategory2;
                                           category2 = dropItemsGames[1];
-                                        } else if (dropSelectItemCategory == dropItemsCategory[11]) {
+                                        } else if (dropSelectItemCategory ==
+                                            dropItemsCategory[11]) {
                                           choseCategory2 = true;
                                           statusShow = true;
                                           dropItemsCategory2 = dropItemsClothes;
-                                          dropSelectItemCategory2 = dropSelectItemCategory2;
+                                          dropSelectItemCategory2 =
+                                              dropSelectItemCategory2;
                                           category2 = dropItemsClothes[1];
-                                        } else if (dropSelectItemCategory == dropItemsCategory[12]) {
+                                        } else if (dropSelectItemCategory ==
+                                            dropItemsCategory[12]) {
                                           choseCategory2 = true;
                                           statusShow = true;
                                           dropItemsCategory2 = dropItemsFood;
-                                          dropSelectItemCategory2 = dropSelectItemCategory2;
+                                          dropSelectItemCategory2 =
+                                              dropSelectItemCategory2;
                                           category2 = dropItemsFood[1];
                                         }
                                       });
@@ -834,7 +848,8 @@ class _AddNewAdState extends State<AddNewAd> {
                                           onChanged: (String theDate) {
                                             setState(() {
                                               dropSelectItemCategory2 = theDate;
-                                              category2 = dropSelectItemCategory2;
+                                              category2 =
+                                                  dropSelectItemCategory2;
                                             });
                                             print(category);
                                             print(category2);
@@ -845,7 +860,6 @@ class _AddNewAdState extends State<AddNewAd> {
                                         Text(
                                           ': إختر القسم الفرعي ',
                                           textAlign: TextAlign.center,
-
                                           style: TextStyle(
                                               fontSize: 16,
                                               fontFamily: 'AmiriQuran',
@@ -878,8 +892,8 @@ class _AddNewAdState extends State<AddNewAd> {
                           height: 42,
                           width: 240,
                           child: TextFormField(
-                            validator: (value){
-                              if(value.isEmpty){
+                            validator: (value) {
+                              if (value.isEmpty) {
                                 return 'أدخل إسم لإعلانك';
                               }
                             },
@@ -1104,20 +1118,24 @@ class _AddNewAdState extends State<AddNewAd> {
                       alignment: WrapAlignment.end,
                       crossAxisAlignment: WrapCrossAlignment.center,
                       children: <Widget>[
-
+                        Text('السعر بالليرة السورية',style: TextStyle(
+                            fontSize: 16,
+                            color: Colors.blue,
+                            fontFamily: 'AmiriQuran',
+                            height: 1),),
                         Container(
                           decoration: BoxDecoration(
                             borderRadius: BorderRadius.circular(10),
                             color: Colors.blueAccent,
                           ),
                           height: 30,
-                          width: 3,
+                          width: 1,
                         ),
                         Padding(
                           padding: EdgeInsets.only(
                               top: 2, bottom: 3, left: 3, right: 1),
                           child: SizedBox(
-                            width: 200,
+                            width: 180,
                             height: 43,
                             child: TextFormField(
                               controller: priceController,
@@ -1181,7 +1199,7 @@ class _AddNewAdState extends State<AddNewAd> {
                           padding: EdgeInsets.only(
                               top: 2, bottom: 3, left: 3, right: 1),
                           child: SizedBox(
-                            width: 200,
+                            width: 180,
                             height: 43,
                             child: TextFormField(
                               controller: phoneController,
@@ -1303,7 +1321,7 @@ class _AddNewAdState extends State<AddNewAd> {
                     Navigator.of(context).pushNamed(MyAccount.id);
                   } else if (index == 1) {
                     Navigator.of(context).pushNamed(AddNewAd.id);
-                  }else if (index == 2) {
+                  } else if (index == 2) {
                     Navigator.of(context).pushNamed(Home.id);
                   }
                 });
@@ -1311,7 +1329,7 @@ class _AddNewAdState extends State<AddNewAd> {
               items: <Widget>[
                 Icon(
                   Icons.person,
-                  color:  Colors.blue[900],
+                  color: Colors.blue[900],
                   size: 29,
                 ),
                 Icon(
@@ -1329,7 +1347,8 @@ class _AddNewAdState extends State<AddNewAd> {
         Align(
           alignment: Alignment(1, 1),
           child: Padding(
-            padding: EdgeInsets.symmetric(vertical: 10, horizontal:screenSizeWidth2<400?38: 49),
+            padding: EdgeInsets.symmetric(
+                vertical: 10, horizontal: screenSizeWidth2 < 400 ? 38 : 49),
             child: Text(
               'الرئيسية',
               style: TextStyle(
@@ -1344,7 +1363,8 @@ class _AddNewAdState extends State<AddNewAd> {
         Align(
           alignment: Alignment(-1, 1),
           child: Padding(
-            padding: EdgeInsets.symmetric(vertical: 10, horizontal:screenSizeWidth2<400?40: 51),
+            padding: EdgeInsets.symmetric(
+                vertical: 10, horizontal: screenSizeWidth2 < 400 ? 40 : 51),
             child: Text(
               'حسابي',
               style: TextStyle(
@@ -1420,8 +1440,10 @@ class _AddNewAdState extends State<AddNewAd> {
       _image7,
       _phone,
       context) async {
-    var currentUser = await FirebaseAuth.instance.currentUser();
+
+  if(_image1 !=null && category !=null && category2 !=null){
     if (_formkey.currentState.validate()) {
+      SharedPreferences sharedPref = await SharedPreferences.getInstance();
       Firestore.instance.collection('Ads').document().setData({
         'category': _category,
         'department': _department,
@@ -1432,9 +1454,9 @@ class _AddNewAdState extends State<AddNewAd> {
         'area': _area,
         'price': _price,
         'deviceNo': _deviceNo,
-        'imagesUrl':urlImages,
+        'imagesUrl': urlImages,
         'phone': _phone,
-        'uid': currentUser.uid,
+        'uid': sharedPref.getString('name')
       });
       nameController.clear();
       descriptionController.clear();
@@ -1455,5 +1477,17 @@ class _AddNewAdState extends State<AddNewAd> {
     } else {
       print('please try later');
     }
+  }else{
+    showMessage('رجائاً تأكد من إضافة صورة واختيار اقسام إعلانك');
+  }
+  }
+  showMessage(String msg) {
+    Fluttertoast.showToast(
+        msg:msg,
+        gravity: ToastGravity.CENTER,
+        toastLength: Toast.LENGTH_LONG,
+        backgroundColor: Colors.blue,
+        fontSize: 17,
+        textColor: Colors.white);
   }
 }

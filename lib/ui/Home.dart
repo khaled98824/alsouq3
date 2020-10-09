@@ -4,7 +4,6 @@ import 'package:carousel_slider/carousel_options.dart';
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:curved_navigation_bar/curved_navigation_bar.dart';
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:get_it/get_it.dart';
 import 'package:sooq1alzour/Auth/NewLogin.dart';
@@ -85,11 +84,12 @@ class _HomeState extends State<Home> {
     super.initState();
     getUrlsForAds();
     Timer(Duration(microseconds: 500), () {
-      //getUserData();
+      getUserData();
     });
     _pushNotificationService.initialise();
   }
-  getUserData()async{
+
+  getUserData() async {
     var firestore = Firestore.instance;
     QuerySnapshot qus = await firestore.collection('users').getDocuments();
     if (qus == null) {
@@ -105,6 +105,7 @@ class _HomeState extends State<Home> {
       print('checkLogincc${qus.documents[0]['name']}');
     }
   }
+
   getUrlsForAds() async {
     DocumentReference documentRef = Firestore.instance
         .collection('UrlsForAds')
@@ -176,7 +177,7 @@ class _HomeState extends State<Home> {
                   padding: EdgeInsets.only(
                 top: 10,
               )),
-               showSliderAds ? areaForAd() : Container(),
+              showSliderAds ? areaForAd() : Container(),
               Padding(
                   padding: EdgeInsets.only(
                 top: 3,
@@ -486,7 +487,13 @@ Widget Heade() {
         mainAxisAlignment: MainAxisAlignment.end,
         crossAxisAlignment: CrossAxisAlignment.center,
         children: <Widget>[
-          screenSizeWidth2<380? SizedBox(width: 6,): SizedBox(width: 11,),
+          screenSizeWidth2 < 380
+              ? SizedBox(
+                  width: 6,
+                )
+              : SizedBox(
+                  width: 11,
+                ),
           Text(
             'بيع واشتري كل ما تريد بكل سهولة',
             style: TextStyle(
@@ -497,7 +504,8 @@ Widget Heade() {
             ),
           ),
           Padding(
-              padding: EdgeInsets.only(right: screenSizeWidth2<380?15:28, left: 3),
+              padding: EdgeInsets.only(
+                  right: screenSizeWidth2 < 380 ? 15 : 28, left: 3),
               child: Image.asset(
                 'assets/images/logo.png',
                 height: 51,
@@ -826,8 +834,8 @@ Widget areaForAd() {
             },
             child: Container(
               height: 60,
-             // margin: EdgeInsets.only(right: 1, left: 1),
-              padding: EdgeInsets.only(right: 1,left: 1),
+              // margin: EdgeInsets.only(right: 1, left: 1),
+              padding: EdgeInsets.only(right: 1, left: 1),
               child: Hero(
                   tag: Text('imageAd'),
                   child: ClipRRect(
@@ -912,8 +920,10 @@ class _NewAdsState extends State<NewAds> {
                                       child: Image.network(
                                         snapshot.data.documents[index]
                                             ['imagesUrl'][0],
-                                        height:screenSizeHieght2>800? 192:218,
-                                        width:screenSizeWidth2<750? 170:190,
+                                        height:
+                                            screenSizeHieght2 > 800 ? 192 : 218,
+                                        width:
+                                            screenSizeWidth2 < 750 ? 170 : 190,
                                         fit: BoxFit.fill,
                                       ),
                                       borderRadius: BorderRadius.circular(10),

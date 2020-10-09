@@ -76,6 +76,7 @@ class _NewLoginState extends State<NewLogin> {
     SharedPreferences sharedPref = await SharedPreferences.getInstance();
     sharedPref.setString('password', _passwordcontroller.text);
     sharedPref.setInt('navigatorSelect', 1);
+    sharedPref.setString('name', _namecontroller.text);
   }
 
   login() async {
