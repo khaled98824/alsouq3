@@ -12,20 +12,21 @@ import 'package:fluttertoast/fluttertoast.dart';
 
 class NewLogin extends StatefulWidget {
   static const String id = "LoginScreen";
-  bool autoLogin  ;
+  bool autoLogin;
   NewLogin({this.autoLogin});
   @override
   _NewLoginState createState() => _NewLoginState(autoLogin: autoLogin);
 }
+
 double screenSizeWidth2;
 double screenSizeHieght2;
 bool loginStatus = false;
 bool checkboxVal = false;
-bool logout ;
-bool checkLogin=false;
+bool logout;
+bool checkLogin = false;
 
 class _NewLoginState extends State<NewLogin> {
-  bool autoLogin ;
+  bool autoLogin;
   _NewLoginState({this.autoLogin});
 
   void initState() {
@@ -38,12 +39,12 @@ class _NewLoginState extends State<NewLogin> {
     }
   }
 
-  checkAutoLogin()async {
+  checkAutoLogin() async {
     SharedPreferences sharedPref = await SharedPreferences.getInstance();
-    if(sharedPref.getBool('autoLogin') ==true){
+    if (sharedPref.getBool('autoLogin') == true) {
       setState(() {
         checkboxVal = sharedPref.getBool('autoLogin');
-        if(checkboxVal){
+        if (checkboxVal) {
           autoLoginF();
         }
       });
@@ -51,21 +52,26 @@ class _NewLoginState extends State<NewLogin> {
 
     print(checkboxVal);
   }
-  autoLoginF()async{
+
+  autoLoginF() async {
     SharedPreferences sharedPref = await SharedPreferences.getInstance();
     setState(() {
-      _passwordcontroller = TextEditingController(text: sharedPref.getString('password'));
-      _namecontroller = TextEditingController(text: sharedPref.getString('name'));
+      _passwordcontroller =
+          TextEditingController(text: sharedPref.getString('password'));
+      _namecontroller =
+          TextEditingController(text: sharedPref.getString('name'));
     });
 
-    Timer(Duration(milliseconds: 100),(){
+    Timer(Duration(milliseconds: 100), () {
       login();
     });
   }
-  saveLoginAutoStatus()async{
+
+  saveLoginAutoStatus() async {
     SharedPreferences sharedPref = await SharedPreferences.getInstance();
-    sharedPref.setBool('autoLogin',autoLogin);
+    sharedPref.setBool('autoLogin', autoLogin);
   }
+
   saveShared() async {
     SharedPreferences sharedPref = await SharedPreferences.getInstance();
     sharedPref.setString('password', _passwordcontroller.text);
@@ -76,32 +82,34 @@ class _NewLoginState extends State<NewLogin> {
     FirebaseMessaging _firebaseMessaging = FirebaseMessaging();
     if (_formkey.currentState.validate()) {
       var firestore = Firestore.instance;
-      QuerySnapshot qus = await firestore.collection('users').where('name',isEqualTo: _namecontroller.text).getDocuments();
+      QuerySnapshot qus = await firestore
+          .collection('users')
+          .where('name', isEqualTo: _namecontroller.text)
+          .getDocuments();
       saveShared();
       print(qus.documents[0]['password']);
-        _firebaseMessaging.getToken().then((token) async {
-          print("token: " + token);
-          Firestore.instance
-              .collection('users')
-              .document(_namecontroller.text)
-              .updateData({
-            "token": token,
-          });
+      _firebaseMessaging.getToken().then((token) async {
+        print("token: " + token);
+        Firestore.instance
+            .collection('users')
+            .document(_namecontroller.text)
+            .updateData({
+          "token": token,
         });
+      });
+//eee
 
-
-        if(qus.documents[0]['password']==_passwordcontroller.text){
-          setState(() {
-            loginStatus = true;
-          });
-          Navigator.pushReplacement(
-            context,
-            MaterialPageRoute(builder: (context) => Home()),
-          );
-        }else{
-          showMessage('خطأ في البيانات المدخله');
-        }
-
+      if (qus.documents[0]['password'] == _passwordcontroller.text) {
+        setState(() {
+          loginStatus = true;
+        });
+        Navigator.pushReplacement(
+          context,
+          MaterialPageRoute(builder: (context) => Home()),
+        );
+      } else {
+        showMessage('خطأ في البيانات المدخله');
+      }
     }
   }
 
@@ -109,8 +117,6 @@ class _NewLoginState extends State<NewLogin> {
 
   TextEditingController _namecontroller = TextEditingController();
   TextEditingController _passwordcontroller = TextEditingController();
-
-
 
   @override
   Widget build(BuildContext context) {
@@ -122,7 +128,7 @@ class _NewLoginState extends State<NewLogin> {
     Virables.login = loginStatus;
     Virables.autoLogin = logout;
     return Scaffold(
-      body:Container(
+      body: Container(
         padding: EdgeInsets.all(16),
         child: Form(
             key: _formkey,
@@ -194,19 +200,23 @@ class _NewLoginState extends State<NewLogin> {
                   mainAxisAlignment: MainAxisAlignment.end,
                   crossAxisAlignment: CrossAxisAlignment.center,
                   children: [
-                    Text('تسجيل دخول تلقائي',style: TextStyle(
-                        color: Colors.green[900],
-                        fontSize: 18,
-                        fontFamily: 'AmiriQuran',
-                        height: 1),),
-                    Checkbox(value: checkboxVal, onChanged: (bool val){
-                      autoLogin = val;
-                      setState(() {
-                        checkboxVal = val;
-                      });
-                      saveLoginAutoStatus();
-                    },
-
+                    Text(
+                      'تسجيل دخول تلقائي',
+                      style: TextStyle(
+                          color: Colors.green[900],
+                          fontSize: 18,
+                          fontFamily: 'AmiriQuran',
+                          height: 1),
+                    ),
+                    Checkbox(
+                      value: checkboxVal,
+                      onChanged: (bool val) {
+                        autoLogin = val;
+                        setState(() {
+                          checkboxVal = val;
+                        });
+                        saveLoginAutoStatus();
+                      },
                     ),
                   ],
                 ),
@@ -224,32 +234,34 @@ class _NewLoginState extends State<NewLogin> {
                         height: 1),
                   ),
                   onPressed: () async {
-                    Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                            builder: (context) => NewReg()));
+                    Navigator.push(context,
+                        MaterialPageRoute(builder: (context) => NewReg()));
                   },
                 ),
                 SizedBox(
                   height: 30,
                 ),
                 InkWell(
-                  onTap: (){
-                    Navigator.pushReplacement(
-                        context,
+                  onTap: () {
+                    Navigator.pushReplacement(context,
                         MaterialPageRoute(builder: (context) => Home()));
                   },
                   child: Container(
                     decoration: BoxDecoration(
                       borderRadius: BorderRadius.circular(10),
-                      color: Color(0xffF26726),),
+                      color: Color(0xffF26726),
+                    ),
                     width: 324,
                     height: 59,
-                    child: Center(child: Text('تصفح في السوق كزائر',style: TextStyle(
-                        color: Colors.white,
-                        fontSize: 22,
-                        fontFamily: 'AmiriQuran',
-                        height: 1),)),
+                    child: Center(
+                        child: Text(
+                      'تصفح في السوق كزائر',
+                      style: TextStyle(
+                          color: Colors.white,
+                          fontSize: 22,
+                          fontFamily: 'AmiriQuran',
+                          height: 1),
+                    )),
                   ),
                 ),
               ],
@@ -257,9 +269,10 @@ class _NewLoginState extends State<NewLogin> {
       ),
     );
   }
+
   showMessage(String msg) {
     Fluttertoast.showToast(
-        msg:msg,
+        msg: msg,
         gravity: ToastGravity.CENTER,
         toastLength: Toast.LENGTH_LONG,
         backgroundColor: Colors.blue,
