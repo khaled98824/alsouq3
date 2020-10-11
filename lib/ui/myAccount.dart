@@ -42,29 +42,32 @@ class _MyAccountFState extends State<MyAccountF> {
   void initState() {
     // TODO: implement initState
     super.initState();
-    getCurrentUserInfo();
+
     setState(() {
       showBody = false;
     });
     Timer(Duration(seconds: 1), () async {
-      SharedPreferences sharedPref = await SharedPreferences.getInstance();
-      currentUserName = sharedPref.getString('name');
+
       setState(() {
         if (currentUserName != null) {
           showBody = true;
         }
+
       });
+      getCurrentUserInfo();
     });
   }
 
   var currentUserUid;
   getCurrentUserInfo() async {
     SharedPreferences sharedPref = await SharedPreferences.getInstance();
+    currentUserName = sharedPref.getString('name');
+    print(sharedPref.getString('name'));
     DocumentReference documentRef = Firestore.instance
         .collection('users')
-        .document(sharedPref.getString('name'));
+        .document(currentUserName);
     documentsUser = await documentRef.get();
-    currentUserName = sharedPref.getString('name');
+
     DocumentReference documentRefAdmin =
         Firestore.instance.collection('Admin').document('1');
     documentAdmin = await documentRefAdmin.get();

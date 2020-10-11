@@ -168,6 +168,7 @@ class _NewRegState extends State<NewReg> {
       )
           .setData({
         'name': _namecontroller.text,
+        'user_uid': _namecontroller.text,
         'area': _countrycontroller.text,
         'password': _passwordcontroller.text,
         "time": DateFormat('yyyy-MM-dd-HH:mm')

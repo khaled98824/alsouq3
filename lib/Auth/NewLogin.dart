@@ -35,21 +35,23 @@ bool equalName;
 List<String> _namesList = [];
 FirebaseUser user;
 String userUid;
+String userName;
 
 class _NewLoginState extends State<NewLogin> {
   Future<void> _signInWithApple(BuildContext context) async {
     try {
       final authService = Provider.of<AuthService>(context, listen: false);
-      user = await authService.signInWithApple();
+      final user = await authService.signInWithApple();
       print('uid: ${user.uid}');
-      print(user.displayName.toString());
+      userName = user.email;
+      userUid = user.uid;
+      doSaveName();
       SharedPreferences sharedPref = await SharedPreferences.getInstance();
       sharedPref.setBool('appleSignIn', true);
       setState(() {
         loginStatus = true;
         userUid = user.uid;
       });
-      doSaveName();
     } catch (e) {
       // TODO: Show alert here
       print(e);
@@ -75,7 +77,7 @@ class _NewLoginState extends State<NewLogin> {
     if (qus != null) {
       for (int i = 0; qus.documents.length > _namesList.length; i++) {
         setState(() {
-          _namesList.add(qus.documents[i]['name']);
+          _namesList.add(qus.documents[i]['uid']);
         });
       }
     }
@@ -324,72 +326,53 @@ class _NewLoginState extends State<NewLogin> {
     );
   }
 
-  doSaveName() async {
+  doSaveName()async{
     equalName = false;
-    for (int i = 0; i < _namesList.length; i++) {
-      if (user.email == _namesList[i]) {
-        equalName = true;
+    for(int i=0;i<_namesList.length;i++){
+      if(userUid==_namesList[i]){
+        equalName=true;
         showMessage('إسم المستخدم موجود مسبقاً رجاءاٌ اختر غيره');
       }
     }
     print(equalName);
-    if (equalName == false) {
-      print('kkkkk${user.displayName}');
-
-      SharedPreferences sharedPref = await SharedPreferences.getInstance();
-      sharedPref.setString('name',user.email).then((value) {
-        saveUserInfo();
-        Navigator.pushReplacement(
-            context, MaterialPageRoute(builder: (context) => Home()));
-      });
-    } else {
+    if(equalName==false){
       print('done');
       //saveName();
+      Firestore.instance
+          .collection('users')
+          .document(userUid).setData({
+        'name': 'ios',
+        'user_uid': userUid,
+        'area': 'ios',
+        "time": DateFormat('yyyy-MM-dd-HH:mm').format(DateTime.now()),
+        'token':'nn'
+      });
       FirebaseMessaging _firebaseMessaging = FirebaseMessaging();
-      // var firestore = Firestore.instance;
-      // QuerySnapshot qus = await firestore
-      //     .collection('users')
-      //     .where('name', isEqualTo:user.displayName)
-      //     .getDocuments();
-
       _firebaseMessaging.getToken().then((token) async {
         print("token: " + token);
         Firestore.instance
             .collection('users')
-            .document(user.displayName)
+            .document(userUid)
             .updateData({
           "token": token,
         });
       });
-
+      SharedPreferences sharedPref = await SharedPreferences.getInstance();
+      sharedPref.setString('name',userUid)
+          .then((value) {
+        setState(() {
+          loginStatus = true;
+        });
+        Navigator.pushReplacement(
+            context,
+            MaterialPageRoute(
+                builder: (context) => Home()));
+      });
+    }else{
+      print('notDone');
     }
   }
-  saveUserInfo()async{
-    print('user info func');
-    print(userUid);
-    Firestore.instance
-        .collection('users')
-        .document(userUid)
-        .setData({
-      'name': user.email,
-      'uid': user.uid,
-      'area': 'ios',
-      "time": DateFormat('yyyy-MM-dd-HH:mm').format(DateTime.now()),
-      'token': user.getIdToken().toString()
-    });
-    FirebaseMessaging _firebaseMessaging = FirebaseMessaging();
 
-
-    _firebaseMessaging.getToken().then((token) async {
-      print("token: " + token);
-      Firestore.instance
-          .collection('users')
-          .document(userUid)
-          .updateData({
-        "token": token,
-      });
-    });
-  }
   showMessage(String msg) {
     Fluttertoast.showToast(
         msg: msg,
@@ -400,3 +383,8 @@ class _NewLoginState extends State<NewLogin> {
         textColor: Colors.white);
   }
 }
+// var firestore = Firestore.instance;
+// QuerySnapshot qus = await firestore
+//     .collection('users')
+//     .where('name', isEqualTo:user.displayName)
+//     .getDocuments();
