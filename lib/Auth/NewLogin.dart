@@ -1,12 +1,19 @@
 import 'dart:async';
+import 'dart:io';
+import 'package:apple_sign_in/apple_sign_in_button.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
 import 'package:get_it/get_it.dart';
+import 'package:intl/intl.dart';
+import 'package:provider/provider.dart';
 import 'package:sooq1alzour/Service/PushNotificationService.dart';
 import 'package:sooq1alzour/models/StaticVirables.dart';
 import 'package:sooq1alzour/ui/Home.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import '../apple_sign_in_available.dart';
+import '../auth_service.dart';
 import 'NewReg2.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 
@@ -24,19 +31,55 @@ bool loginStatus = false;
 bool checkboxVal = false;
 bool logout;
 bool checkLogin = false;
+bool equalName;
+List<String> _namesList = [];
+FirebaseUser user;
+String userUid;
 
 class _NewLoginState extends State<NewLogin> {
+  Future<void> _signInWithApple(BuildContext context) async {
+    try {
+      final authService = Provider.of<AuthService>(context, listen: false);
+      user = await authService.signInWithApple();
+      print('uid: ${user.uid}');
+      print(user.displayName.toString());
+      SharedPreferences sharedPref = await SharedPreferences.getInstance();
+      sharedPref.setBool('appleSignIn', true);
+      setState(() {
+        loginStatus = true;
+        userUid = user.uid;
+      });
+      doSaveName();
+    } catch (e) {
+      // TODO: Show alert here
+      print(e);
+    }
+  }
+
   bool autoLogin;
   _NewLoginState({this.autoLogin});
 
   void initState() {
     super.initState();
-
+    getUsersNames();
     if (autoLogin == false) {
       checkboxVal = false;
     } else {
       checkAutoLogin();
     }
+  }
+
+  getUsersNames() async {
+    var firestore = Firestore.instance;
+    QuerySnapshot qus = await firestore.collection('users').getDocuments();
+    if (qus != null) {
+      for (int i = 0; qus.documents.length > _namesList.length; i++) {
+        setState(() {
+          _namesList.add(qus.documents[i]['name']);
+        });
+      }
+    }
+    print(_namesList);
   }
 
   checkAutoLogin() async {
@@ -121,6 +164,8 @@ class _NewLoginState extends State<NewLogin> {
 
   @override
   Widget build(BuildContext context) {
+    final appleSignInAvailable =
+        Provider.of<AppleSignInAvailable>(context, listen: false);
     // TODO: implement build
     screenSizeWidth2 = MediaQuery.of(context).size.width;
     screenSizeHieght2 = MediaQuery.of(context).size.height;
@@ -242,6 +287,14 @@ class _NewLoginState extends State<NewLogin> {
                 SizedBox(
                   height: 30,
                 ),
+                if (appleSignInAvailable.isAvailable)
+                  AppleSignInButton(
+                    style: ButtonStyle.black,
+                    type: ButtonType.signIn,
+                    onPressed: () => _signInWithApple(context),
+                  ),
+
+                // youtubePromotion()
                 InkWell(
                   onTap: () {
                     Navigator.pushReplacement(context,
@@ -271,6 +324,72 @@ class _NewLoginState extends State<NewLogin> {
     );
   }
 
+  doSaveName() async {
+    equalName = false;
+    for (int i = 0; i < _namesList.length; i++) {
+      if (user.email == _namesList[i]) {
+        equalName = true;
+        showMessage('إسم المستخدم موجود مسبقاً رجاءاٌ اختر غيره');
+      }
+    }
+    print(equalName);
+    if (equalName == false) {
+      print('kkkkk${user.displayName}');
+
+      SharedPreferences sharedPref = await SharedPreferences.getInstance();
+      sharedPref.setString('name',user.email).then((value) {
+        saveUserInfo();
+        Navigator.pushReplacement(
+            context, MaterialPageRoute(builder: (context) => Home()));
+      });
+    } else {
+      print('done');
+      //saveName();
+      FirebaseMessaging _firebaseMessaging = FirebaseMessaging();
+      // var firestore = Firestore.instance;
+      // QuerySnapshot qus = await firestore
+      //     .collection('users')
+      //     .where('name', isEqualTo:user.displayName)
+      //     .getDocuments();
+
+      _firebaseMessaging.getToken().then((token) async {
+        print("token: " + token);
+        Firestore.instance
+            .collection('users')
+            .document(user.displayName)
+            .updateData({
+          "token": token,
+        });
+      });
+
+    }
+  }
+  saveUserInfo()async{
+    print('user info func');
+    print(userUid);
+    Firestore.instance
+        .collection('users')
+        .document(userUid)
+        .setData({
+      'name': user.email,
+      'uid': user.uid,
+      'area': 'ios',
+      "time": DateFormat('yyyy-MM-dd-HH:mm').format(DateTime.now()),
+      'token': user.getIdToken().toString()
+    });
+    FirebaseMessaging _firebaseMessaging = FirebaseMessaging();
+
+
+    _firebaseMessaging.getToken().then((token) async {
+      print("token: " + token);
+      Firestore.instance
+          .collection('users')
+          .document(userUid)
+          .updateData({
+        "token": token,
+      });
+    });
+  }
   showMessage(String msg) {
     Fluttertoast.showToast(
         msg: msg,

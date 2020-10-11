@@ -723,10 +723,9 @@ class _ShowAdState extends State<ShowAd> {
                                           ),
                                         ),
                                       ),
-                                      SendButton(
+                                     loginStatus? SendButton(
                                         text: 'ارسل',
-                                        callback: callBack,
-                                      )
+                                        callback: callBack,):Container(),
                                     ],
                                   ),
                                 )

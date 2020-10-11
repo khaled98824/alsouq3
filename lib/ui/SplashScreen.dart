@@ -29,7 +29,7 @@ int loginOrHome;
     SharedPreferences sharedPref = await SharedPreferences.getInstance();
     if(sharedPref.getInt('navigatorSelect')==null){
       //sharedPref.setInt('navigatorSelect', 0);
-      Navigator.pushReplacement(context, BouncyPageRoute(widget: Home()));
+     Navigator.pushReplacement(context, BouncyPageRoute(widget: Home()));
     }else if(sharedPref.getInt('navigatorSelect')==1){
       Navigator.pushReplacement(context, BouncyPageRoute(widget: NewLogin()));
     }else if (sharedPref.getInt('navigatorSelect')==2){
@@ -54,21 +54,22 @@ int loginOrHome;
             ),
 
             Shimmer.fromColors(
-              period: Duration(milliseconds: 1500),
-              baseColor: Color(0xff7f00ff),
-              highlightColor: Color(0xffe100ff),
+              period: Duration(milliseconds: 1800),
+              baseColor: Color(0xffF26726),
+              highlightColor: Color(0xffF26799),
               child: Container(
                 padding: EdgeInsets.only(top: 100),
                 child: Center(
                   child: Text(
                     "سوق الفرات سوق الجميع",
                       style: TextStyle(
-                          fontSize: 40,
+                          fontSize: 35,
                           fontFamily: 'AmiriQuran',
+                          fontWeight: FontWeight.w500,
                           //height: 1,
                         shadows: <Shadow>[
                           Shadow(
-                              blurRadius: 33.0,
+                              blurRadius: 55.0,
                               color: Colors.black87,
                               offset: Offset.fromDirection(120, 12)
                           )
