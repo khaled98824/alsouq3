@@ -2,6 +2,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
+import 'package:sooq1alzour/Auth/NewLogin.dart';
 
 class ComplaintsAndSuggestions extends StatefulWidget {
   @override
@@ -119,16 +120,14 @@ class _ComplaintsAndSuggestionsState extends State<ComplaintsAndSuggestions> {
                   SizedBox(height: 40,),
                   InkWell(
                     onTap: ()async{
-                      var currentUser = await FirebaseAuth.instance.currentUser();
                       if(_formkey.currentState.validate()){
                         Firestore.instance.collection('Complaints and Suggestions').add({
                           'name':nameController.text,
                           'mobile': mobileController.text,
                           'kind': kindController.text,
                           'message': messageController.text,
-                          'emailUser':currentUser.email,
                           'time': DateFormat('yyyy-MM-dd-HH:mm').format(DateTime.now()),
-                          'uid':currentUser.uid
+                          'user_uid':currentUserId
                         });
                       }
                       nameController.clear();

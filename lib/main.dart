@@ -1,8 +1,8 @@
 //mdsdsd
 import 'package:flutter/material.dart';
 import 'package:get_it/get_it.dart';
+import 'package:google_sign_in/google_sign_in.dart';
 import 'package:sooq1alzour/Service/PushNotificationService.dart';
-import 'package:sooq1alzour/sign_in_page.dart';
 import 'package:sooq1alzour/ui/AddNewAd.dart';
 import 'package:sooq1alzour/ui/AllAds.dart';
 import 'package:sooq1alzour/ui/Home.dart';
@@ -21,9 +21,14 @@ import 'package:sooq1alzour/ui/categories/Mobile.dart';
 import 'package:sooq1alzour/ui/categories/OccupationsAndServices.dart';
 import 'package:sooq1alzour/ui/myAccount.dart';
 
-import 'apple_sign_in_available.dart';
-import 'auth_service.dart';
-
+import 'Auth/apple_sign_in_available.dart';
+import 'Auth/auth_service.dart';
+GoogleSignIn _googleSignIn = GoogleSignIn(
+  scopes: <String>[
+    'email',
+    'https://www.googleapis.com/auth/contacts.readonly',
+  ],
+);
 
 void setupLocator() {
   GetIt.I.registerLazySingleton(() => PushNotificationService());
@@ -46,7 +51,7 @@ class MyApp extends StatelessWidget {
     return Provider<AuthService>(
       create: (_) => AuthService(),
       child: MaterialApp(
-        title: 'Apple Sign In with Firebase',
+        title: 'Souq Alfurat',
         debugShowCheckedModeBanner: false,
         theme: ThemeData(
           primarySwatch: Colors.indigo,

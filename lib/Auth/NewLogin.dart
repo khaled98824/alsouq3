@@ -6,16 +6,24 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
 import 'package:get_it/get_it.dart';
+import 'package:google_sign_in/google_sign_in.dart';
 import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
 import 'package:sooq1alzour/Service/PushNotificationService.dart';
 import 'package:sooq1alzour/models/StaticVirables.dart';
 import 'package:sooq1alzour/ui/Home.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-import '../apple_sign_in_available.dart';
-import '../auth_service.dart';
+import 'apple_sign_in_available.dart';
+import 'auth_service.dart';
 import 'NewReg2.dart';
 import 'package:fluttertoast/fluttertoast.dart';
+
+GoogleSignIn _googleSignIn = GoogleSignIn(
+  scopes: <String>[
+    'email',
+    'https://www.googleapis.com/auth/contacts.readonly',
+  ],
+);
 
 class NewLogin extends StatefulWidget {
   static const String id = "LoginScreen";
@@ -36,6 +44,10 @@ List<String> _namesList = [];
 FirebaseUser user;
 String userUid;
 String userName;
+String currentUserId;
+bool isSignIn = false;
+FirebaseAuth _auth = FirebaseAuth.instance;
+
 
 class _NewLoginState extends State<NewLogin> {
   Future<void> _signInWithApple(BuildContext context) async {
@@ -45,6 +57,7 @@ class _NewLoginState extends State<NewLogin> {
       print('uid: ${user.uid}');
       userName = user.email;
       userUid = user.uid;
+      currentUserId = user.uid;
       doSaveName();
       SharedPreferences sharedPref = await SharedPreferences.getInstance();
       sharedPref.setBool('appleSignIn', true);
@@ -63,6 +76,7 @@ class _NewLoginState extends State<NewLogin> {
 
   void initState() {
     super.initState();
+    isSignIn =false;
     getUsersNames();
     if (autoLogin == false) {
       checkboxVal = false;
@@ -126,6 +140,7 @@ class _NewLoginState extends State<NewLogin> {
 
   login() async {
     FirebaseMessaging _firebaseMessaging = FirebaseMessaging();
+    currentUserId = _namecontroller.text;
     if (_formkey.currentState.validate()) {
       var firestore = Firestore.instance;
       QuerySnapshot qus = await firestore
@@ -147,6 +162,7 @@ class _NewLoginState extends State<NewLogin> {
 
       if (qus.documents[0]['password'] == _passwordcontroller.text) {
         setState(() {
+          currentUserId = _namecontroller.text;
           loginStatus = true;
         });
         Navigator.pushReplacement(
@@ -175,25 +191,26 @@ class _NewLoginState extends State<NewLogin> {
     Virables.screenSizeHeight = screenSizeHieght2;
     Virables.login = loginStatus;
     Virables.autoLogin = logout;
+    Virables.currentUserId = currentUserId;
     return Scaffold(
       body: Container(
-        padding: EdgeInsets.all(16),
+        padding: EdgeInsets.all(5),
         child: Form(
             key: _formkey,
             child: ListView(
               children: <Widget>[
-                Padding(padding: EdgeInsets.only(top: 5)),
+                Padding(padding: EdgeInsets.only(top: 3)),
                 Center(
                   child: Text(
                     'تسجيل الدخول',
                     style: TextStyle(
-                      fontSize: 22,
+                      fontSize: 20,
                       fontFamily: 'AmiriQuran',
                       height: 1,
                     ),
                   ),
                 ),
-                Padding(padding: EdgeInsets.only(top: 30)),
+                Padding(padding: EdgeInsets.only(top: 10)),
                 ClipRRect(
                   child: Image.asset('assets/images/souq1624wpng.png'),
                 ),
@@ -228,7 +245,7 @@ class _NewLoginState extends State<NewLogin> {
                   },
                 ),
                 SizedBox(
-                  height: 12,
+                  height: 5,
                 ),
                 RaisedButton(
                   color: Colors.blue,
@@ -287,7 +304,16 @@ class _NewLoginState extends State<NewLogin> {
                   },
                 ),
                 SizedBox(
-                  height: 30,
+                  height: 10,
+                ),
+                Padding(
+                  padding: EdgeInsets.symmetric(vertical: 5,horizontal: 5),
+                  child: Container(
+                    height: 1,
+                    decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(5),
+                    color: Colors.grey
+                  ),),
                 ),
                 if (appleSignInAvailable.isAvailable)
                   AppleSignInButton(
@@ -295,8 +321,25 @@ class _NewLoginState extends State<NewLogin> {
                     type: ButtonType.signIn,
                     onPressed: () => _signInWithApple(context),
                   ),
-
-                // youtubePromotion()
+                SizedBox(
+                  height: 10,
+                ),
+                RaisedButton(
+                  color: Colors.blue,
+                  child: Text(
+                    'Google تسجيل دخول بحساب ',
+                    style: TextStyle(
+                        color: Colors.white,
+                        fontSize: 18,
+                        fontFamily: 'AmiriQuran',
+                        height: 1),
+                  ),
+                  onPressed: () async {
+                    _handleSignIn(context);
+                    //handleSignInGoogle();
+                  },
+                ),
+                SizedBox(height: 10,),
                 InkWell(
                   onTap: () {
                     Navigator.pushReplacement(context,
@@ -326,53 +369,85 @@ class _NewLoginState extends State<NewLogin> {
     );
   }
 
-  doSaveName()async{
+  doSaveName() async {
     equalName = false;
-    for(int i=0;i<_namesList.length;i++){
-      if(userUid==_namesList[i]){
-        equalName=true;
+    for (int i = 0; i < _namesList.length; i++) {
+      if (userUid == _namesList[i]) {
+        equalName = true;
         showMessage('إسم المستخدم موجود مسبقاً رجاءاٌ اختر غيره');
       }
     }
     print(equalName);
-    if(equalName==false){
+    if (equalName == false) {
       print('done');
       //saveName();
-      Firestore.instance
-          .collection('users')
-          .document(userUid).setData({
+      Firestore.instance.collection('users').document(userUid).setData({
         'name': 'ios',
         'user_uid': userUid,
         'area': 'ios',
         "time": DateFormat('yyyy-MM-dd-HH:mm').format(DateTime.now()),
-        'token':'nn'
+        'token': 'nn'
       });
       FirebaseMessaging _firebaseMessaging = FirebaseMessaging();
       _firebaseMessaging.getToken().then((token) async {
         print("token: " + token);
-        Firestore.instance
-            .collection('users')
-            .document(userUid)
-            .updateData({
+        Firestore.instance.collection('users').document(userUid).updateData({
           "token": token,
         });
       });
       SharedPreferences sharedPref = await SharedPreferences.getInstance();
-      sharedPref.setString('name',userUid)
-          .then((value) {
+      sharedPref.setString('name', userUid).then((value) {
         setState(() {
           loginStatus = true;
         });
         Navigator.pushReplacement(
-            context,
-            MaterialPageRoute(
-                builder: (context) => Home()));
+            context, MaterialPageRoute(builder: (context) => Home()));
       });
-    }else{
+    } else {
       print('notDone');
     }
   }
 
+  Future<void> gooleSignout() async {
+    await _auth.signOut().then((onValue) {
+      _googleSignIn.signOut();
+      setState(() {
+        isSignIn = true;
+      });
+    });
+  }
+  Future<void> _handleSignIn(context) async {
+    try {
+      await _googleSignIn.signIn();
+      setState(() {
+        currentUserId = _googleSignIn.currentUser.id;
+      });
+      Firestore.instance.collection('users').document(_googleSignIn.currentUser.id).setData({
+        'name': _googleSignIn.currentUser.displayName,
+        'user_uid':_googleSignIn.currentUser.id,
+        'area': 'google',
+        "time": DateFormat('yyyy-MM-dd-HH:mm').format(DateTime.now()),
+        'token': 'nn'
+      });
+      FirebaseMessaging _firebaseMessaging = FirebaseMessaging();
+      _firebaseMessaging.getToken().then((token) async {
+        print("token: " + token);
+        Firestore.instance.collection('users').document(_googleSignIn.currentUser.id).updateData({
+          "token": token,
+        });
+      });
+      SharedPreferences sharedPref = await SharedPreferences.getInstance();
+      sharedPref.setString('name',_googleSignIn.currentUser.id ).then((value) {
+        loginStatus = true;
+        Navigator.pushReplacement(
+            context, MaterialPageRoute(builder: (context) => Home()));
+      });
+
+    } catch (error) {
+      showMessage('خطأ في عملية تسجيل الدخول');
+      print(error);
+    }
+  }
   showMessage(String msg) {
     Fluttertoast.showToast(
         msg: msg,
@@ -382,6 +457,8 @@ class _NewLoginState extends State<NewLogin> {
         fontSize: 15,
         textColor: Colors.white);
   }
+
+  
 }
 // var firestore = Firestore.instance;
 // QuerySnapshot qus = await firestore

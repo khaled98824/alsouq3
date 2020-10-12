@@ -7,6 +7,7 @@ class Virables {
   static var screenSizeWidth;
   static bool login ;
   static bool autoLogin ;
+  static String currentUserId ;
 
 
 }

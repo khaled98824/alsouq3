@@ -722,7 +722,7 @@ class _ShowAdState extends State<ShowAd> {
                                             onSubmitted: (value) => callBack(),
                                           ),
                                         ),
-                                      ),
+                                      ) ,
                                      loginStatus? SendButton(
                                         text: 'ارسل',
                                         callback: callBack,):Container(),

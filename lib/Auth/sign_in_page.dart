@@ -1,8 +1,8 @@
 import 'package:apple_sign_in/apple_sign_in.dart';
 import 'package:flutter/material.dart';
-import 'package:sooq1alzour/auth_service.dart';
+import 'package:sooq1alzour/Auth/auth_service.dart';
 import 'package:provider/provider.dart';
-import 'package:sooq1alzour/apple_sign_in_available.dart';
+import 'package:sooq1alzour/Auth/apple_sign_in_available.dart';
 
 class SignInPage extends StatelessWidget {
   Future<void> _signInWithApple(BuildContext context) async {
