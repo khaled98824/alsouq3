@@ -33,10 +33,10 @@ class _AdminState extends State<Admin> {
                   duration: Duration(seconds: 3),
                 ),
               ),
-              Padding(padding: EdgeInsets.only(top: 200)),
+              Padding(padding: EdgeInsets.only(top: 150)),
               Container(
-                height: 1,
-                width: MediaQuery.of(context).size.width - 8,
+                height: 2,
+                width: MediaQuery.of(context).size.width-10,
                 decoration: BoxDecoration(
                     borderRadius: BorderRadius.circular(5),
                     color: Colors.red[900]),
@@ -55,7 +55,7 @@ class _AdminState extends State<Admin> {
                         Icons.arrow_back_ios,
                         size: 36,
                       ),
-                      SizedBox(width: 100,),
+                      SizedBox(width: 80,),
                       SizedBox(width: 100,),
                       SizedBox(width: 22,),
                       Padding(
@@ -99,7 +99,7 @@ class _AdminState extends State<Admin> {
                           Icons.arrow_back_ios,
                           size: 36,
                         ),
-                        SizedBox(width: 100,),
+                        SizedBox(width: 80,),
                         SizedBox(width: 100,),
                         SizedBox(width: 22,),
                         Padding(
@@ -140,7 +140,7 @@ class _AdminState extends State<Admin> {
                         Icons.arrow_back_ios,
                         size: 36,
                       ),
-                      SizedBox(width: 100,),
+                      SizedBox(width: 80,),
                       SizedBox(width: 100,),
                       SizedBox(width: 22,),
                       Padding(
@@ -180,7 +180,7 @@ class _AdminState extends State<Admin> {
                         Icons.arrow_back_ios,
                         size: 36,
                       ),
-                      SizedBox(width: 40,),
+                      SizedBox(width: 20,),
                       SizedBox(width: 22,),
                       Padding(
                         padding: EdgeInsets.only(right: 32),

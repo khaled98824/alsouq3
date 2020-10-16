@@ -8,7 +8,8 @@
     <application
         android:name=".Application"
         android:label="سوق الفرات"
-        android:icon="@mipmap/launcher_icon">
+        android:icon="@mipmap/launcher_icon"
+        >
         <activity
             android:name=".MainActivity"
             android:launchMode="singleTop"

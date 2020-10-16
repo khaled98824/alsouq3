@@ -88,7 +88,7 @@ class _UsersAdminState extends State<UsersAdmin> {
                           padding: EdgeInsets.only(bottom: 1),
                           child: Container(
                             height: 42,
-                            width: 280,
+                            width: 250,
                             decoration: BoxDecoration(
                                 borderRadius: BorderRadius.circular(40), color: Colors.grey[350]),
                             child: Stack(
@@ -98,7 +98,7 @@ class _UsersAdminState extends State<UsersAdmin> {
                                 Text('!... إبحث في قائمة المستخدمين',
                                     style: TextStyle(
                                       color: Colors.black,
-                                      fontSize: 17,
+                                      fontSize: 16,
                                       fontFamily: 'AmiriQuran',
                                       height: 1,
                                     )),

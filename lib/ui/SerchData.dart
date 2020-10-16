@@ -9,7 +9,7 @@ class SerchData extends SearchDelegate<String>{
   SerchData({this.category});
   Future<List<DocumentSnapshot>> _future() async{
     QuerySnapshot querySnapshot=await Firestore.instance.collection("Ads").where('category',isEqualTo: category).getDocuments();
-    final List<DocumentSnapshot> snap = querySnapshot.documents.where((DocumentSnapshot documentSnapshot) => documentSnapshot["description"].toString().toLowerCase().contains(query.toLowerCase())||documentSnapshot["category"].toString().toLowerCase().contains(query.toLowerCase())).toList();
+    final List<DocumentSnapshot> snap = querySnapshot.documents.where((DocumentSnapshot documentSnapshot) => documentSnapshot["name"].toString().toLowerCase().contains(query.toLowerCase())||documentSnapshot["category"].toString().toLowerCase().contains(query.toLowerCase())).toList();
     return snap;
   }
   final word=["كلمات البحث","مثل سيارة","مثل الكترونيات",];

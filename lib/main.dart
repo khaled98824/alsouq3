@@ -1,7 +1,6 @@
 //mdsdsd
 import 'package:flutter/material.dart';
 import 'package:get_it/get_it.dart';
-import 'package:google_sign_in/google_sign_in.dart';
 import 'package:sooq1alzour/Service/PushNotificationService.dart';
 import 'package:sooq1alzour/ui/AddNewAd.dart';
 import 'package:sooq1alzour/ui/AllAds.dart';
@@ -23,12 +22,7 @@ import 'package:sooq1alzour/ui/myAccount.dart';
 
 import 'Auth/apple_sign_in_available.dart';
 import 'Auth/auth_service.dart';
-GoogleSignIn _googleSignIn = GoogleSignIn(
-  scopes: <String>[
-    'email',
-    'https://www.googleapis.com/auth/contacts.readonly',
-  ],
-);
+
 
 void setupLocator() {
   GetIt.I.registerLazySingleton(() => PushNotificationService());
@@ -36,21 +30,26 @@ void setupLocator() {
 
 void main() async {
   setupLocator();
-  // Fix for: Unhandled Exception: ServicesBinding.defaultBinaryMessenger was accessed before the binding was initialized.
-  WidgetsFlutterBinding.ensureInitialized();
-  final appleSignInAvailable = await AppleSignInAvailable.check();
-  runApp(Provider<AppleSignInAvailable>.value(
-    value: appleSignInAvailable,
-    child: MyApp(),
-  ));
+   //Fix for : Unhandled Exception: ServicesBinding.defaultBinaryMessenger was accessed before the binding was initialized.
+   WidgetsFlutterBinding.ensureInitialized();
+   final appleSignInAvailable = await AppleSignInAvailable.check();
+  runApp(
+       Provider<AppleSignInAvailable>.value(
+     value: appleSignInAvailable,
+     child:
+    MyApp(),
+  )
+  );
 }
 
 class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    return Provider<AuthService>(
+    return
+      Provider<AuthService>(
       create: (_) => AuthService(),
-      child: MaterialApp(
+      child:
+      MaterialApp(
         title: 'Souq Alfurat',
         debugShowCheckedModeBanner: false,
         theme: ThemeData(
@@ -74,7 +73,7 @@ class MyApp extends StatelessWidget {
           CarsAndMotorCycles.id : (context) => CarsAndMotorCycles(),
         },
         home: SplashScreen(),
-      ),
-    );
+      //),
+    ));
   }
 }

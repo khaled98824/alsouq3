@@ -6,6 +6,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:curved_navigation_bar/curved_navigation_bar.dart';
 import 'package:flutter/material.dart';
 import 'package:get_it/get_it.dart';
+import 'package:intl/intl.dart';
 import 'package:sooq1alzour/Auth/NewLogin.dart';
 import 'package:sooq1alzour/Service/PushNotificationService.dart';
 import 'package:sooq1alzour/models/AdsModel.dart';
@@ -175,13 +176,10 @@ class _HomeState extends State<Home> {
               ),
               Padding(
                   padding: EdgeInsets.only(
-                top: 10,
+                top: 7,
               )),
               showSliderAds ? areaForAd() : Container(),
-              Padding(
-                  padding: EdgeInsets.only(
-                top: 3,
-              )),
+
               categoryOrAds
                   ? Expanded(
                       child: SingleChildScrollView(
@@ -489,10 +487,10 @@ Widget Heade() {
         children: <Widget>[
           screenSizeWidth2 < 380
               ? SizedBox(
-                  width: 6,
+                  width: 5,
                 )
               : SizedBox(
-                  width: 11,
+                  width: 8,
                 ),
           Text(
             'بيع واشتري كل ما تريد بكل سهولة',
@@ -505,11 +503,11 @@ Widget Heade() {
           ),
           Padding(
               padding: EdgeInsets.only(
-                  right: screenSizeWidth2 < 380 ? 15 : 28, left: 3),
+                  right: screenSizeWidth2 < 380 ? 11 : 28, left: 2),
               child: Image.asset(
                 'assets/images/logo.png',
                 height: 51,
-                width: 104,
+                width: 102,
                 fit: BoxFit.fill,
               ))
         ],
@@ -533,18 +531,17 @@ class _SearchAreaDesignState extends State<SearchAreaDesign> {
       child: Padding(
         padding: EdgeInsets.only(right: 10, left: 10),
         child: Container(
-          height: 40,
-          width: 340,
+          height: 37,
+          width: 330,
           decoration: BoxDecoration(
-              borderRadius: BorderRadius.circular(40), color: Colors.grey[350]),
+              borderRadius: BorderRadius.circular(40), color: Colors.grey[400]),
           child: Stack(
-            textDirection: TextDirection.rtl,
             alignment: Alignment(0.3, 0),
             children: <Widget>[
               Text('!... إبحث في سوق الفرات',
                   style: TextStyle(
                     color: Colors.black,
-                    fontSize: 20,
+                    fontSize: 18,
                     fontFamily: 'AmiriQuran',
                     height: 1,
                   )),
@@ -586,7 +583,6 @@ class ButtonTapped extends StatelessWidget {
                   icon,
                   size: 30,
                   color: Color(0xffF26726),
-                  textDirection: TextDirection.rtl,
                 ),
               ),
               Align(
@@ -697,7 +693,6 @@ class MyButton extends StatelessWidget {
                 icon,
                 size: 30,
                 color: Color(0xffF26726),
-                textDirection: TextDirection.rtl,
               ),
             ),
             Align(
@@ -785,7 +780,7 @@ class GridViewItems extends StatelessWidget {
         color: Colors.grey[200],
         child: SizedBox(
           width: screenSizeWidth2 > 395 ? 190 : 172,
-          height: 200,
+          height: 170,
           child: Container(
             width: 100,
             //width: double.infinity,
@@ -796,22 +791,21 @@ class GridViewItems extends StatelessWidget {
               color: Colors.redAccent,
             ),
             child: Transform.translate(
-                offset: Offset(22, -72),
+                offset: Offset(22, -68),
                 child: Container(
-                    margin: EdgeInsets.symmetric(horizontal: 27, vertical: 84),
+                    margin: EdgeInsets.symmetric(horizontal: 27, vertical: 71),
                     decoration: BoxDecoration(
-                        borderRadius: BorderRadius.circular(10),
+                        borderRadius: BorderRadius.circular(5),
                         color: Colors.grey[50]),
                     child: Center(
                       child: Text(
                         text,
                         textAlign: TextAlign.center,
-                        textDirection: TextDirection.rtl,
                         style: TextStyle(
                           color: Colors.black,
-                          fontSize: 16,
+                          fontSize: 15,
                           fontFamily: 'AmiriQuran',
-                          height: 0.5,
+                          height:1,
                         ),
                       ),
                     ))),
@@ -833,14 +827,14 @@ Widget areaForAd() {
               print('h$screenSizeHieght2');
             },
             child: Container(
-              height: 60,
+              height: 120,
               // margin: EdgeInsets.only(right: 1, left: 1),
-              padding: EdgeInsets.only(right: 1, left: 1),
+              padding: EdgeInsets.only(right:5, left: 1),
               child: Hero(
                   tag: Text('imageAd'),
                   child: ClipRRect(
-                      borderRadius: BorderRadius.circular(20),
-                      child: Image.network(url))),
+                      borderRadius: BorderRadius.circular(3),
+                      child: Image.network(url,fit:BoxFit.fill,height: 75,width: 370,))),
             ),
           );
         });
@@ -850,9 +844,9 @@ Widget areaForAd() {
         autoPlay: true,
         pauseAutoPlayOnTouch: false,
         autoPlayAnimationDuration: Duration(seconds: 3),
-        autoPlayInterval: Duration(seconds: 15),
+        autoPlayInterval: Duration(seconds: 9),
         disableCenter: false,
-        height: 66,
+        height: 84,
       ),
     ),
   );
@@ -889,11 +883,11 @@ class _NewAdsState extends State<NewAds> {
                   return Container(
                     child: new GridView.count(
                       crossAxisCount: 2,
-                      crossAxisSpacing: 5,
-                      mainAxisSpacing: 5,
+                      crossAxisSpacing: 0.1,
+                      mainAxisSpacing: 0.2,
                       childAspectRatio: screenSizeHieght2 > 800 ? 0.7 : 0.6,
                       children: List.generate(
-                          snapshot.data.documents.length < 20 ? 99 : 24,
+                          snapshot.data.documents.length < 80 ? 20 : 79,
                           (index) {
                         return InkWell(
                           onTap: () {
@@ -921,96 +915,129 @@ class _NewAdsState extends State<NewAds> {
                                         snapshot.data.documents[index]
                                             ['imagesUrl'][0],
                                         height:
-                                            screenSizeHieght2 > 800 ? 192 : 218,
+                                            screenSizeHieght2 > 800 ? 182 : 208,
                                         width:
-                                            screenSizeWidth2 < 750 ? 170 : 190,
+                                            screenSizeWidth2 < 750 ? 175 : 195,
                                         fit: BoxFit.fill,
                                       ),
-                                      borderRadius: BorderRadius.circular(10),
+                                      borderRadius: BorderRadius.circular(3),
                                     ),
                                     SizedBox(
                                       height: 5,
                                     ),
-                                    Row(
-                                      crossAxisAlignment:
-                                          CrossAxisAlignment.end,
-                                      mainAxisAlignment: MainAxisAlignment.end,
-                                      children: <Widget>[
-                                        Text(
-                                          snapshot.data.documents[index]
-                                              ['name'],
-                                          style: TextStyle(
-                                            fontSize: 15,
-                                            fontFamily: 'AmiriQuran',
-                                            height: 1.2,
+                                    Stack(
+                                      children: [
+
+                                        IconButton(
+                                            icon: Icon(Icons.favorite_border,size: 30,color: Colors.red,),
+                                            onPressed: (){
+                                              saveLike(snapshot.data.documents[index].documentID.toString(),
+                                                  snapshot.data.documents[index]['name'],
+                                                  snapshot.data.documents[index]['likes']
+                                              );
+                                            }),
+                                        Container(
+                                          child: Column(
+                                            children: [
+                                              Row(
+                                                crossAxisAlignment: CrossAxisAlignment.end,
+                                                mainAxisAlignment: MainAxisAlignment.end,
+                                                children: <Widget>[
+                                                  Text(
+                                                    snapshot.data.documents[index]['name'],
+                                                    style: TextStyle(
+                                                      fontSize: 15,
+                                                      fontFamily: 'AmiriQuran',
+                                                      height: 1.2,
+                                                    ),
+                                                  ),
+                                                  SizedBox(
+                                                    width: 5,
+                                                  ),
+                                                ],
+                                              ),
+                                              SizedBox(
+                                                height: 4,
+                                              ),
+                                              Row(
+                                                crossAxisAlignment: CrossAxisAlignment.end,
+                                                mainAxisAlignment: MainAxisAlignment.end,
+                                                children: <Widget>[
+                                                  Text(
+                                                    snapshot.data.documents[index]['price']
+                                                        .toString(),
+                                                    style: TextStyle(
+                                                      fontSize: 14,
+                                                      fontFamily: 'AmiriQuran',
+                                                      height: 1.2,
+                                                    ),
+                                                  ),
+                                                  SizedBox(
+                                                    width: 3,
+                                                  ),
+                                                  Text(
+                                                    ': السعر',
+                                                    style: TextStyle(
+                                                      fontSize: 14,
+                                                      fontFamily: 'AmiriQuran',
+                                                      height: 1.2,
+                                                    ),
+                                                  ),
+                                                ],
+                                              ),
+
+                                              Row(
+                                                crossAxisAlignment: CrossAxisAlignment.end,
+                                                mainAxisAlignment: MainAxisAlignment.end,
+                                                children: <Widget>[
+                                                  Text(
+                                                    snapshot.data.documents[index]['area'],
+                                                    style: TextStyle(
+                                                      fontSize: 14,
+                                                      fontFamily: 'AmiriQuran',
+                                                      height: 1.2,
+                                                    ),
+                                                  ),
+                                                  SizedBox(
+                                                    width: 3,
+                                                  ),
+                                                  Text(
+                                                    ': المنطقة',
+                                                    style: TextStyle(
+                                                      fontSize: 14,
+                                                      fontFamily: 'AmiriQuran',
+                                                      height: 1.3,
+                                                    ),
+                                                  ),
+                                                  SizedBox(
+                                                    width: 9,
+                                                  ),
+                                                ],
+                                              ),
+                                              Row(
+                                                crossAxisAlignment: CrossAxisAlignment.end,
+                                                mainAxisAlignment: MainAxisAlignment.start,
+                                                children: [
+                                                  SizedBox(width: 4,),
+                                                  snapshot.data.documents[index]['likes'].toString()!= null ?
+                                                  Text(snapshot.data.documents[index]['likes'].toString(),style:
+                                                  TextStyle(
+                                                      height: 0,
+                                                      fontSize: 12
+                                                  ),):Container(),
+                                                  Text(': لايك',style: TextStyle(
+                                                    fontSize: 12,
+                                                    fontFamily: 'AmiriQuran',
+                                                    height: 0,
+                                                  ),),
+                                                  SizedBox(width: 10,),
+                                                ],
+                                              )
+                                            ],
                                           ),
-                                        ),
-                                        SizedBox(
-                                          width: 5,
-                                        ),
-                                      ],
-                                    ),
-                                    SizedBox(
-                                      height: 4,
-                                    ),
-                                    Row(
-                                      crossAxisAlignment:
-                                          CrossAxisAlignment.end,
-                                      mainAxisAlignment: MainAxisAlignment.end,
-                                      children: <Widget>[
-                                        Text(
-                                          snapshot
-                                              .data.documents[index]['price']
-                                              .toString(),
-                                          style: TextStyle(
-                                            fontSize: 14,
-                                            fontFamily: 'AmiriQuran',
-                                            height: 1.2,
-                                          ),
-                                        ),
-                                        SizedBox(
-                                          width: 3,
-                                        ),
-                                        Text(
-                                          ': السعر',
-                                          style: TextStyle(
-                                            fontSize: 14,
-                                            fontFamily: 'AmiriQuran',
-                                            height: 1.2,
-                                          ),
-                                        ),
-                                      ],
-                                    ),
-                                    Row(
-                                      crossAxisAlignment:
-                                          CrossAxisAlignment.end,
-                                      mainAxisAlignment: MainAxisAlignment.end,
-                                      children: <Widget>[
-                                        Text(
-                                          snapshot.data.documents[index]
-                                              ['area'],
-                                          style: TextStyle(
-                                            fontSize: 14,
-                                            fontFamily: 'AmiriQuran',
-                                            height: 1.2,
-                                          ),
-                                        ),
-                                        SizedBox(
-                                          width: 3,
-                                        ),
-                                        Text(
-                                          ': المنطقة',
-                                          style: TextStyle(
-                                            fontSize: 14,
-                                            fontFamily: 'AmiriQuran',
-                                            height: 1.3,
-                                          ),
-                                        ),
-                                        SizedBox(
-                                          width: 9,
                                         )
                                       ],
-                                    ),
+                                    )
                                   ],
                                 )),
                           ),
@@ -1020,5 +1047,31 @@ class _NewAdsState extends State<NewAds> {
                   );
               }
             }));
+  }
+  saveLike(Ad_id,Ad_name,likeCount)async{
+    if(doLike==false){
+      Firestore.instance.collection('Ads').document(Ad_id).updateData({
+        "likes": likeCount+1,
+      });
+
+      Firestore.instance.collection('likes').document().setData({
+        'Ad_id': Ad_id,
+        'Ad_name': Ad_name,
+        'who_like': currentUserId,
+        'like':true,
+        'time': DateFormat('yyyy-MM-dd-HH:mm').format(DateTime.now()),
+      });
+      doLike = true;
+    }
+  }
+  saveView(Ad_id,Ad_name)async{
+
+    Firestore.instance.collection('Views').document().setData({
+      'Ad_id': Ad_id,
+      'Ad_name': Ad_name,
+      'who_view': currentUserId,
+      'view':true,
+      'time': DateFormat('yyyy-MM-dd-HH:mm').format(DateTime.now()),
+    });
   }
 }

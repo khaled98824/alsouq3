@@ -46,16 +46,16 @@ dependencies:
   firebase_database: ^3.1.6
   firebase_storage: ^3.1.6
   firebase_messaging: ^6.0.16
-  cloud_firestore: ^0.13.7
+  cloud_firestore:
   photo_view:
   flutter_launcher_icons: ^0.7.5
   shimmer: ^1.1.1
   fluttertoast: ^4.0.1
-  flutter_signin_button: ^1.1.0
   sign_in_with_apple: ^2.5.2
   provider: ^4.0.1
   apple_sign_in: ^0.1.0
   google_sign_in: ^4.5.4
+  sign_button: ^1.0.0
 
 
 

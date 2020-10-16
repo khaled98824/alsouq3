@@ -68,7 +68,7 @@ class _AdsAdminState extends State<AdsAdmin> {
                                           child: Image.network(
                                             snapshot.data.documents[index]
                                                 ['imagesUrl'][0],
-                                            height: 174,
+                                            height: 154,
                                             width: 190,
                                             fit: BoxFit.fill,
                                           ),
@@ -88,7 +88,7 @@ class _AdsAdminState extends State<AdsAdmin> {
                                               snapshot.data.documents[index]
                                                   ['name'],
                                               style: TextStyle(
-                                                fontSize: 15,
+                                                fontSize: 14,
                                                 fontFamily: 'AmiriQuran',
                                                 height: 1.2,
                                               ),
@@ -191,18 +191,18 @@ class _AdsAdminState extends State<AdsAdmin> {
                                             )
                                           ],
                                         ),
-                                        Row(
-                                          crossAxisAlignment:
-                                          CrossAxisAlignment.end,
-                                          mainAxisAlignment:
-                                          MainAxisAlignment.end,
+                                        Wrap(
+                                          // crossAxisAlignment:
+                                          // CrossAxisAlignment.end,
+                                          // mainAxisAlignment:
+                                          // MainAxisAlignment.end,
                                           children: <Widget>[
                                             Text(
                                               snapshot.data.documents[index]
                                               ['uid'],
                                               style: TextStyle(
-                                                fontSize: 11,
-                                                fontFamily: 'AmiriQuran',
+                                                fontSize: 9,
+                                                //fontFamily: 'AmiriQuran',
                                                 height: 1.2,
                                               ),
                                             ),
@@ -282,7 +282,7 @@ class _AdsAdminState extends State<AdsAdmin> {
                         },
                         child: Container(
                           height: 42,
-                          width: 280,
+                          width: 240,
                           decoration: BoxDecoration(
                               borderRadius: BorderRadius.circular(40),
                               color: Colors.grey[350]),
@@ -292,7 +292,7 @@ class _AdsAdminState extends State<AdsAdmin> {
                               Text('!... إبحث في قائمة الإعلانات',
                                   style: TextStyle(
                                     color: Colors.black,
-                                    fontSize: 17,
+                                    fontSize: 15,
                                     fontFamily: 'AmiriQuran',
                                     height: 1,
                                   )),
@@ -300,7 +300,7 @@ class _AdsAdminState extends State<AdsAdmin> {
                                   alignment: Alignment(0.9, 0),
                                   child: Icon(
                                     Icons.search,
-                                    size: 32,
+                                    size: 29,
                                   ))
                             ],
                           ),

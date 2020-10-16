@@ -152,10 +152,8 @@ class _AddNewAdState extends State<AddNewAd> {
   ];
   var dropSelectItemCategory = 'إختر القسم الرئيسي';
   String category = '';
-  List<String> dropItemsArea = [
-    'إختر المنطقة من هنا','العاصمة', 'حولي',
-    'الفروانية' 'الاحمدي' ,'الجهراء',' مبارك', 'الكبير',
-  ];
+  List<String> dropItemsArea = ['إختر المنطقة من هنا',
+  'العاصمة', 'الفروانية','حولي', 'الجهراء' ,'الاحمدي' ,'مبارك الكبير'];
   var dropSelectItemArea = 'إختر المنطقة من هنا';
   String area = '';
   bool chacked = false;
@@ -1118,11 +1116,6 @@ class _AddNewAdState extends State<AddNewAd> {
                       alignment: WrapAlignment.end,
                       crossAxisAlignment: WrapCrossAlignment.center,
                       children: <Widget>[
-                        Text('السعر بالليرة السورية',style: TextStyle(
-                            fontSize: 16,
-                            color: Colors.blue,
-                            fontFamily: 'AmiriQuran',
-                            height: 1),),
                         Container(
                           decoration: BoxDecoration(
                             borderRadius: BorderRadius.circular(10),
@@ -1210,6 +1203,8 @@ class _AddNewAdState extends State<AddNewAd> {
                                 // return 'Valid Name';
                               },
                               textAlign: TextAlign.right,
+                              keyboardType: TextInputType.numberWithOptions(
+                                  decimal: true),
                               decoration: InputDecoration(
                                 enabledBorder: OutlineInputBorder(
                                   borderSide:
@@ -1456,7 +1451,9 @@ class _AddNewAdState extends State<AddNewAd> {
         'deviceNo': _deviceNo,
         'imagesUrl': urlImages,
         'phone': _phone,
-        'uid': sharedPref.getString('name')
+        'uid': sharedPref.getString('name'),
+        'likes':0,
+        'views':0,
       });
       nameController.clear();
       descriptionController.clear();

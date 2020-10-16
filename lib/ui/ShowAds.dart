@@ -23,7 +23,7 @@ class ShowAd extends StatefulWidget {
 }
 
 List<DocumentSnapshot> docs;
-var currectUser;
+QuerySnapshot qusViews;
 DocumentSnapshot documentsAds;
 DocumentSnapshot documentsUser;
 DocumentSnapshot documentMessages;
@@ -32,6 +32,7 @@ bool showMessages = false;
 String currentUserName;
 TextEditingController messageController = TextEditingController();
 ScrollController scrollController = ScrollController();
+int imageUrl4Show;
 
 var adImagesUrl = List<dynamic>();
 bool showSlider = false;
@@ -62,30 +63,27 @@ class _ShowAdState extends State<ShowAd> {
     DocumentReference documentRef =
         Firestore.instance.collection('Ads').document(documentId);
     documentsAds = await documentRef.get();
+    var firestore = Firestore.instance;
+
+    qusViews = await firestore
+        .collection('Views')
+        .where('Ad_id', isEqualTo: documentId)
+        .getDocuments();
 
     DocumentReference documentRefUser =
-    Firestore.instance.collection('users').document(currentUserName);
+        Firestore.instance.collection('users').document(currentUserName);
     documentsUser = await documentRef.get();
     adImagesUrl = documentsAds.data['imagesUrl'];
     setState(() {
       showSlider = true;
       showBody = true;
     });
-    currectUser = sharedPref.getString('name');
-    setState(() {
-      if (currectUser != null) {
-        setState(() {
-
-        });
-      }
-    });
+    setState(() {});
   }
 
   makePostRequest(token1, AdsN) async {
-    SharedPreferences sharedPref = await SharedPreferences.getInstance();
-    currentUserName = sharedPref.getString('name');
     DocumentReference documentRefUser =
-        Firestore.instance.collection('users').document(currentUserName);
+        Firestore.instance.collection('users').document(currentUserId);
     documentsUser = await documentRefUser.get();
     print("enter");
     final key1 =
@@ -120,12 +118,11 @@ class _ShowAdState extends State<ShowAd> {
   Future<void> callBack() async {
     DocumentReference documentRef;
 
-    var currentUser = await FirebaseAuth.instance.currentUser();
     if (messageController.text.length > 0) {
       Messgetext = messageController.text;
       await _firestore.collection("messages").add({
         'text': Messgetext,
-        'from': currentUserName,
+        'from': currentUserId,
         'date': DateFormat('yyyy-MM-dd-HH:mm').format(DateTime.now()),
         'name': documentsUser['name'],
         'Ad_id': documentsAds.documentID
@@ -137,9 +134,9 @@ class _ShowAdState extends State<ShowAd> {
           .document(documentsAds.data['uid']);
       documentsUser = await documentRef.get();
       print("token" + documentsUser.data['token']);
-      print(documentsAds.documentID);
+      print(documentsAds.data['uid']);
       print(documentsUser.documentID);
-      if (documentsAds.data['uid'] != currentUserName) {
+      if (documentsAds.data['uid'] != currentUserId) {
         makePostRequest(documentsUser.data['token'], documentsAds.data['name']);
       }
 
@@ -199,8 +196,9 @@ class _ShowAdState extends State<ShowAd> {
                                         Navigator.push(
                                             context,
                                             BouncyPageRoute(
-                                                widget:
-                                                    PageImage(imageUrl: url)));
+                                                widget: PageImage(
+                                                    imageUrl: adImagesUrl[
+                                                        imageUrl4Show])));
                                       },
                                       child: Container(
                                         child: Hero(
@@ -216,6 +214,9 @@ class _ShowAdState extends State<ShowAd> {
                                 options: CarouselOptions(
                                     initialPage: 0,
                                     autoPlay: true,
+                                    onPageChanged: (a, b) {
+                                      imageUrl4Show = a;
+                                    },
                                     pauseAutoPlayOnTouch: true,
                                     autoPlayAnimationDuration:
                                         Duration(milliseconds: 900),
@@ -606,6 +607,50 @@ class _ShowAdState extends State<ShowAd> {
                               color: Colors.grey[300]),
                         ),
                         SizedBox(
+                          height: 6,
+                        ),
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.end,
+                          children: <Widget>[
+                            Text(
+                              qusViews.documents.length.toString(),
+                              textAlign: TextAlign.right,
+                              style: TextStyle(
+                                fontSize: 16,
+                                fontFamily: 'AmiriQuran',
+                                height: 1,
+                                color: Colors.black,
+                              ),
+                            ),
+                            SizedBox(
+                              width: 80,
+                            ),
+                            Text(
+                              ': المشاهدات ',
+                              textAlign: TextAlign.right,
+                              style: TextStyle(
+                                fontSize: 16,
+                                fontFamily: 'AmiriQuran',
+                                height: 1,
+                                color: Colors.grey[700],
+                              ),
+                            ),
+                            SizedBox(
+                              width: 10,
+                            )
+                          ],
+                        ),
+                        SizedBox(
+                          height: 6,
+                        ),
+                        Container(
+                          width: MediaQuery.of(context).size.width - 6,
+                          height: 2,
+                          decoration: BoxDecoration(
+                              borderRadius: BorderRadius.circular(5),
+                              color: Colors.grey[300]),
+                        ),
+                        SizedBox(
                           height: 5,
                         ),
                         Row(
@@ -722,10 +767,13 @@ class _ShowAdState extends State<ShowAd> {
                                             onSubmitted: (value) => callBack(),
                                           ),
                                         ),
-                                      ) ,
-                                     loginStatus? SendButton(
-                                        text: 'ارسل',
-                                        callback: callBack,):Container(),
+                                      ),
+                                      loginStatus
+                                          ? SendButton(
+                                              text: 'ارسل',
+                                              callback: callBack,
+                                            )
+                                          : Container(),
                                     ],
                                   ),
                                 )
@@ -771,19 +819,51 @@ class _PageImageState extends State<PageImage> {
             ),
           ),
         ),
-        body: PhotoViewGallery.builder(
-          itemCount: adImagesUrl.length,
-          builder: (context, index) {
-            return PhotoViewGalleryPageOptions(
-                imageProvider: NetworkImage(adImagesUrl[index]),
-                minScale: PhotoViewComputedScale.contained * 0.8,
-                maxScale: PhotoViewComputedScale.covered * 2);
-          },
-          scrollPhysics: BouncingScrollPhysics(),
-          backgroundDecoration: BoxDecoration(
-            color: Theme.of(context).canvasColor,
-          ),
-          //loadingChild: CircularProgressIndicator(),
+        body: Stack(
+          children: [
+            Padding(
+              padding: EdgeInsets.only(top: 50),
+              child: PhotoViewGallery.builder(
+                itemCount: adImagesUrl.length,
+                builder: (context, index) {
+                  return PhotoViewGalleryPageOptions(
+                      imageProvider: NetworkImage(adImagesUrl[index]),
+                      minScale: PhotoViewComputedScale.contained * 0.8,
+                      maxScale: PhotoViewComputedScale.covered * 2);
+                },
+                enableRotation: true,
+                scrollPhysics: BouncingScrollPhysics(),
+                backgroundDecoration: BoxDecoration(
+                  color: Theme.of(context).canvasColor,
+                ),
+                //loadingChild: CircularProgressIndicator(),
+              ),
+            ),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              crossAxisAlignment: CrossAxisAlignment.center,
+              children: [
+                Padding(
+                    padding: EdgeInsets.symmetric(vertical: 12, horizontal: 22),
+                    child: Icon(
+                      Icons.arrow_back_ios,
+                      size: 28,
+                      color: Colors.blue,
+                    )),
+                Text('عدد الصور  ${adImagesUrl.length}',textAlign: TextAlign.center,
+                  style: TextStyle(
+                  fontSize: 18
+                ),),
+                Padding(
+                    padding: EdgeInsets.symmetric(vertical: 12, horizontal: 22),
+                    child: Icon(
+                      Icons.arrow_forward_ios,
+                      size: 28,
+                      color: Colors.blue,
+                    )),
+              ],
+            ),
+          ],
         ));
   }
 }

@@ -1,12 +1,13 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
 import 'package:sooq1alzour/Auth/NewLogin.dart';
 import 'package:sooq1alzour/models/PageRoute.dart';
 import 'package:sooq1alzour/ui/Home.dart';
 import 'package:sooq1alzour/ui/ShowAds.dart';
 
 import 'SerchData.dart';
-
+bool doLike = false;
 class Ads extends StatelessWidget {
   String department;
   String category;
@@ -17,7 +18,7 @@ class Ads extends StatelessWidget {
     return AdsFul(department: department,category: category,);
   }
 }
-
+bool like =false;
 class AdsFul extends StatefulWidget {
   String department;
   String category;
@@ -25,7 +26,7 @@ class AdsFul extends StatefulWidget {
   @override
   _AdsFulState createState() => _AdsFulState(department: department);
 }
-
+QuerySnapshot qusLikes ;
 class _AdsFulState extends State<AdsFul> {
   String department;
   String category;
@@ -34,6 +35,13 @@ class _AdsFulState extends State<AdsFul> {
   void initState() {
     // TODO: implement initState
     super.initState();
+  }
+
+  getDocuments()async{
+    var firestore = Firestore.instance;
+    qusLikes = await firestore
+        .collection('Views')
+        .getDocuments();
   }
 
   @override
@@ -67,6 +75,8 @@ class _AdsFulState extends State<AdsFul> {
                     List.generate(snapshot.data.documents.length, (index) {
                       return InkWell(
                         onTap: () {
+                          saveView(snapshot.data.documents[index].documentID.toString(),
+                              snapshot.data.documents[index]['name']);
                           print(department);
                           Navigator.push(context, BouncyPageRoute(widget: ShowAd(
                             documentId: snapshot.data.documents[index].documentID)));
@@ -94,80 +104,120 @@ class _AdsFulState extends State<AdsFul> {
                                   SizedBox(
                                     height: 5,
                                   ),
-                                  Row(
-                                    crossAxisAlignment: CrossAxisAlignment.end,
-                                    mainAxisAlignment: MainAxisAlignment.end,
-                                    children: <Widget>[
-                                      Text(
-                                        snapshot.data.documents[index]['name'],
-                                        style: TextStyle(
-                                          fontSize: 15,
-                                          fontFamily: 'AmiriQuran',
-                                          height: 1.2,
-                                        ),
+
+                                 Stack(
+                                   children: [
+
+                                     IconButton(
+                                         icon: Icon(Icons.favorite_border,size: 30,color: Colors.red,),
+                                         onPressed: (){
+                                           saveLike(snapshot.data.documents[index].documentID.toString(),
+                                               snapshot.data.documents[index]['name'],
+                                               snapshot.data.documents[index]['likes']
+                                           );
+                                         }),
+                                    Container(
+                                      child: Column(
+                                        children: [
+                                          Row(
+                                            crossAxisAlignment: CrossAxisAlignment.end,
+                                            mainAxisAlignment: MainAxisAlignment.end,
+                                            children: <Widget>[
+                                              Text(
+                                                snapshot.data.documents[index]['name'],
+                                                style: TextStyle(
+                                                  fontSize: 15,
+                                                  fontFamily: 'AmiriQuran',
+                                                  height: 1.2,
+                                                ),
+                                              ),
+                                              SizedBox(
+                                                width: 5,
+                                              ),
+                                            ],
+                                          ),
+                                          SizedBox(
+                                            height: 4,
+                                          ),
+                                          Row(
+                                            crossAxisAlignment: CrossAxisAlignment.end,
+                                            mainAxisAlignment: MainAxisAlignment.end,
+                                            children: <Widget>[
+                                              Text(
+                                                snapshot.data.documents[index]['price']
+                                                    .toString(),
+                                                style: TextStyle(
+                                                  fontSize: 14,
+                                                  fontFamily: 'AmiriQuran',
+                                                  height: 1.2,
+                                                ),
+                                              ),
+                                              SizedBox(
+                                                width: 3,
+                                              ),
+                                              Text(
+                                                ': السعر',
+                                                style: TextStyle(
+                                                  fontSize: 14,
+                                                  fontFamily: 'AmiriQuran',
+                                                  height: 1.2,
+                                                ),
+                                              ),
+                                            ],
+                                          ),
+
+                                          Row(
+                                            crossAxisAlignment: CrossAxisAlignment.end,
+                                            mainAxisAlignment: MainAxisAlignment.end,
+                                            children: <Widget>[
+                                              Text(
+                                                snapshot.data.documents[index]['area'],
+                                                style: TextStyle(
+                                                  fontSize: 14,
+                                                  fontFamily: 'AmiriQuran',
+                                                  height: 1.2,
+                                                ),
+                                              ),
+                                              SizedBox(
+                                                width: 3,
+                                              ),
+                                              Text(
+                                                ': المنطقة',
+                                                style: TextStyle(
+                                                  fontSize: 14,
+                                                  fontFamily: 'AmiriQuran',
+                                                  height: 1.3,
+                                                ),
+                                              ),
+                                              SizedBox(
+                                                width: 9,
+                                              ),
+                                            ],
+                                          ),
+                                         Row(
+                                           crossAxisAlignment: CrossAxisAlignment.end,
+                                           mainAxisAlignment: MainAxisAlignment.start,
+                                           children: [
+                                             SizedBox(width: 4,),
+                                             snapshot.data.documents[index]['likes'].toString()!= null ?
+                                             Text(snapshot.data.documents[index]['likes'].toString(),style:
+                                               TextStyle(
+                                                 height: 0,
+                                                 fontSize: 12
+                                               ),):Container(),
+                                             Text(': لايك',style: TextStyle(
+                                               fontSize: 12,
+                                               fontFamily: 'AmiriQuran',
+                                               height: 0,
+                                             ),),
+                                             SizedBox(width: 10,),
+                                           ],
+                                         )
+                                        ],
                                       ),
-                                      SizedBox(
-                                        width: 5,
-                                      ),
-                                    ],
-                                  ),
-                                  SizedBox(
-                                    height: 4,
-                                  ),
-                                  Row(
-                                    crossAxisAlignment: CrossAxisAlignment.end,
-                                    mainAxisAlignment: MainAxisAlignment.end,
-                                    children: <Widget>[
-                                      Text(
-                                        snapshot.data.documents[index]['price']
-                                            .toString(),
-                                        style: TextStyle(
-                                          fontSize: 14,
-                                          fontFamily: 'AmiriQuran',
-                                          height: 1.2,
-                                        ),
-                                      ),
-                                      SizedBox(
-                                        width: 3,
-                                      ),
-                                      Text(
-                                        ': السعر',
-                                        style: TextStyle(
-                                          fontSize: 14,
-                                          fontFamily: 'AmiriQuran',
-                                          height: 1.2,
-                                        ),
-                                      ),
-                                    ],
-                                  ),
-                                  Row(
-                                    crossAxisAlignment: CrossAxisAlignment.end,
-                                    mainAxisAlignment: MainAxisAlignment.end,
-                                    children: <Widget>[
-                                      Text(
-                                        snapshot.data.documents[index]['area'],
-                                        style: TextStyle(
-                                          fontSize: 14,
-                                          fontFamily: 'AmiriQuran',
-                                          height: 1.2,
-                                        ),
-                                      ),
-                                      SizedBox(
-                                        width: 3,
-                                      ),
-                                      Text(
-                                        ': المنطقة',
-                                        style: TextStyle(
-                                          fontSize: 14,
-                                          fontFamily: 'AmiriQuran',
-                                          height: 1.3,
-                                        ),
-                                      ),
-                                      SizedBox(
-                                        width: 9,
-                                      )
-                                    ],
-                                  ),
+                                    )
+                                   ],
+                                 )
                                 ],
                               )),
                         ),
@@ -186,7 +236,7 @@ class _AdsFulState extends State<AdsFul> {
                       child: Padding(
                         padding: EdgeInsets.only(right: 44,left: 30),
                         child: Container(
-                          height: 42,
+                          height: 37,
                           width: 340,
                           decoration: BoxDecoration(
                               borderRadius: BorderRadius.circular(40),
@@ -221,11 +271,11 @@ class _AdsFulState extends State<AdsFul> {
                               onTap: (){
                                 Navigator.of(context).pop();
                               },
-                              child: Icon(Icons.arrow_forward_ios,size: 40,color: Colors.blue,)))),
+                              child: Icon(Icons.arrow_forward_ios,size: 38,color: Colors.blue,)))),
                   Align(
                     alignment: Alignment(0, -0.9),
                     child: Text(department,style: TextStyle(
-                      fontSize: 22,
+                      fontSize: 20,
                       fontFamily: 'AmiriQuran',
                       height: 1,
                       ),
@@ -243,5 +293,32 @@ class _AdsFulState extends State<AdsFul> {
   void dispose() {
     // TODO: implement dispose
     super.dispose();
+  }
+
+  saveLike(Ad_id,Ad_name,likeCount)async{
+    if(doLike==false){
+      Firestore.instance.collection('Ads').document(Ad_id).updateData({
+        "likes": likeCount+1,
+      });
+
+      Firestore.instance.collection('likes').document().setData({
+        'Ad_id': Ad_id,
+        'Ad_name': Ad_name,
+        'who_like': currentUserId,
+        'like':true,
+        'time': DateFormat('yyyy-MM-dd-HH:mm').format(DateTime.now()),
+      });
+      doLike = true;
+    }
+  }
+  saveView(Ad_id,Ad_name)async{
+
+    Firestore.instance.collection('Views').document().setData({
+      'Ad_id': Ad_id,
+      'Ad_name': Ad_name,
+      'who_view': currentUserId,
+      'view':true,
+      'time': DateFormat('yyyy-MM-dd-HH:mm').format(DateTime.now()),
+    });
   }
 }

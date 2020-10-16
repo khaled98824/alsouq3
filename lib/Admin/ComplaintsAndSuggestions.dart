@@ -310,8 +310,8 @@ class _ComplaintsAndSuggestionsState extends State<ComplaintsAndSuggestions> {
                               delegate: SearchComplaintsAndSuggestionsAdmin(collection: 'Complaints and Suggestions'));
                         },
                         child: Container(
-                          height: 42,
-                          width: 280,
+                          height: 36,
+                          width: 220,
                           decoration: BoxDecoration(
                               borderRadius: BorderRadius.circular(40),
                               color: Colors.grey[350]),
@@ -321,7 +321,7 @@ class _ComplaintsAndSuggestionsState extends State<ComplaintsAndSuggestions> {
                               Text('!... إبحث في قائمة الشكاوى والإقتراحات',
                                   style: TextStyle(
                                     color: Colors.black,
-                                    fontSize: 15,
+                                    fontSize: 12,
                                     fontFamily: 'AmiriQuran',
                                     height: 1,
                                   )),
@@ -329,7 +329,7 @@ class _ComplaintsAndSuggestionsState extends State<ComplaintsAndSuggestions> {
                                   alignment: Alignment(0.9, 0),
                                   child: Icon(
                                     Icons.search,
-                                    size: 28,
+                                    size: 24,
                                   ))
                             ],
                           ),

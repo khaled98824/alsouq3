@@ -31,7 +31,7 @@ class SignInPage extends StatelessWidget {
           children: [
             if (appleSignInAvailable.isAvailable)
               AppleSignInButton(
-                style: ButtonStyle.black,
+                //style: ButtonStyle.black,
                 type: ButtonType.signIn,
                 onPressed: () => _signInWithApple(context),
               ),

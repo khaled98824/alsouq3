@@ -40,21 +40,20 @@ class MyAccountF extends StatefulWidget {
 class _MyAccountFState extends State<MyAccountF> {
   @override
   void initState() {
+    getCurrentUserInfo();
     // TODO: implement initState
     super.initState();
-
     setState(() {
       showBody = false;
     });
-    Timer(Duration(seconds: 1), () async {
-
+    Timer(Duration(milliseconds: 800), () async {
       setState(() {
-        if (currentUserName != null) {
+        if (currentUserId != null) {
           showBody = true;
         }
 
       });
-      getCurrentUserInfo();
+
     });
   }
 

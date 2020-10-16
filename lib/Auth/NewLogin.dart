@@ -1,14 +1,12 @@
 import 'dart:async';
-import 'dart:io';
-import 'package:apple_sign_in/apple_sign_in_button.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
-import 'package:get_it/get_it.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
+import 'package:sign_button/sign_button.dart';
 import 'package:sooq1alzour/Service/PushNotificationService.dart';
 import 'package:sooq1alzour/models/StaticVirables.dart';
 import 'package:sooq1alzour/ui/Home.dart';
@@ -285,9 +283,7 @@ class _NewLoginState extends State<NewLogin> {
                     ),
                   ],
                 ),
-                SizedBox(
-                  height: 1,
-                ),
+
                 RaisedButton(
                   color: Colors.blue,
                   child: Text(
@@ -304,7 +300,7 @@ class _NewLoginState extends State<NewLogin> {
                   },
                 ),
                 SizedBox(
-                  height: 10,
+                  height: 20,
                 ),
                 Padding(
                   padding: EdgeInsets.symmetric(vertical: 5,horizontal: 5),
@@ -316,11 +312,15 @@ class _NewLoginState extends State<NewLogin> {
                   ),),
                 ),
                 if (appleSignInAvailable.isAvailable)
-                  AppleSignInButton(
-                    style: ButtonStyle.black,
-                    type: ButtonType.signIn,
-                    onPressed: () => _signInWithApple(context),
-                  ),
+                  SignInButton(
+                      buttonType: ButtonType.apple,
+                      btnColor: Colors.black,
+                      btnTextColor: Colors.white,
+                      onPressed: () {
+                        _signInWithApple(context);
+                        print('click');
+                      }),
+
                 SizedBox(
                   height: 10,
                 ),
