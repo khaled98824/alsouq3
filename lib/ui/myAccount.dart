@@ -12,6 +12,7 @@ import 'AddNewAd.dart';
 import 'Home.dart';
 import 'package:url_launcher/url_launcher.dart';
 
+import 'MyChats.dart';
 import 'ShowAds.dart';
 
 class MyAccount extends StatelessWidget {
@@ -345,7 +346,7 @@ class _MyAccountFState extends State<MyAccountF> {
           Align(
             alignment: Alignment(0.9, 0),
             child: Padding(
-              padding: EdgeInsets.symmetric(vertical: 33, horizontal: 1),
+              padding: EdgeInsets.symmetric(vertical: 18, horizontal: 1),
               child: showData
                   ? Container(
                       child: Column(
@@ -373,7 +374,7 @@ class _MyAccountFState extends State<MyAccountF> {
                                 ],
                               ),
                               SizedBox(
-                                height: 3,
+                                height: 2,
                               ),
                               Row(
                                 crossAxisAlignment: CrossAxisAlignment.end,
@@ -385,7 +386,7 @@ class _MyAccountFState extends State<MyAccountF> {
                                           textAlign: TextAlign.start,
                                           style: TextStyle(
                                               decoration: TextDecoration.none,
-                                              fontSize: 18,
+                                              fontSize: 17,
                                               fontFamily: 'AmiriQuran',
                                               height: 1.5,
                                               color: Colors.blue[900]),
@@ -399,7 +400,7 @@ class _MyAccountFState extends State<MyAccountF> {
                             ],
                           ),
                           SizedBox(
-                            height: 9,
+                            height: 5,
                           ),
                           Row(
                             crossAxisAlignment: CrossAxisAlignment.end,
@@ -464,7 +465,7 @@ class _MyAccountFState extends State<MyAccountF> {
                             height: 2,
                           ),
                           SizedBox(
-                            height: 5,
+                            height: 4,
                           ),
                           Container(
                             width: MediaQuery.of(context).size.width,
@@ -474,7 +475,7 @@ class _MyAccountFState extends State<MyAccountF> {
                           InkWell(
                             onTap: () {
                               Navigator.push(
-                                  context, BouncyPageRoute(widget: Contact()));
+                                  context, BouncyPageRoute(widget: MyChats()));
                             },
                             child: Padding(
                               padding:
@@ -483,6 +484,64 @@ class _MyAccountFState extends State<MyAccountF> {
                                 crossAxisAlignment: CrossAxisAlignment.center,
                                 mainAxisAlignment:
                                     MainAxisAlignment.spaceBetween,
+                                children: <Widget>[
+                                  Icon(Icons.arrow_back_ios),
+                                  SizedBox(
+                                    width: 50,
+                                  ),
+                                  SizedBox(
+                                    width: 40,
+                                  ),
+                                  SizedBox(
+                                    width: 70,
+                                  ),
+                                  SizedBox(
+                                    width: 70,
+                                  ),
+                                  Text('دردشاتي',
+                                      textAlign: TextAlign.right,
+                                      style: TextStyle(
+                                          decoration: TextDecoration.none,
+                                          fontSize: 17,
+                                          fontFamily: 'AmiriQuran',
+                                          height: 1,
+                                          color: Colors.grey[700])),
+                                  Container(
+                                    decoration: BoxDecoration(
+                                        borderRadius: BorderRadius.circular(4),
+                                        color: Colors.grey[400]),
+                                    child: Padding(
+                                      padding: EdgeInsets.symmetric(
+                                          vertical: 3, horizontal: 3),
+                                      child: Center(
+                                        child: Icon(
+                                          Icons.chat_outlined,
+                                          color: Colors.blueAccent,
+                                        ),
+                                      ),
+                                    ),
+                                  ),
+                                ],
+                              ),
+                            ),
+                          ),
+                          Container(
+                            width: MediaQuery.of(context).size.width,
+                            height: 1,
+                            color: Colors.grey,
+                          ),
+                          InkWell(
+                            onTap: () {
+                              Navigator.push(
+                                  context, BouncyPageRoute(widget: Contact()));
+                            },
+                            child: Padding(
+                              padding:
+                              EdgeInsets.only(top: 5, bottom: 5, right: 10),
+                              child: Row(
+                                crossAxisAlignment: CrossAxisAlignment.center,
+                                mainAxisAlignment:
+                                MainAxisAlignment.spaceBetween,
                                 children: <Widget>[
                                   Icon(Icons.arrow_back_ios),
                                   SizedBox(
@@ -524,6 +583,7 @@ class _MyAccountFState extends State<MyAccountF> {
                               ),
                             ),
                           ),
+
                           Container(
                             width: MediaQuery.of(context).size.width,
                             height: 1,

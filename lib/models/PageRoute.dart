@@ -4,16 +4,16 @@ class BouncyPageRoute extends PageRouteBuilder {
   final Widget widget;
   BouncyPageRoute({this.widget})
       : super(
-            transitionDuration: Duration(milliseconds: 1000),
+            transitionDuration: Duration(milliseconds: 500),
             transitionsBuilder: (BuildContext context,
                 Animation<double> animation,
                 Animation<double> secAnimation,
                 Widget child) {
               animation = CurvedAnimation(
-                  parent: animation, curve: Curves.slowMiddle);
+                  parent: animation, curve: Curves.easeInBack);
 
               return ScaleTransition(
-                alignment: Alignment.bottomRight,
+                alignment: Alignment.centerRight,
                 scale: animation,
                 child: child,
               );

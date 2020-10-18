@@ -127,17 +127,16 @@ class _HomeState extends State<Home> {
     return Stack(
       children: <Widget>[
         Scaffold(
-          backgroundColor: Colors.grey[200],
+          backgroundColor: Colors.grey[300],
           body: SafeArea(
               child: Column(
             children: <Widget>[
-              Padding(padding: EdgeInsets.only(top: 0)),
               Heade(),
               SizedBox(
                 height: 3,
               ),
               SearchAreaDesign(),
-              Padding(padding: EdgeInsets.only(top: 3)),
+
               Wrap(
                 crossAxisAlignment: WrapCrossAlignment.center,
                 alignment: WrapAlignment.spaceAround,
@@ -529,10 +528,10 @@ class _SearchAreaDesignState extends State<SearchAreaDesign> {
         showSearch(context: context, delegate: SerchData());
       },
       child: Padding(
-        padding: EdgeInsets.only(right: 10, left: 10),
+        padding: EdgeInsets.symmetric(horizontal: 17,vertical: 6),
         child: Container(
-          height: 37,
-          width: 330,
+           height: 37,
+          // width: 330,
           decoration: BoxDecoration(
               borderRadius: BorderRadius.circular(40), color: Colors.grey[400]),
           child: Stack(
@@ -568,102 +567,74 @@ class ButtonTapped extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: EdgeInsets.all(6),
+      padding: EdgeInsets.only(right: 10,left: 10,top: 5,bottom: 1),
       child: Container(
-        padding: EdgeInsets.all(5),
-        child: Container(
-          width: 90,
-          height: 46,
-          //padding: EdgeInsets.all(16),
-          child: Wrap(
-            children: <Widget>[
-              Align(
-                alignment: Alignment(0.9, 0),
-                child: Icon(
-                  icon,
-                  size: 30,
-                  color: Color(0xffF26726),
-                ),
+        width: 50,
+        height: 42,
+        //padding: EdgeInsets.all(16),
+        child: Wrap(
+          children: <Widget>[
+            Align(
+              alignment: Alignment(0.9, 0),
+              child: Icon(
+                icon,
+                size: 30,
+                color: Color(0xffF26726),
               ),
-              Align(
-                alignment: Alignment(-0.2, 0),
-                child: btnState == 1
-                    ? Text(
-                        'الإعلانات',
-                        textAlign: TextAlign.center,
-                        style: TextStyle(
-                          fontSize: 24,
-                          fontFamily: 'AmiriQuran',
-                          height: 0,
-                        ),
-                      )
-                    : Text(
-                        'الأقسام',
-                        textAlign: TextAlign.center,
-                        style: TextStyle(
-                          fontSize: 24,
-                          fontFamily: 'AmiriQuran',
-                          height: 0,
-                        ),
+            ),
+            Align(
+              alignment: Alignment(-0.2, 0),
+              child: btnState == 1
+                  ? Text(
+                      'الإعلانات',
+                      textAlign: TextAlign.center,
+                      style: TextStyle(
+                        fontSize: 22,
+                        fontFamily: 'AmiriQuran',
+                        height: 0,
                       ),
-              )
-            ],
-          ),
-
-          decoration: BoxDecoration(
-              borderRadius: BorderRadius.circular(10),
-              color: Colors.grey[300],
-              boxShadow: [
-                BoxShadow(
-                    color: Colors.white,
-                    offset: Offset(0.5, 0.5),
-                    spreadRadius: 3.0),
-                BoxShadow(
-                  color: Colors.grey[600],
-                  offset: Offset(-4.0, -4.0),
-                  blurRadius: 1.0,
-                  spreadRadius: 1.0,
-                ),
-              ],
-              gradient: LinearGradient(
-                  begin: Alignment.topLeft,
-                  end: Alignment.bottomRight,
-                  colors: [
-                    Colors.grey[700],
-                    Colors.grey[600],
-                    Colors.grey[500],
-                    Colors.grey[200],
-                  ],
-                  stops: [
-                    0,
-                    0.1,
-                    0.3,
-                    1
-                  ])),
+                    )
+                  : Text(
+                      'الأقسام',
+                      textAlign: TextAlign.center,
+                      style: TextStyle(
+                        fontSize: 22,
+                        fontFamily: 'AmiriQuran',
+                        height: 0,
+                      ),
+                    ),
+            )
+          ],
         ),
+
         decoration: BoxDecoration(
-            shape: BoxShape.circle,
+            borderRadius: BorderRadius.circular(10),
             color: Colors.grey[300],
             boxShadow: [
               BoxShadow(
-                  color: Colors.grey[200],
-                  offset: Offset(-4.0, -4.0),
-                  blurRadius: 10.0,
-                  spreadRadius: 1.0),
+                  color: Colors.white,
+                  offset: Offset(0.5, 0.5),
+                  spreadRadius: 3.0),
+              BoxShadow(
+                color: Colors.grey[600],
+                offset: Offset(-4.0, -4.0),
+                blurRadius: 1.0,
+                spreadRadius: 1.0,
+              ),
             ],
             gradient: LinearGradient(
                 begin: Alignment.topLeft,
                 end: Alignment.bottomRight,
                 colors: [
-                  Colors.grey[200],
-                  Colors.grey[300],
-                  Colors.grey[400],
+                  Colors.grey[700],
+                  Colors.grey[600],
                   Colors.grey[500],
+                  Colors.grey[200],
                 ],
                 stops: [
+                  0,
                   0.1,
                   0.3,
-                  0.8,
                   1
                 ])),
       ),
@@ -680,10 +651,10 @@ class MyButton extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: EdgeInsets.all(6),
+      padding: EdgeInsets.only(right: 10,left: 10,),
       child: Container(
-        width: 65,
-        height: 46,
+        width: 50,
+        height: 42,
         padding: EdgeInsets.all(1),
         child: Wrap(
           children: <Widget>[
@@ -696,15 +667,15 @@ class MyButton extends StatelessWidget {
               ),
             ),
             Align(
-              alignment: Alignment(-0.2, 0),
+              alignment: Alignment(-0.2, 0.1),
               child: btnState == 1
                   ? Padding(
-                      padding: EdgeInsets.only(bottom: 3),
+                      padding: EdgeInsets.only(bottom: 5,),
                       child: Text(
                         'الإعلانات',
                         textAlign: TextAlign.center,
                         style: TextStyle(
-                          fontSize: 24,
+                          fontSize: 20,
                           fontFamily: 'AmiriQuran',
                           height: 0,
                         ),
@@ -716,7 +687,7 @@ class MyButton extends StatelessWidget {
                         'الأقسام',
                         textAlign: TextAlign.center,
                         style: TextStyle(
-                          fontSize: 24,
+                          fontSize: 20,
                           fontFamily: 'AmiriQuran',
                           height: 0,
                         ),
@@ -726,7 +697,7 @@ class MyButton extends StatelessWidget {
           ],
         ),
         decoration: BoxDecoration(
-            borderRadius: BorderRadius.circular(10),
+            borderRadius: BorderRadius.circular(6),
             color: Colors.grey[300],
             boxShadow: [
               BoxShadow(
@@ -736,7 +707,7 @@ class MyButton extends StatelessWidget {
                   spreadRadius: 1.0),
               BoxShadow(
                   color: Colors.white,
-                  offset: Offset(-4.0, -4.0),
+                  offset: Offset(-2.0, -2.0),
                   blurRadius: 15.0,
                   spreadRadius: 1.0),
             ],
@@ -882,12 +853,13 @@ class _NewAdsState extends State<NewAds> {
                 default:
                   return Container(
                     child: new GridView.count(
+                      reverse: true,
                       crossAxisCount: 2,
                       crossAxisSpacing: 0.1,
                       mainAxisSpacing: 0.2,
                       childAspectRatio: screenSizeHieght2 > 800 ? 0.7 : 0.6,
                       children: List.generate(
-                          snapshot.data.documents.length < 80 ? 20 : 79,
+                          snapshot.data.documents.length.toInt() ,
                           (index) {
                         return InkWell(
                           onTap: () {

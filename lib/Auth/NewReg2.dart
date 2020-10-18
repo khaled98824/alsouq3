@@ -160,12 +160,7 @@ class _NewRegState extends State<NewReg> {
     print(equalName);
     if(equalName==false){
       print('done');
-      //saveName();
-      Firestore.instance
-          .collection('users')
-          .document(
-        _namecontroller.text,
-      )
+      Firestore.instance.collection('users').document(_namecontroller.text,)
           .setData({
         'name': _namecontroller.text,
         'user_uid': _namecontroller.text,

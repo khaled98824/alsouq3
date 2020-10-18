@@ -5,12 +5,14 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:carousel_slider/carousel_slider.dart';
+import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:intl/intl.dart';
 import 'package:photo_view/photo_view.dart';
 import 'package:photo_view/photo_view_gallery.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:sooq1alzour/Auth/NewLogin.dart';
 import 'package:sooq1alzour/models/PageRoute.dart';
+import 'package:sooq1alzour/ui/private_chat.dart';
 import 'package:url_launcher/url_launcher.dart';
 import 'package:http/http.dart';
 
@@ -164,14 +166,14 @@ class _ShowAdState extends State<ShowAd> {
                               documentsUser['name'],
                               textAlign: TextAlign.right,
                               style: TextStyle(
-                                fontSize: 21,
+                                fontSize: 18,
                                 fontFamily: 'AmiriQuran',
                                 height: 0.7,
                                 color: Colors.black,
                               ),
                             ),
                             SizedBox(
-                              width: 130,
+                              width: 120,
                             ),
                             InkWell(
                                 onTap: () {
@@ -179,7 +181,7 @@ class _ShowAdState extends State<ShowAd> {
                                 },
                                 child: Icon(
                                   Icons.arrow_forward_ios,
-                                  size: 30,
+                                  size: 27,
                                 )),
                           ],
                         ),
@@ -221,7 +223,7 @@ class _ShowAdState extends State<ShowAd> {
                                     autoPlayAnimationDuration:
                                         Duration(milliseconds: 900),
                                     disableCenter: false,
-                                    height: 230),
+                                    height: 240,),
                               )
                             : Container(),
                         SizedBox(
@@ -233,8 +235,8 @@ class _ShowAdState extends State<ShowAd> {
                             InkWell(
                               onTap: () {},
                               child: Container(
-                                width: 130,
-                                height: 40,
+                                width: 90,
+                                height: 34,
                                 decoration: BoxDecoration(
                                     borderRadius: BorderRadius.circular(8),
                                     color: Colors.blueAccent),
@@ -255,7 +257,7 @@ class _ShowAdState extends State<ShowAd> {
                                         'علق',
                                         textAlign: TextAlign.center,
                                         style: TextStyle(
-                                          fontSize: 22,
+                                          fontSize: 19,
                                           fontFamily: 'AmiriQuran',
                                           height: 0.7,
                                           color: Colors.white,
@@ -275,11 +277,45 @@ class _ShowAdState extends State<ShowAd> {
                             ),
                             InkWell(
                               onTap: () {
+                                Navigator.pushReplacement(context, BouncyPageRoute(widget: PrivateChat(documentId: documentId,recipient:documentsAds['uid'] ,)));
+                              },
+                              child: Container(
+                                width: 90,
+                                height: 34,
+                                decoration: BoxDecoration(
+                                    borderRadius: BorderRadius.circular(8),
+                                    color: Colors.blueAccent),
+                                child: Row(
+                                  mainAxisAlignment: MainAxisAlignment.center,
+                                  children: <Widget>[
+                                    Text(
+                                      'دردش',
+                                      textAlign: TextAlign.center,
+                                      style: TextStyle(
+                                        fontSize: 18,
+                                        fontFamily: 'AmiriQuran',
+                                        height: 0.7,
+                                        color: Colors.white,
+                                      ),
+                                    ),
+                                    SizedBox(
+                                      width: 12,
+                                    ),
+                                    Icon(
+                                      Icons.mark_chat_read_outlined,
+                                      color: Colors.white,
+                                    ),
+                                  ],
+                                ),
+                              ),
+                            ),
+                            InkWell(
+                              onTap: () {
                                 launch('tel:${documentsAds['phone']}');
                               },
                               child: Container(
-                                width: 130,
-                                height: 40,
+                                width: 90,
+                                height: 34,
                                 decoration: BoxDecoration(
                                     borderRadius: BorderRadius.circular(8),
                                     color: Colors.blueAccent),
@@ -290,7 +326,7 @@ class _ShowAdState extends State<ShowAd> {
                                       'اتصل',
                                       textAlign: TextAlign.center,
                                       style: TextStyle(
-                                        fontSize: 22,
+                                        fontSize: 19,
                                         fontFamily: 'AmiriQuran',
                                         height: 0.7,
                                         color: Colors.white,
@@ -316,7 +352,7 @@ class _ShowAdState extends State<ShowAd> {
                               documentsAds['name'],
                               textAlign: TextAlign.right,
                               style: TextStyle(
-                                fontSize: 21,
+                                fontSize: 19,
                                 fontFamily: 'AmiriQuran',
                                 height: 0.7,
                                 color: Colors.black,
@@ -784,13 +820,21 @@ class _ShowAdState extends State<ShowAd> {
                   ),
                 ],
               )
-            : Text('Loading...'));
+            : Center(
+          child: SpinKitFadingCircle(
+            color: Colors.red,
+            size: 100,
+            duration: Duration(seconds: 2),
+          ),
+        ),
+    );
   }
 
   @override
   void dispose() {
     // TODO: implement dispose
     super.dispose();
+    showBody=false;
     //docs.clear();
   }
 }
