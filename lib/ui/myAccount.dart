@@ -39,6 +39,12 @@ class MyAccountF extends StatefulWidget {
 }
 
 class _MyAccountFState extends State<MyAccountF> {
+  int currentIndex = 3;
+  setBottomBarIndex(index) {
+    setState(() {
+      currentIndex = index;
+    });
+  }
   @override
   void initState() {
     getCurrentUserInfo();
@@ -81,8 +87,10 @@ class _MyAccountFState extends State<MyAccountF> {
 
   @override
   Widget build(BuildContext context) {
+    final Size size = MediaQuery.of(context).size;
     return Material(
       child: Stack(
+        overflow: Overflow.visible,
         children: <Widget>[
           showBody
               ? Scaffold(
@@ -190,47 +198,182 @@ class _MyAccountFState extends State<MyAccountF> {
                                           ),
                                         );
                                       })),
+                              Stack(
+                                children: [
+                                  Positioned(
+                                    left: 0,
+                                    bottom: 0,
+                                    child: CustomPaint(
+                                      size: Size(size.width, 80),
+                                      painter: BNBCustomPainter(),
+                                    ),
+                                  ),
+                                  Positioned(
+                                    left: size.width / 2.4,
+                                    bottom: 0,
+                                    child: Center(
+                                      heightFactor: 2.5,
+                                      widthFactor: 1.1,
+                                      child: FloatingActionButton(
+                                          backgroundColor: Color(0xffF26726),
+                                          child: Padding(
+                                            padding: EdgeInsets.only(right: 2),
+                                            child: Icon(
+                                              Icons.add_a_photo,
+                                              size: 30,
+                                            ),
+                                          ),
+                                          elevation: 0.1,
+                                          onPressed: () {
+                                            if (loginStatus) {
+                                              Navigator.of(context).pushNamed(AddNewAd.id);
+                                            } else {
+                                              loginStatus = false;
+                                              print('no');
+                                              Navigator.pushReplacement(context,
+                                                  MaterialPageRoute(builder: (context) {
+                                                    return NewLogin(
+                                                      autoLogin: false,
+                                                    );
+                                                  }));
+                                            }
+                                          }),
+                                    ),
+                                  ),
+                                  Positioned(
+                                    bottom: -10,
+                                    child: Container(
+                                      width: size.width,
+                                      height: 80,
+                                      child: Row(
+                                        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                                        children: [
+                                          Column(
+                                            children: [
+                                              IconButton(
+                                                icon: Icon(
+                                                  Icons.account_circle_outlined,
+                                                  color: currentIndex == 0
+                                                      ? Color(0xffF26726)
+                                                      : Colors.grey.shade600,
+                                                ),
+                                                onPressed: () {
+                                                  setBottomBarIndex(0);
+                                                  if (loginStatus) {
+                                                    Navigator.of(context).pushNamed(MyAccount.id);
+                                                  } else {
+                                                    print('no dd');
+                                                    Navigator.pushReplacement(context,
+                                                        MaterialPageRoute(builder: (context) {
+                                                          return NewLogin(
+                                                            autoLogin: false,
+                                                          );
+                                                        }));
+                                                  }
+                                                },
+                                                splashColor: Colors.white,
+                                              ),
+                                              Text('حسابي',textAlign: TextAlign.center,
+                                                style: TextStyle(
+                                                  height: 0.1,
+                                                  fontFamily: 'AmiriQuran',
+                                                ),),
+                                            ],
+                                          ),
+                                          Column(children: [
+                                            IconButton(
+                                                icon: Icon(
+                                                  Icons.info,
+                                                  color: currentIndex == 1
+                                                      ? Color(0xffF26726)
+                                                      : Colors.grey.shade600,
+                                                ),
+                                                onPressed: () {
+                                                  setBottomBarIndex(1);
+                                                  Navigator.push(
+                                                      context, BouncyPageRoute(widget: AboutUs()));
+                                                }),
+                                            Text('حول التطبيق',textAlign: TextAlign.center,
+                                              style: TextStyle(
+                                                height: 0.1,
+                                                fontFamily: 'AmiriQuran',
+                                              ),),
+                                          ],),
+                                          Column(
+                                            children: [
+                                              Container(
+                                                width: size.width * 0.20,
+                                              ),
+                                              Text('أضف إعلان',textAlign: TextAlign.center,
+                                                style: TextStyle(
+                                                    height: 5,
+                                                    fontFamily: 'AmiriQuran',
+                                                    fontSize: 14,
+                                                    color: Color(0xffF26726)
+                                                ),),
+                                            ],
+                                          ),
+                                          Column(children: [
+                                            IconButton(
+                                                icon: Icon(
+                                                  Icons.chat_outlined,
+                                                  color: currentIndex == 2
+                                                      ? Color(0xffF26726)
+                                                      : Colors.grey.shade600,
+                                                ),
+                                                onPressed: () {
+                                                  setBottomBarIndex(2);
+                                                  if (loginStatus) {
+                                                    Navigator.of(context).pushNamed(MyChats.id);
+                                                  } else {
+                                                    loginStatus = false;
+                                                    print('no');
+                                                    Navigator.pushReplacement(context,
+                                                        MaterialPageRoute(builder: (context) {
+                                                          return NewLogin(
+                                                            autoLogin: false,
+                                                          );
+                                                        }));
+                                                  }
+                                                }),
+                                            Text('محادثاتي',textAlign: TextAlign.center,
+                                              style: TextStyle(
+                                                height: 0.1,
+                                                fontFamily: 'AmiriQuran',
+                                              ),)
+                                          ],),
+                                          Column(
+                                            children: [
+                                              IconButton(
+                                                  icon: Icon(
+                                                    Icons.home,
+                                                    color: currentIndex == 3
+                                                        ? Color(0xffF26726)
+                                                        : Colors.grey.shade600,
+                                                  ),
+                                                  onPressed: () {
+                                                    setBottomBarIndex(0);
+                                                    Navigator.of(context).pushNamed(Home.id);
+                                                  }),
+                                              Text('الرئيسية',textAlign: TextAlign.center,
+                                                style: TextStyle(
+                                                  height: 0.1,
+                                                  fontFamily: 'AmiriQuran',
+                                                ),)
+                                            ],
+                                          )
+                                        ],
+                                      ),
+                                    ),
+                                  )
+                                ],
+                              )
                             ],
                           );
                       }
                     },
                   )),
-                  bottomNavigationBar: CurvedNavigationBar(
-                      color: Color(0xfff26726),
-                      backgroundColor: Colors.orange,
-                      buttonBackgroundColor: Colors.white,
-                      animationDuration: Duration(milliseconds: 300),
-                      height: 50,
-                      animationCurve: Curves.bounceInOut,
-                      index: 0,
-                      onTap: (index) {
-                        Timer(Duration(milliseconds: 300), () {
-                          if (index == 0) {
-                            Navigator.of(context).pushNamed(MyAccount.id);
-                          } else if (index == 1) {
-                            Navigator.of(context).pushNamed(AddNewAd.id);
-                          } else if (index == 2) {
-                            Navigator.of(context).pushNamed(Home.id);
-                          }
-                        });
-                      },
-                      items: <Widget>[
-                        Icon(
-                          Icons.person,
-                          color: Colors.blue[900],
-                          size: 29,
-                        ),
-                        Icon(
-                          Icons.add_photo_alternate,
-                          color: Colors.blue[900],
-                          size: 31,
-                        ),
-                        Icon(
-                          Icons.home,
-                          color: Colors.blue[900],
-                          size: 32,
-                        ),
-                      ]),
+
                 )
               : Column(
                   mainAxisAlignment: MainAxisAlignment.center,
@@ -328,7 +471,7 @@ class _MyAccountFState extends State<MyAccountF> {
             ],
           ),
           Align(
-              alignment: Alignment(0.9, screenSizeHieght2 > 750 ? 0 : 0.4),
+              alignment: Alignment(0.9, screenSizeHieght2 > 750 ? 0.2 : 0.4),
               child: Padding(
                 padding: EdgeInsets.symmetric(
                     vertical: screenSizeHieght2 > 750 ? 170 : 70,
@@ -1342,5 +1485,32 @@ class _AboutUsState extends State<AboutUs> {
         ],
       ),
     );
+  }
+}
+class BNBCustomPainter extends CustomPainter {
+  @override
+  void paint(Canvas canvas, Size size) {
+    Paint paint = new Paint()
+      ..color = Colors.white
+      ..style = PaintingStyle.fill;
+
+    Path path = Path();
+    path.moveTo(0, 20); // Start
+    path.quadraticBezierTo(size.width * 0.20, 0, size.width * 0.35, 0);
+    path.quadraticBezierTo(size.width * 0.40, 0, size.width * 0.40, 20);
+    path.arcToPoint(Offset(size.width * 0.60, 5),
+        radius: Radius.circular(20.0), clockwise: false);
+    path.quadraticBezierTo(size.width * 0.60, 0, size.width * 0.65, 0);
+    path.quadraticBezierTo(size.width * 0.80, 0, size.width, 20);
+    path.lineTo(size.width, size.height);
+    path.lineTo(0, size.height);
+    path.lineTo(0, 20);
+    canvas.drawShadow(path, Colors.black, 5, true);
+    canvas.drawPath(path, paint);
+  }
+
+  @override
+  bool shouldRepaint(CustomPainter oldDelegate) {
+    return false;
   }
 }

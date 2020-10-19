@@ -26,6 +26,7 @@ import 'package:sooq1alzour/ui/categories/Homes.dart';
 import 'package:sooq1alzour/ui/categories/Livestocks.dart';
 import 'package:sooq1alzour/ui/categories/Mobile.dart';
 import 'package:sooq1alzour/ui/categories/OccupationsAndServices.dart';
+import 'MyChats.dart';
 import 'myAccount.dart';
 
 class Home extends StatefulWidget {
@@ -60,6 +61,14 @@ bool categoryOrAds = true;
 class _HomeState extends State<Home> {
   final PushNotificationService _pushNotificationService =
       GetIt.I<PushNotificationService>();
+  int currentIndex = 3;
+
+  setBottomBarIndex(index) {
+    setState(() {
+      currentIndex = index;
+    });
+  }
+
   bool buttonPressed1 = false;
   bool buttonPressed2 = false;
   void _letsPress1() {
@@ -120,352 +129,428 @@ class _HomeState extends State<Home> {
 
   @override
   Widget build(BuildContext context) {
+    final Size size = MediaQuery.of(context).size;
+
     Virables.screenSizeWidth = screenSizeWidth2;
     Virables.screenSizeHeight = screenSizeHieght2;
     screenSizeWidth2 = MediaQuery.of(context).size.width;
     screenSizeHieght2 = MediaQuery.of(context).size.height;
-    return Stack(
-      children: <Widget>[
-        Scaffold(
-          backgroundColor: Colors.grey[300],
-          body: SafeArea(
-              child: Column(
-            children: <Widget>[
-              Heade(),
-              SizedBox(
-                height: 3,
-              ),
-              SearchAreaDesign(),
-
-              Wrap(
-                crossAxisAlignment: WrapCrossAlignment.center,
-                alignment: WrapAlignment.spaceAround,
-                children: <Widget>[
-                  SizedBox(
-                    width: 170,
-                    child: GestureDetector(
-                        // FIRST BUTTON
-                        onTap: _letsPress1,
-                        child: buttonPressed1
-                            ? ButtonTapped(
-                                icon: icons1,
-                                btnState: 1,
-                              )
-                            : MyButton(
-                                icon: icons1,
-                                btnState: 1,
-                              )),
-                  ),
-                  SizedBox(
-                    width: 170,
-                    child: GestureDetector(
-                        // FIRST BUTTON
-                        onTap: _letsPress2,
-                        child: buttonPressed2
-                            ? ButtonTapped(
-                                icon: icons2,
-                                btnState: 0,
-                              )
-                            : MyButton(
-                                icon: icons2,
-                                btnState: 0,
-                              )),
-                  ),
-                ],
-              ),
-              Padding(
-                  padding: EdgeInsets.only(
-                top: 7,
-              )),
-              showSliderAds ? areaForAd() : Container(),
-
-              categoryOrAds
-                  ? Expanded(
-                      child: SingleChildScrollView(
-                        child: Container(
-                          child: Column(
-                            children: <Widget>[
-                              Wrap(
-                                crossAxisAlignment: WrapCrossAlignment.center,
-                                alignment: WrapAlignment.spaceAround,
-                                children: <Widget>[
-                                  GridViewItems(
-                                      text: "أجهزة - إلكترونيات",
-                                      imagePath: _listItem[0],
+    return Material(
+      child: Stack(
+        overflow: Overflow.visible,
+        children: <Widget>[
+          Scaffold(
+            backgroundColor: Colors.grey[300],
+            body: SafeArea(
+                child: Column(
+              children: <Widget>[
+                Heade(),
+                SizedBox(
+                  height: 3,
+                ),
+                SearchAreaDesign(),
+                Wrap(
+                  crossAxisAlignment: WrapCrossAlignment.center,
+                  alignment: WrapAlignment.spaceAround,
+                  children: <Widget>[
+                    SizedBox(
+                      width: 170,
+                      child: GestureDetector(
+                          // FIRST BUTTON
+                          onTap: _letsPress1,
+                          child: buttonPressed1
+                              ? ButtonTapped(
+                                  icon: icons1,
+                                  btnState: 1,
+                                )
+                              : MyButton(
+                                  icon: icons1,
+                                  btnState: 1,
+                                )),
+                    ),
+                    SizedBox(
+                      width: 170,
+                      child: GestureDetector(
+                          // FIRST BUTTON
+                          onTap: _letsPress2,
+                          child: buttonPressed2
+                              ? ButtonTapped(
+                                  icon: icons2,
+                                  btnState: 0,
+                                )
+                              : MyButton(
+                                  icon: icons2,
+                                  btnState: 0,
+                                )),
+                    ),
+                  ],
+                ),
+                Padding(
+                    padding: EdgeInsets.only(
+                  top: 7,
+                )),
+                showSliderAds ? areaForAd() : Container(),
+                categoryOrAds
+                    ? Expanded(
+                        child: SingleChildScrollView(
+                          child: Container(
+                            child: Column(
+                              children: <Widget>[
+                                Wrap(
+                                  crossAxisAlignment: WrapCrossAlignment.center,
+                                  alignment: WrapAlignment.spaceAround,
+                                  children: <Widget>[
+                                    GridViewItems(
+                                        text: "أجهزة - إلكترونيات",
+                                        imagePath: _listItem[0],
+                                        callback: () {
+                                          Navigator.of(context).pushNamed(
+                                              DevicesAndElectronics.id);
+                                        }),
+                                    GridViewItems(
+                                      text: "السيارات - الدراجات",
+                                      imagePath: _listItem[1],
+                                      callback: () {
+                                        Navigator.of(context)
+                                            .pushNamed(CarsAndMotorCycles.id);
+                                      },
+                                    )
+                                  ],
+                                ),
+                                Wrap(
+                                  crossAxisAlignment: WrapCrossAlignment.center,
+                                  alignment: WrapAlignment.spaceAround,
+                                  children: <Widget>[
+                                    GridViewItems(
+                                      text: "الموبايل",
+                                      imagePath: _listItem[2],
+                                      callback: () {
+                                        Navigator.of(context)
+                                            .pushNamed(Mobile.id);
+                                      },
+                                    ),
+                                    GridViewItems(
+                                      text: "وظائف وأعمال",
+                                      imagePath: _listItem[3],
+                                      callback: () {
+                                        Navigator.push(
+                                            context,
+                                            BouncyPageRoute(
+                                                widget: Ads(
+                                                    department: 'وظائف وأعمال',
+                                                    category: 'وظائف وأعمال')));
+                                      },
+                                    )
+                                  ],
+                                ),
+                                Wrap(
+                                  crossAxisAlignment: WrapCrossAlignment.center,
+                                  alignment: WrapAlignment.spaceAround,
+                                  children: <Widget>[
+                                    GridViewItems(
+                                      text: "مهن وخدمات",
+                                      imagePath: _listItem[4],
                                       callback: () {
                                         Navigator.of(context).pushNamed(
-                                            DevicesAndElectronics.id);
-                                      }),
-                                  GridViewItems(
-                                    text: "السيارات - الدراجات",
-                                    imagePath: _listItem[1],
-                                    callback: () {
-                                      Navigator.of(context)
-                                          .pushNamed(CarsAndMotorCycles.id);
-                                    },
-                                  )
-                                ],
-                              ),
-                              Wrap(
-                                crossAxisAlignment: WrapCrossAlignment.center,
-                                alignment: WrapAlignment.spaceAround,
-                                children: <Widget>[
-                                  GridViewItems(
-                                    text: "الموبايل",
-                                    imagePath: _listItem[2],
-                                    callback: () {
-                                      Navigator.of(context)
-                                          .pushNamed(Mobile.id);
-                                    },
-                                  ),
-                                  GridViewItems(
-                                    text: "وظائف وأعمال",
-                                    imagePath: _listItem[3],
-                                    callback: () {
-                                      Navigator.push(
-                                          context,
-                                          BouncyPageRoute(
-                                              widget: Ads(
-                                                  department: 'وظائف وأعمال',
-                                                  category: 'وظائف وأعمال')));
-                                    },
-                                  )
-                                ],
-                              ),
-                              Wrap(
-                                crossAxisAlignment: WrapCrossAlignment.center,
-                                alignment: WrapAlignment.spaceAround,
-                                children: <Widget>[
-                                  GridViewItems(
-                                    text: "مهن وخدمات",
-                                    imagePath: _listItem[4],
-                                    callback: () {
-                                      Navigator.of(context)
-                                          .pushNamed(OccupationsAndServices.id);
-                                    },
-                                  ),
-                                  GridViewItems(
-                                    text: "المنزل",
-                                    imagePath: _listItem[5],
-                                    callback: () {
-                                      Navigator.of(context).pushNamed(Homes.id);
-                                    },
-                                  )
-                                ],
-                              ),
-                              Wrap(
-                                crossAxisAlignment: WrapCrossAlignment.center,
-                                alignment: WrapAlignment.spaceAround,
-                                children: <Widget>[
-                                  GridViewItems(
-                                    text: "المعدات والشاحنات",
-                                    imagePath: _listItem[6],
-                                    callback: () {
-                                      Navigator.push(
-                                          context,
-                                          BouncyPageRoute(
-                                              widget: Ads(
-                                            department: "المعدات والشاحنات",
-                                            category: "المعدات والشاحنات",
-                                          )));
-                                    },
-                                  ),
-                                  GridViewItems(
-                                    text: "المواشي",
-                                    imagePath: _listItem[7],
-                                    callback: () {
-                                      Navigator.of(context)
-                                          .pushNamed(Livestock.id);
-                                    },
-                                  )
-                                ],
-                              ),
-                              Wrap(
-                                crossAxisAlignment: WrapCrossAlignment.center,
-                                alignment: WrapAlignment.spaceAround,
-                                children: <Widget>[
-                                  GridViewItems(
-                                    text: "الزراعة",
-                                    imagePath: _listItem[8],
-                                    callback: () {
-                                      Navigator.of(context)
-                                          .pushNamed(Farming1.id);
-                                    },
-                                  ),
-                                  GridViewItems(
-                                    text: "ألعاب",
-                                    imagePath: _listItem[9],
-                                    callback: () {
-                                      Navigator.of(context).pushNamed(Games.id);
-                                    },
-                                  )
-                                ],
-                              ),
-                              Wrap(
-                                crossAxisAlignment: WrapCrossAlignment.center,
-                                alignment: WrapAlignment.spaceAround,
-                                children: <Widget>[
-                                  GridViewItems(
-                                    text: "ألبسة",
-                                    imagePath: _listItem[10],
-                                    callback: () {
-                                      Navigator.of(context)
-                                          .pushNamed(Clothes.id);
-                                    },
-                                  ),
-                                  GridViewItems(
-                                    text: "أطعمة",
-                                    imagePath: _listItem[11],
-                                    callback: () {
-                                      Navigator.of(context).pushNamed(Food.id);
-                                    },
-                                  )
-                                ],
-                              ),
-                            ],
+                                            OccupationsAndServices.id);
+                                      },
+                                    ),
+                                    GridViewItems(
+                                      text: "المنزل",
+                                      imagePath: _listItem[5],
+                                      callback: () {
+                                        Navigator.of(context)
+                                            .pushNamed(Homes.id);
+                                      },
+                                    )
+                                  ],
+                                ),
+                                Wrap(
+                                  crossAxisAlignment: WrapCrossAlignment.center,
+                                  alignment: WrapAlignment.spaceAround,
+                                  children: <Widget>[
+                                    GridViewItems(
+                                      text: "المعدات والشاحنات",
+                                      imagePath: _listItem[6],
+                                      callback: () {
+                                        Navigator.push(
+                                            context,
+                                            BouncyPageRoute(
+                                                widget: Ads(
+                                              department: "المعدات والشاحنات",
+                                              category: "المعدات والشاحنات",
+                                            )));
+                                      },
+                                    ),
+                                    GridViewItems(
+                                      text: "المواشي",
+                                      imagePath: _listItem[7],
+                                      callback: () {
+                                        Navigator.of(context)
+                                            .pushNamed(Livestock.id);
+                                      },
+                                    )
+                                  ],
+                                ),
+                                Wrap(
+                                  crossAxisAlignment: WrapCrossAlignment.center,
+                                  alignment: WrapAlignment.spaceAround,
+                                  children: <Widget>[
+                                    GridViewItems(
+                                      text: "الزراعة",
+                                      imagePath: _listItem[8],
+                                      callback: () {
+                                        Navigator.of(context)
+                                            .pushNamed(Farming1.id);
+                                      },
+                                    ),
+                                    GridViewItems(
+                                      text: "ألعاب",
+                                      imagePath: _listItem[9],
+                                      callback: () {
+                                        Navigator.of(context)
+                                            .pushNamed(Games.id);
+                                      },
+                                    )
+                                  ],
+                                ),
+                                Wrap(
+                                  crossAxisAlignment: WrapCrossAlignment.center,
+                                  alignment: WrapAlignment.spaceAround,
+                                  children: <Widget>[
+                                    GridViewItems(
+                                      text: "ألبسة",
+                                      imagePath: _listItem[10],
+                                      callback: () {
+                                        Navigator.of(context)
+                                            .pushNamed(Clothes.id);
+                                      },
+                                    ),
+                                    GridViewItems(
+                                      text: "أطعمة",
+                                      imagePath: _listItem[11],
+                                      callback: () {
+                                        Navigator.of(context)
+                                            .pushNamed(Food.id);
+                                      },
+                                    )
+                                  ],
+                                ),
+                              ],
+                            ),
                           ),
                         ),
-                      ),
-                    )
-                  : Expanded(
-                      child: Container(
-                          child: Padding(
-                      padding: EdgeInsets.only(top: 12),
-                      child: Stack(
-                        children: <Widget>[
-                          Align(
-                            alignment: Alignment(1, -1.1),
+                      )
+                    : Expanded(
+                        child: Container(
                             child: Padding(
-                              padding: EdgeInsets.symmetric(
-                                  vertical: 13, horizontal: 4),
-                              child: Card(
-                                child: Padding(
-                                  padding: EdgeInsets.only(
-                                      bottom: 6, top: 6, right: 30, left: 30),
-                                  child: Text(
-                                    'أحدث الإعلانات',
-                                    textAlign: TextAlign.center,
-                                    style: TextStyle(
-                                        fontSize: 16,
-                                        fontFamily: 'AmiriQuran',
-                                        height: 1),
+                        padding: EdgeInsets.only(top: 12),
+                        child: Stack(
+                          children: <Widget>[
+                            Align(
+                              alignment: Alignment(1, -1.1),
+                              child: Padding(
+                                padding: EdgeInsets.symmetric(
+                                    vertical: 13, horizontal: 4),
+                                child: Card(
+                                  child: Padding(
+                                    padding: EdgeInsets.only(
+                                        bottom: 6, top: 6, right: 30, left: 30),
+                                    child: Text(
+                                      'أحدث الإعلانات',
+                                      textAlign: TextAlign.center,
+                                      style: TextStyle(
+                                          fontSize: 16,
+                                          fontFamily: 'AmiriQuran',
+                                          height: 1),
+                                    ),
                                   ),
                                 ),
                               ),
                             ),
+                            Padding(
+                                padding: EdgeInsets.only(top: 30),
+                                child: NewAds()),
+                          ],
+                        ),
+                      ))),
+              ],
+            )),
+
+          ),
+
+          Stack(
+            children: [
+              Positioned(
+                left: 0,
+                bottom: 0,
+                child: CustomPaint(
+                  size: Size(size.width, 80),
+                  painter: BNBCustomPainter(),
+                ),
+              ),
+              Positioned(
+                left: size.width / 2.4,
+                bottom: 0,
+                child: Center(
+                  heightFactor: 2.5,
+                  widthFactor: 1.1,
+                  child: FloatingActionButton(
+                      backgroundColor: Color(0xffF26726),
+                      child: Padding(
+                        padding: EdgeInsets.only(right: 2),
+                        child: Icon(
+                          Icons.add_a_photo,
+                          size: 30,
+                        ),
+                      ),
+                      elevation: 0.1,
+                      onPressed: () {
+                        if (loginStatus) {
+                          Navigator.of(context).pushNamed(AddNewAd.id);
+                        } else {
+                          loginStatus = false;
+                          print('no');
+                          Navigator.pushReplacement(context,
+                              MaterialPageRoute(builder: (context) {
+                            return NewLogin(
+                              autoLogin: false,
+                            );
+                          }));
+                        }
+                      }),
+                ),
+              ),
+              Positioned(
+                bottom: -10,
+                child: Container(
+                  width: size.width,
+                  height: 80,
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                    children: [
+                      Column(
+                        children: [
+                          IconButton(
+                            icon: Icon(
+                              Icons.account_circle_outlined,
+                              color: currentIndex == 0
+                                  ? Color(0xffF26726)
+                                  : Colors.grey.shade600,
+                            ),
+                            onPressed: () {
+                              setBottomBarIndex(0);
+                              if (loginStatus) {
+                                Navigator.of(context).pushNamed(MyAccount.id);
+                              } else {
+                                print('no dd');
+                                Navigator.pushReplacement(context,
+                                    MaterialPageRoute(builder: (context) {
+                                      return NewLogin(
+                                        autoLogin: false,
+                                      );
+                                    }));
+                              }
+                            },
+                            splashColor: Colors.white,
                           ),
-                          Padding(
-                              padding: EdgeInsets.only(top: 30),
-                              child: NewAds()),
+                          Text('حسابي',textAlign: TextAlign.center,
+                            style: TextStyle(
+                            height: 0.1,
+                            fontFamily: 'AmiriQuran',
+                          ),),
                         ],
                       ),
-                    ))),
+                      Column(children: [
+                        IconButton(
+                            icon: Icon(
+                              Icons.info,
+                              color: currentIndex == 1
+                                  ? Color(0xffF26726)
+                                  : Colors.grey.shade600,
+                            ),
+                            onPressed: () {
+                              setBottomBarIndex(1);
+                              Navigator.push(
+                                  context, BouncyPageRoute(widget: AboutUs()));
+                            }),
+                        Text('حول التطبيق',textAlign: TextAlign.center,
+                          style: TextStyle(
+                            height: 0.1,
+                            fontFamily: 'AmiriQuran',
+                        ),),
+                      ],),
+                      Column(
+                        children: [
+                          Container(
+                            width: size.width * 0.20,
+                          ),
+                          Text('أضف إعلان',textAlign: TextAlign.center,
+                            style: TextStyle(
+                              height: 5,
+                              fontFamily: 'AmiriQuran',
+                              fontSize: 14,
+                              color: Color(0xffF26726)
+                            ),),
+                        ],
+                      ),
+                      Column(children: [
+                        IconButton(
+                            icon: Icon(
+                              Icons.chat_outlined,
+                              color: currentIndex == 2
+                                  ? Color(0xffF26726)
+                                  : Colors.grey.shade600,
+                            ),
+                            onPressed: () {
+                              setBottomBarIndex(2);
+                              if (loginStatus) {
+                                Navigator.of(context).pushNamed(MyChats.id);
+                              } else {
+                                loginStatus = false;
+                                print('no');
+                                Navigator.pushReplacement(context,
+                                    MaterialPageRoute(builder: (context) {
+                                      return NewLogin(
+                                        autoLogin: false,
+                                      );
+                                    }));
+                              }
+                            }),
+                        Text('محادثاتي',textAlign: TextAlign.center,
+                          style: TextStyle(
+                            height: 0.1,
+                            fontFamily: 'AmiriQuran',
+                        ),)
+                      ],),
+                      Column(
+                        children: [
+                          IconButton(
+                              icon: Icon(
+                                Icons.home,
+                                color: currentIndex == 3
+                                    ? Color(0xffF26726)
+                                    : Colors.grey.shade600,
+                              ),
+                              onPressed: () {
+                                setBottomBarIndex(0);
+                                Navigator.of(context).pushNamed(Home.id);
+                              }),
+                          Text('الرئيسية',textAlign: TextAlign.center,
+                            style: TextStyle(
+                              height: 0.1,
+                              fontFamily: 'AmiriQuran',
+                          ),)
+                        ],
+                      )
+                    ],
+                  ),
+                ),
+              )
             ],
-          )),
-          bottomNavigationBar: CurvedNavigationBar(
-              color: Color(0xffF26726),
-              backgroundColor: Colors.orange,
-              buttonBackgroundColor: Colors.white,
-              animationDuration: Duration(milliseconds: 300),
-              height: 66,
-              animationCurve: Curves.bounceInOut,
-              index: 2,
-              onTap: (index) {
-                Timer(Duration(milliseconds: 300), () {
-                  if (index == 0) {
-                    if (loginStatus) {
-                      Navigator.of(context).pushNamed(MyAccount.id);
-                    } else {
-                      print('no dd');
-                      Navigator.pushReplacement(context,
-                          MaterialPageRoute(builder: (context) {
-                        return NewLogin(
-                          autoLogin: false,
-                        );
-                      }));
-                    }
-                  } else if (index == 1) {
-                    if (loginStatus) {
-                      Navigator.of(context).pushNamed(AddNewAd.id);
-                    } else {
-                      loginStatus = false;
-                      print('no');
-                      Navigator.pushReplacement(context,
-                          MaterialPageRoute(builder: (context) {
-                        return NewLogin(
-                          autoLogin: false,
-                        );
-                      }));
-                    }
-                  }
-                });
-              },
-              items: <Widget>[
-                Icon(
-                  Icons.person,
-                  color: Colors.blue[900],
-                  size: 29,
-                ),
-                Icon(
-                  Icons.add_photo_alternate,
-                  color: Colors.blue[900],
-                  size: 31,
-                ),
-                Icon(
-                  Icons.home,
-                  size: 32,
-                  color: Colors.blue[900],
-                ),
-              ]),
-        ),
-        Align(
-          alignment: Alignment(1, 1),
-          child: Padding(
-            padding: EdgeInsets.symmetric(
-                vertical: 10, horizontal: screenSizeWidth2 < 400 ? 38 : 49),
-            child: Text(
-              'الرئيسية',
-              style: TextStyle(
-                  fontSize: 15,
-                  color: Colors.white,
-                  decoration: TextDecoration.none,
-                  fontFamily: 'AmiriQuran',
-                  height: 1),
-            ),
-          ),
-        ),
-        Align(
-          alignment: Alignment(-1, 1),
-          child: Padding(
-            padding: EdgeInsets.symmetric(
-                vertical: 10, horizontal: screenSizeWidth2 < 400 ? 40 : 51),
-            child: Text(
-              'حسابي',
-              style: TextStyle(
-                  fontSize: 15,
-                  color: Colors.white,
-                  decoration: TextDecoration.none,
-                  fontFamily: 'AmiriQuran',
-                  height: 1),
-            ),
-          ),
-        ),
-        Align(
-          alignment: Alignment(-0.1, 1),
-          child: Padding(
-            padding: EdgeInsets.symmetric(vertical: 10, horizontal: 40),
-            child: Text(
-              'أضف إعلان',
-              style: TextStyle(
-                  fontSize: 16,
-                  color: Colors.white,
-                  decoration: TextDecoration.none,
-                  fontFamily: 'AmiriQuran',
-                  height: 1),
-            ),
-          ),
-        ),
-      ],
+          )
+        ],
+      ),
     );
   }
 
@@ -528,9 +613,9 @@ class _SearchAreaDesignState extends State<SearchAreaDesign> {
         showSearch(context: context, delegate: SerchData());
       },
       child: Padding(
-        padding: EdgeInsets.symmetric(horizontal: 17,vertical: 6),
+        padding: EdgeInsets.symmetric(horizontal: 17, vertical: 6),
         child: Container(
-           height: 37,
+          height: 37,
           // width: 330,
           decoration: BoxDecoration(
               borderRadius: BorderRadius.circular(40), color: Colors.grey[400]),
@@ -567,7 +652,7 @@ class ButtonTapped extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: EdgeInsets.only(right: 10,left: 10,top: 5,bottom: 1),
+      padding: EdgeInsets.only(right: 10, left: 10, top: 5, bottom: 1),
       child: Container(
         width: 50,
         height: 42,
@@ -651,7 +736,10 @@ class MyButton extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: EdgeInsets.only(right: 10,left: 10,),
+      padding: EdgeInsets.only(
+        right: 10,
+        left: 10,
+      ),
       child: Container(
         width: 50,
         height: 42,
@@ -670,7 +758,9 @@ class MyButton extends StatelessWidget {
               alignment: Alignment(-0.2, 0.1),
               child: btnState == 1
                   ? Padding(
-                      padding: EdgeInsets.only(bottom: 5,),
+                      padding: EdgeInsets.only(
+                        bottom: 5,
+                      ),
                       child: Text(
                         'الإعلانات',
                         textAlign: TextAlign.center,
@@ -776,7 +866,7 @@ class GridViewItems extends StatelessWidget {
                           color: Colors.black,
                           fontSize: 15,
                           fontFamily: 'AmiriQuran',
-                          height:1,
+                          height: 1,
                         ),
                       ),
                     ))),
@@ -800,12 +890,17 @@ Widget areaForAd() {
             child: Container(
               height: 120,
               // margin: EdgeInsets.only(right: 1, left: 1),
-              padding: EdgeInsets.only(right:5, left: 1),
+              padding: EdgeInsets.only(right: 5, left: 1),
               child: Hero(
                   tag: Text('imageAd'),
                   child: ClipRRect(
                       borderRadius: BorderRadius.circular(3),
-                      child: Image.network(url,fit:BoxFit.fill,height: 75,width: 370,))),
+                      child: Image.network(
+                        url,
+                        fit: BoxFit.fill,
+                        height: 75,
+                        width: 370,
+                      ))),
             ),
           );
         });
@@ -859,8 +954,7 @@ class _NewAdsState extends State<NewAds> {
                       mainAxisSpacing: 0.2,
                       childAspectRatio: screenSizeHieght2 > 800 ? 0.7 : 0.6,
                       children: List.generate(
-                          snapshot.data.documents.length.toInt() ,
-                          (index) {
+                          snapshot.data.documents.length.toInt(), (index) {
                         return InkWell(
                           onTap: () {
                             Navigator.push(
@@ -899,24 +993,35 @@ class _NewAdsState extends State<NewAds> {
                                     ),
                                     Stack(
                                       children: [
-
                                         IconButton(
-                                            icon: Icon(Icons.favorite_border,size: 30,color: Colors.red,),
-                                            onPressed: (){
-                                              saveLike(snapshot.data.documents[index].documentID.toString(),
-                                                  snapshot.data.documents[index]['name'],
-                                                  snapshot.data.documents[index]['likes']
-                                              );
+                                            icon: Icon(
+                                              Icons.favorite_border,
+                                              size: 30,
+                                              color: Colors.red,
+                                            ),
+                                            onPressed: () {
+                                              saveLike(
+                                                  snapshot.data.documents[index]
+                                                      .documentID
+                                                      .toString(),
+                                                  snapshot.data.documents[index]
+                                                      ['name'],
+                                                  snapshot.data.documents[index]
+                                                      ['likes']);
                                             }),
                                         Container(
                                           child: Column(
                                             children: [
                                               Row(
-                                                crossAxisAlignment: CrossAxisAlignment.end,
-                                                mainAxisAlignment: MainAxisAlignment.end,
+                                                crossAxisAlignment:
+                                                    CrossAxisAlignment.end,
+                                                mainAxisAlignment:
+                                                    MainAxisAlignment.end,
                                                 children: <Widget>[
                                                   Text(
-                                                    snapshot.data.documents[index]['name'],
+                                                    snapshot.data
+                                                            .documents[index]
+                                                        ['name'],
                                                     style: TextStyle(
                                                       fontSize: 15,
                                                       fontFamily: 'AmiriQuran',
@@ -932,11 +1037,16 @@ class _NewAdsState extends State<NewAds> {
                                                 height: 4,
                                               ),
                                               Row(
-                                                crossAxisAlignment: CrossAxisAlignment.end,
-                                                mainAxisAlignment: MainAxisAlignment.end,
+                                                crossAxisAlignment:
+                                                    CrossAxisAlignment.end,
+                                                mainAxisAlignment:
+                                                    MainAxisAlignment.end,
                                                 children: <Widget>[
                                                   Text(
-                                                    snapshot.data.documents[index]['price']
+                                                    snapshot
+                                                        .data
+                                                        .documents[index]
+                                                            ['price']
                                                         .toString(),
                                                     style: TextStyle(
                                                       fontSize: 14,
@@ -957,13 +1067,16 @@ class _NewAdsState extends State<NewAds> {
                                                   ),
                                                 ],
                                               ),
-
                                               Row(
-                                                crossAxisAlignment: CrossAxisAlignment.end,
-                                                mainAxisAlignment: MainAxisAlignment.end,
+                                                crossAxisAlignment:
+                                                    CrossAxisAlignment.end,
+                                                mainAxisAlignment:
+                                                    MainAxisAlignment.end,
                                                 children: <Widget>[
                                                   Text(
-                                                    snapshot.data.documents[index]['area'],
+                                                    snapshot.data
+                                                            .documents[index]
+                                                        ['area'],
                                                     style: TextStyle(
                                                       fontSize: 14,
                                                       fontFamily: 'AmiriQuran',
@@ -987,22 +1100,42 @@ class _NewAdsState extends State<NewAds> {
                                                 ],
                                               ),
                                               Row(
-                                                crossAxisAlignment: CrossAxisAlignment.end,
-                                                mainAxisAlignment: MainAxisAlignment.start,
+                                                crossAxisAlignment:
+                                                    CrossAxisAlignment.end,
+                                                mainAxisAlignment:
+                                                    MainAxisAlignment.start,
                                                 children: [
-                                                  SizedBox(width: 4,),
-                                                  snapshot.data.documents[index]['likes'].toString()!= null ?
-                                                  Text(snapshot.data.documents[index]['likes'].toString(),style:
-                                                  TextStyle(
+                                                  SizedBox(
+                                                    width: 4,
+                                                  ),
+                                                  snapshot
+                                                              .data
+                                                              .documents[index]
+                                                                  ['likes']
+                                                              .toString() !=
+                                                          null
+                                                      ? Text(
+                                                          snapshot
+                                                              .data
+                                                              .documents[index]
+                                                                  ['likes']
+                                                              .toString(),
+                                                          style: TextStyle(
+                                                              height: 0,
+                                                              fontSize: 12),
+                                                        )
+                                                      : Container(),
+                                                  Text(
+                                                    ': لايك',
+                                                    style: TextStyle(
+                                                      fontSize: 12,
+                                                      fontFamily: 'AmiriQuran',
                                                       height: 0,
-                                                      fontSize: 12
-                                                  ),):Container(),
-                                                  Text(': لايك',style: TextStyle(
-                                                    fontSize: 12,
-                                                    fontFamily: 'AmiriQuran',
-                                                    height: 0,
-                                                  ),),
-                                                  SizedBox(width: 10,),
+                                                    ),
+                                                  ),
+                                                  SizedBox(
+                                                    width: 10,
+                                                  ),
                                                 ],
                                               )
                                             ],
@@ -1020,30 +1153,59 @@ class _NewAdsState extends State<NewAds> {
               }
             }));
   }
-  saveLike(Ad_id,Ad_name,likeCount)async{
-    if(doLike==false){
+
+  saveLike(Ad_id, Ad_name, likeCount) async {
+    if (doLike == false) {
       Firestore.instance.collection('Ads').document(Ad_id).updateData({
-        "likes": likeCount+1,
+        "likes": likeCount + 1,
       });
 
       Firestore.instance.collection('likes').document().setData({
         'Ad_id': Ad_id,
         'Ad_name': Ad_name,
         'who_like': currentUserId,
-        'like':true,
+        'like': true,
         'time': DateFormat('yyyy-MM-dd-HH:mm').format(DateTime.now()),
       });
       doLike = true;
     }
   }
-  saveView(Ad_id,Ad_name)async{
 
+  saveView(Ad_id, Ad_name) async {
     Firestore.instance.collection('Views').document().setData({
       'Ad_id': Ad_id,
       'Ad_name': Ad_name,
       'who_view': currentUserId,
-      'view':true,
+      'view': true,
       'time': DateFormat('yyyy-MM-dd-HH:mm').format(DateTime.now()),
     });
+  }
+}
+
+class BNBCustomPainter extends CustomPainter {
+  @override
+  void paint(Canvas canvas, Size size) {
+    Paint paint = new Paint()
+      ..color = Colors.white
+      ..style = PaintingStyle.fill;
+
+    Path path = Path();
+    path.moveTo(0, 20); // Start
+    path.quadraticBezierTo(size.width * 0.20, 0, size.width * 0.35, 0);
+    path.quadraticBezierTo(size.width * 0.40, 0, size.width * 0.40, 20);
+    path.arcToPoint(Offset(size.width * 0.60, 5),
+        radius: Radius.circular(20.0), clockwise: false);
+    path.quadraticBezierTo(size.width * 0.60, 0, size.width * 0.65, 0);
+    path.quadraticBezierTo(size.width * 0.80, 0, size.width, 20);
+    path.lineTo(size.width, size.height);
+    path.lineTo(0, size.height);
+    path.lineTo(0, 20);
+    canvas.drawShadow(path, Colors.black, 5, true);
+    canvas.drawPath(path, paint);
+  }
+
+  @override
+  bool shouldRepaint(CustomPainter oldDelegate) {
+    return false;
   }
 }

@@ -9,6 +9,7 @@ import 'ShowAds.dart';
 import 'chating2.dart';
 
 class MyChats extends StatefulWidget {
+  static const String id = "MyChats";
   @override
   _MyChatsState createState() => _MyChatsState();
 }
@@ -50,9 +51,9 @@ class _MyChatsState extends State<MyChats> {
 
                         child: new GridView.count(
                           crossAxisCount: 1,
-                          crossAxisSpacing: 0.1,
-                          mainAxisSpacing: 0.2,
-                          childAspectRatio: screenSizeHieght2 > 800 ? 1 : 4,
+                          crossAxisSpacing: 0.3,
+                          mainAxisSpacing: 0.4,
+                          childAspectRatio: screenSizeHieght2 > 800 ? 3 : 4,
                           children: List.generate(
                               snapshot.data.documents.length ,
                                   (index) {

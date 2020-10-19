@@ -5,6 +5,7 @@ import 'package:sooq1alzour/Service/PushNotificationService.dart';
 import 'package:sooq1alzour/ui/AddNewAd.dart';
 import 'package:sooq1alzour/ui/AllAds.dart';
 import 'package:sooq1alzour/ui/Home.dart';
+import 'package:sooq1alzour/ui/MyChats.dart';
 import 'package:sooq1alzour/ui/SearchUi.dart';
 import 'package:sooq1alzour/ui/SplashScreen.dart';
 import 'package:provider/provider.dart';
@@ -56,6 +57,7 @@ class MyApp extends StatelessWidget {
           primarySwatch: Colors.indigo,
         ),
         routes: {
+          MyChats.id : (context) => MyChats(),
           SearchUi.id : (context) => SearchUi(),
           Ads.id : (context) => Ads(),
           Home.id : (context) => Home(),
