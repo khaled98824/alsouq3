@@ -104,7 +104,7 @@ class _CarsAndMotorCyclesState extends State<CarsAndMotorCycles> {
                       children: <Widget>[
                         Icon(
                           Icons.arrow_back_ios,
-                          size: 36,
+                          size: 33,
                         ),
                         Padding(
                           padding: EdgeInsets.only(right: 8),
@@ -112,7 +112,7 @@ class _CarsAndMotorCyclesState extends State<CarsAndMotorCycles> {
                             'سيارات للبيع',
                             textAlign: TextAlign.center,
                             style: TextStyle(
-                                fontSize: 30,
+                                fontSize: 28,
                                 fontFamily: 'AmiriQuran',
                                 height: 0.6),
                           ),
@@ -141,7 +141,7 @@ class _CarsAndMotorCyclesState extends State<CarsAndMotorCycles> {
                       children: <Widget>[
                         Icon(
                           Icons.arrow_back_ios,
-                          size: 36,
+                          size: 33,
                         ),
                         Padding(
                           padding: EdgeInsets.only(right: 8),
@@ -149,7 +149,7 @@ class _CarsAndMotorCyclesState extends State<CarsAndMotorCycles> {
                             'سيارات للإيجار',
                             textAlign: TextAlign.center,
                             style: TextStyle(
-                                fontSize: 30,
+                                fontSize: 28,
                                 fontFamily: 'AmiriQuran',
                                 height: 1),
                           ),
@@ -178,7 +178,7 @@ class _CarsAndMotorCyclesState extends State<CarsAndMotorCycles> {
                       children: <Widget>[
                         Icon(
                           Icons.arrow_back_ios,
-                          size: 36,
+                          size: 33,
                         ),
                         Padding(
                           padding: EdgeInsets.only(right: 22),
@@ -186,7 +186,7 @@ class _CarsAndMotorCyclesState extends State<CarsAndMotorCycles> {
                             'دراجات نارية',
                             textAlign: TextAlign.center,
                             style: TextStyle(
-                                fontSize: 30,
+                                fontSize: 28,
                                 fontFamily: 'AmiriQuran',
                                 height: 1),
                           ),
@@ -215,7 +215,7 @@ class _CarsAndMotorCyclesState extends State<CarsAndMotorCycles> {
                       children: <Widget>[
                         Icon(
                           Icons.arrow_back_ios,
-                          size: 36,
+                          size: 33,
                         ),
                         Padding(
                           padding: EdgeInsets.only(right: 17),
@@ -223,7 +223,7 @@ class _CarsAndMotorCyclesState extends State<CarsAndMotorCycles> {
                             'قطع غيار السيارات',
                             textAlign: TextAlign.center,
                             style: TextStyle(
-                                fontSize: 30,
+                                fontSize: 28,
                                 fontFamily: 'AmiriQuran',
                                 height: 0.6),
                           ),
@@ -242,104 +242,7 @@ class _CarsAndMotorCyclesState extends State<CarsAndMotorCycles> {
               ],
             ),
           ),
-          bottomNavigationBar: CurvedNavigationBar(
-              color: Color(0xffF26726),
-              backgroundColor: Colors.orange,
-              buttonBackgroundColor: Colors.white,
-              animationDuration: Duration(milliseconds: 300),
-              height: 66,
-              animationCurve: Curves.bounceInOut,
-              index: 2,
-              onTap: (index) {
-                Timer(Duration(milliseconds: 300), () {
-                  if (index == 0) {
-                    if (loginStatus){
-                      Navigator.of(context).pushNamed(MyAccount.id);
-                    }else{
-                      print('no');
-                      Navigator.pushReplacement(context,
-                          MaterialPageRoute(builder: (context) {
-                            return NewLogin(autoLogin: false,);
-                          }));
-                    }
-                  } else if (index == 1) {
-                    if (loginStatus){
-                      Navigator.of(context).pushNamed(AddNewAd.id);
-                    }else{
-                      loginStatus=false;
-                      print('no');
-                      Navigator.pushReplacement(context,
-                          MaterialPageRoute(builder: (context) {
-                            return NewLogin(autoLogin: false,);
-                          }));
-                    }
-
-                  }
-                });
-              },
-              items: <Widget>[
-                Icon(
-                  Icons.person,
-                  color:  Colors.blue[900],
-                  size: 29,
-                ),
-                Icon(
-                  Icons.add_photo_alternate,
-                  color: Colors.blue[900],
-                  size: 31,
-                ),
-                Icon(
-                  Icons.home,
-                  size: 32,
-                  color: Colors.blue[900],
-                ),
-              ]),
-        ),
-        Align(
-          alignment: Alignment(1, 1),
-          child: Padding(
-            padding: EdgeInsets.symmetric(vertical: 10, horizontal:screenSizeWidth2<400?38: 49),
-            child: Text(
-              'الرئيسية',
-              style: TextStyle(
-                  fontSize: 15,
-                  color: Colors.white,
-                  decoration: TextDecoration.none,
-                  fontFamily: 'AmiriQuran',
-                  height: 1),
-            ),
-          ),
-        ),
-        Align(
-          alignment: Alignment(-1, 1),
-          child: Padding(
-            padding: EdgeInsets.symmetric(vertical: 10, horizontal:screenSizeWidth2<400?40: 51),
-            child: Text(
-              'حسابي',
-              style: TextStyle(
-                  fontSize: 15,
-                  color: Colors.white,
-                  decoration: TextDecoration.none,
-                  fontFamily: 'AmiriQuran',
-                  height: 1),
-            ),
-          ),
-        ),
-        Align(
-          alignment: Alignment(-0.1, 1),
-          child: Padding(
-            padding: EdgeInsets.symmetric(vertical: 7, horizontal: 40),
-            child: Text(
-              'أضف إعلان',
-              style: TextStyle(
-                  fontSize: 16,
-                  color: Colors.white,
-                  decoration: TextDecoration.none,
-                  fontFamily: 'AmiriQuran',
-                  height: 1),
-            ),
-          ),
-        ),
+        )
       ],
     );
   }

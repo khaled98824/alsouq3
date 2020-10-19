@@ -125,7 +125,8 @@ class _MyAccountFState extends State<MyAccountF> {
                                       itemBuilder:
                                           (BuildContext context, index) {
                                         return Card(
-                                          elevation: 5,
+                                          elevation: 2,
+                                          color: Colors.white70,
                                           child: SizedBox(
                                             height: 58,
                                             child: ListTile(

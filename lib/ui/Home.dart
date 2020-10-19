@@ -385,7 +385,7 @@ class _HomeState extends State<Home> {
                 left: 0,
                 bottom: 0,
                 child: CustomPaint(
-                  size: Size(size.width, 80),
+                  size: Size(size.width, 76),
                   painter: BNBCustomPainter(),
                 ),
               ),
@@ -393,12 +393,12 @@ class _HomeState extends State<Home> {
                 left: size.width / 2.4,
                 bottom: 0,
                 child: Center(
-                  heightFactor: 2.5,
-                  widthFactor: 1.1,
+                  heightFactor: 2.4,
+                  widthFactor: 1.2,
                   child: FloatingActionButton(
                       backgroundColor: Color(0xffF26726),
                       child: Padding(
-                        padding: EdgeInsets.only(right: 2),
+                        padding: EdgeInsets.only(right: 2,bottom: 2),
                         child: Icon(
                           Icons.add_a_photo,
                           size: 30,
@@ -487,7 +487,7 @@ class _HomeState extends State<Home> {
                           ),
                           Text('أضف إعلان',textAlign: TextAlign.center,
                             style: TextStyle(
-                              height: 5,
+                              height: 5.5,
                               fontFamily: 'AmiriQuran',
                               fontSize: 14,
                               color: Color(0xffF26726)
