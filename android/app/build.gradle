@@ -41,7 +41,7 @@ android {
         applicationId "sooq1alzour.sooq1alzour"
         minSdkVersion 21
         targetSdkVersion 28
-        versionCode 13
+        versionCode 14
         versionName flutterVersionName
         multiDexEnabled true
     }

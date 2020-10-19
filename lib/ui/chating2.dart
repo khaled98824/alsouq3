@@ -81,7 +81,8 @@ class _Chating2State extends State<Chating2> {
         'name': documentsUser['name'],
         'Ad_id': documentsAds.documentID,
         'message_id':currentUserId + documentId + documentsAds.data['uid'] ,
-        'Ad_user' : documentsAds.data['uid']
+        'Ad_user' : documentsAds.data['uid'],
+        'realTime': DateTime.now(),
       });
       setState(() {});
       messageController.clear();
@@ -108,7 +109,7 @@ class _Chating2State extends State<Chating2> {
           child: StreamBuilder<QuerySnapshot>(
             stream: _firestore
                 .collection("private_messages").document('pChat').collection(idChat)
-                .orderBy('date')
+                .orderBy('realTime')
                 .snapshots(),
             builder: (context, snapshot) {
               if (!snapshot.hasData) {

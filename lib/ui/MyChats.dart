@@ -21,6 +21,7 @@ class _MyChatsState extends State<MyChats> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
+        centerTitle: true,
         title: Text('دردشاتي',style: TextStyle(
           fontSize: 20,
           fontFamily: 'AmiriQuran',
@@ -53,7 +54,7 @@ class _MyChatsState extends State<MyChats> {
                           crossAxisCount: 1,
                           crossAxisSpacing: 0.3,
                           mainAxisSpacing: 0.4,
-                          childAspectRatio: screenSizeHieght2 > 800 ? 3 : 4,
+                          childAspectRatio: screenSizeHieght2 > 800 ? 4 : 5,
                           children: List.generate(
                               snapshot.data.documents.length ,
                                   (index) {
@@ -116,7 +117,7 @@ class _MyChatsState extends State<MyChats> {
                                                     style: TextStyle(
                                                         fontSize: 12,
                                                         fontFamily: 'AmiriQuran',
-                                                        height: 1,
+                                                        height: 0,
                                                         color: Colors.white
                                                     ),),
 

@@ -127,7 +127,8 @@ class _ShowAdState extends State<ShowAd> {
         'from': currentUserId,
         'date': DateFormat('yyyy-MM-dd-HH:mm').format(DateTime.now()),
         'name': documentsUser['name'],
-        'Ad_id': documentsAds.documentID
+        'Ad_id': documentsAds.documentID,
+        'realTime':DateTime.now().millisecondsSinceEpoch.toString(),
       });
       documentRef = Firestore.instance.collection('Ads').document(documentId);
       documentsAds = await documentRef.get();
@@ -738,7 +739,7 @@ class _ShowAdState extends State<ShowAd> {
                                   stream: _firestore
                                       .collection("messages")
                                       .where('Ad_id', isEqualTo: documentId)
-                                      .orderBy('date')
+                                      .orderBy('realTime',descending: true)
                                       .snapshots(),
                                   builder: (context, snapshot) {
                                     if (!snapshot.hasData) {

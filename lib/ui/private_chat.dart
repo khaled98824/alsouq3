@@ -51,7 +51,7 @@ class _PrivateChatState extends State<PrivateChat> {
       });
     });
   }
-
+  bool firstSend =false;
   getDocumentValue() async {
     SharedPreferences sharedPref = await SharedPreferences.getInstance();
     currentUserName = sharedPref.getString('name');
@@ -70,36 +70,41 @@ class _PrivateChatState extends State<PrivateChat> {
   }
 
   makePostRequest(token1, AdsN) async {
-    DocumentReference documentRefUser =
-        Firestore.instance.collection('users').document(currentUserId);
-    documentsUser = await documentRefUser.get();
-    print("enter");
-    final key1 =
-        'AAAA3axJ_PM:APA91bF-QTmmVGRzpPvqvaE3xioEvuaBkGmj8JT2aG-puw3_83aSBnEdC5n8RGj78a1n_996CbwbVpk8OxYumCPP8vBAA7ykx7BrXXETkSU-EiySB2hD96Gx8JHsRnbXgyXp2-H9Qk29';
-    final uri = 'https://fcm.googleapis.com/fcm/send';
-    final headers = {
-      'Content-Type': 'application/json',
-      HttpHeaders.authorizationHeader: "key=" + key1
-    };
-    Map<String, dynamic> title = {
-      'title': "${documentsUser.data['name']} علق على  ${AdsN}",
-      "Mess": "${Messgetext}"
-    };
-    Map<String, dynamic> body = {'data': title, "to": token1};
-    String jsonBody = json.encode(body);
-    final encoding = Encoding.getByName('utf-8');
+    if(firstSend){
 
-    Response response = await post(
-      uri,
-      headers: headers,
-      body: jsonBody,
-      encoding: encoding,
-    );
+    }else{
+      DocumentReference documentRefUser =
+      Firestore.instance.collection('users').document(currentUserId);
+      documentsUser = await documentRefUser.get();
+      print("enter");
+      final key1 =
+          'AAAA3axJ_PM:APA91bF-QTmmVGRzpPvqvaE3xioEvuaBkGmj8JT2aG-puw3_83aSBnEdC5n8RGj78a1n_996CbwbVpk8OxYumCPP8vBAA7ykx7BrXXETkSU-EiySB2hD96Gx8JHsRnbXgyXp2-H9Qk29';
+      final uri = 'https://fcm.googleapis.com/fcm/send';
+      final headers = {
+        'Content-Type': 'application/json',
+        HttpHeaders.authorizationHeader: "key=" + key1
+      };
+      Map<String, dynamic> title = {
+        'title': "${documentsUser.data['name']} علق على  ${AdsN}",
+        "Mess": "${Messgetext}"
+      };
+      Map<String, dynamic> body = {'data': title, "to": token1};
+      String jsonBody = json.encode(body);
+      final encoding = Encoding.getByName('utf-8');
 
-    int statusCode = response.statusCode;
-    String responseBody = response.body;
-    print(statusCode);
-    print(responseBody);
+      Response response = await post(
+        uri,
+        headers: headers,
+        body: jsonBody,
+        encoding: encoding,
+      );
+
+      int statusCode = response.statusCode;
+      String responseBody = response.body;
+      print(statusCode);
+      print(responseBody);
+      firstSend = true;
+    }
   }
 
   final Firestore _firestore = Firestore.instance;
@@ -119,7 +124,9 @@ class _PrivateChatState extends State<PrivateChat> {
         'name': documentsUser['name'],
         'Ad_id': documentsAds.documentID,
         'message_id': currentUserId + documentId + documentsAds.data['uid'],
-        'Ad_user': documentsAds.data['uid']
+        'Ad_user': documentsAds.data['uid'],
+        'realTime':DateTime.now(),
+
       });
       documentRef = Firestore.instance.collection('Ads').document(documentId);
       documentsAds = await documentRef.get();
@@ -167,6 +174,7 @@ class _PrivateChatState extends State<PrivateChat> {
       ),
       body: showBodyPrivate
           ? ListView(
+        reverse: false,
               controller: scrollController,
               children: [
                 Padding(
@@ -176,7 +184,7 @@ class _PrivateChatState extends State<PrivateChat> {
                         .collection("private_messages")
                         .document('pChat')
                         .collection(idChat)
-                        .orderBy('date')
+                        .orderBy('realTime')
                         .snapshots(),
                     builder: (context, snapshot) {
                       if (!snapshot.hasData) {
@@ -302,6 +310,7 @@ class _PrivateChatState extends State<PrivateChat> {
         'name': documentsAds.data['uid'],
         'text': messageController.text,
         'idChat': idChat,
+        'realTime':DateTime.now(),
       });
     }
   }

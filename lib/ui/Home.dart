@@ -1192,8 +1192,8 @@ class BNBCustomPainter extends CustomPainter {
     Path path = Path();
     path.moveTo(0, 20); // Start
     path.quadraticBezierTo(size.width * 0.20, 0, size.width * 0.35, 0);
-    path.quadraticBezierTo(size.width * 0.40, 0, size.width * 0.40, 20);
-    path.arcToPoint(Offset(size.width * 0.60, 5),
+    path.quadraticBezierTo(size.width * 0.40, 0, size.width * 0.40, 8);
+    path.arcToPoint(Offset(size.width * 0.60,8),
         radius: Radius.circular(20.0), clockwise: false);
     path.quadraticBezierTo(size.width * 0.60, 0, size.width * 0.65, 0);
     path.quadraticBezierTo(size.width * 0.80, 0, size.width, 20);
