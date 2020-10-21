@@ -18,6 +18,7 @@ class Ads extends StatelessWidget {
     return AdsFul(department: department,category: category,);
   }
 }
+String likeAdId ;
 bool like =false;
 class AdsFul extends StatefulWidget {
   String department;
@@ -295,22 +296,27 @@ class _AdsFulState extends State<AdsFul> {
     super.dispose();
   }
 
-  saveLike(Ad_id,Ad_name,likeCount)async{
-    if(doLike==false){
+  saveLike(Ad_id, Ad_name, likeCount) async {
+
+    if (likeAdId == Ad_id) {
+
+    }else{
       Firestore.instance.collection('Ads').document(Ad_id).updateData({
-        "likes": likeCount+1,
+        "likes": likeCount + 1,
       });
 
       Firestore.instance.collection('likes').document().setData({
         'Ad_id': Ad_id,
         'Ad_name': Ad_name,
         'who_like': currentUserId,
-        'like':true,
+        'like': true,
         'time': DateFormat('yyyy-MM-dd-HH:mm').format(DateTime.now()),
       });
       doLike = true;
+      likeAdId = Ad_id;
     }
   }
+
   saveView(Ad_id,Ad_name)async{
 
     Firestore.instance.collection('Views').document().setData({

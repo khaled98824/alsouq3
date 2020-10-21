@@ -386,6 +386,50 @@ class _ShowAdState extends State<ShowAd> {
                           mainAxisAlignment: MainAxisAlignment.end,
                           children: <Widget>[
                             Text(
+                              documentsAds['uid'],
+                              textAlign: TextAlign.right,
+                              style: TextStyle(
+                                fontSize: 16,
+                                fontFamily: 'AmiriQuran',
+                                height: 1,
+                                color: Colors.black,
+                              ),
+                            ),
+                            SizedBox(
+                              width: 70,
+                            ),
+                            Text(
+                              ': المعلن ',
+                              textAlign: TextAlign.right,
+                              style: TextStyle(
+                                fontSize: 16,
+                                fontFamily: 'AmiriQuran',
+                                height: 1,
+                                color: Colors.grey[700],
+                              ),
+                            ),
+                            SizedBox(
+                              width: 10,
+                            )
+                          ],
+                        ),
+                        SizedBox(
+                          height:7,
+                        ),
+                        Container(
+                          width: MediaQuery.of(context).size.width - 6,
+                          height: 2,
+                          decoration: BoxDecoration(
+                              borderRadius: BorderRadius.circular(5),
+                              color: Colors.grey[300]),
+                        ),
+                        SizedBox(
+                          height:5,
+                        ),
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.end,
+                          children: <Widget>[
+                            Text(
                               documentsAds['area'],
                               textAlign: TextAlign.right,
                               style: TextStyle(

@@ -155,6 +155,7 @@ class _AddNewAdState extends State<AddNewAd> {
   String category = '';
   List<String> dropItemsArea = ['إختر المنطقة من هنا',
   'العاصمة', 'الفروانية','حولي', 'الجهراء' ,'الاحمدي' ,'مبارك الكبير'];
+
   var dropSelectItemArea = 'إختر المنطقة من هنا';
   String area = '';
   bool chacked = false;

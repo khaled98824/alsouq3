@@ -7,6 +7,7 @@ import 'package:curved_navigation_bar/curved_navigation_bar.dart';
 import 'package:flutter/material.dart';
 import 'package:get_it/get_it.dart';
 import 'package:intl/intl.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import 'package:sooq1alzour/Auth/NewLogin.dart';
 import 'package:sooq1alzour/Service/PushNotificationService.dart';
 import 'package:sooq1alzour/models/AdsModel.dart';
@@ -40,7 +41,14 @@ var icons1 = Icons.burst_mode;
 var icons2 = Icons.home;
 var adImagesUrlF = List<dynamic>();
 bool showSliderAds = false;
+String likeAdId ;
+DocumentSnapshot documentsAds ;
+QuerySnapshot myChats ;
+int chatsCount =0 ;
+int myMessagesCount =0;
+QuerySnapshot myMessagesD ;
 
+bool showNewChatAlert = false;
 final List<String> _listItem = [
   'assets/images/Elct2.jpg',
   'assets/images/cars.jpg',
@@ -125,6 +133,37 @@ class _HomeState extends State<Home> {
     setState(() {
       showSliderAds = true;
     });
+
+    SharedPreferences sharedPref = await SharedPreferences.getInstance();
+    chatsCount = sharedPref.getInt('ChatsCount');
+    var firestore = Firestore.instance;
+    myChats = await firestore.collection('chats')
+        .where('name',isEqualTo: currentUserId).getDocuments();
+
+
+    if(myChats.documents.length > chatsCount){
+      print(chatsCount);
+      setState(() {
+        showNewChatAlert = true;
+      });
+    }
+    sharedPref.setInt('ChatsCount', myChats.documents.length);
+    /////
+    SharedPreferences sharedPrefMessages = await SharedPreferences.getInstance();
+    chatsCount = sharedPrefMessages.getInt('myMessagesCount');
+
+    var firestoreM = Firestore.instance;
+    // myMessagesD = await firestoreM.collection('private_messages').document('pChat').collection('')
+    //     .where('Ad_user',isEqualTo: currentUserId).getDocuments();
+    //
+    //
+    // if(myMessagesD.documents.length > myMessagesCount){
+    //   print(chatsCount);
+    //   setState(() {
+    //     showNewChatAlert = true;
+    //   });
+    // }
+    sharedPref.setInt('myMessagesCount',0);
   }
 
   @override
@@ -394,11 +433,11 @@ class _HomeState extends State<Home> {
                 bottom: 0,
                 child: Center(
                   heightFactor: 2.4,
-                  widthFactor: 1.2,
+                  widthFactor: 1.1,
                   child: FloatingActionButton(
                       backgroundColor: Color(0xffF26726),
                       child: Padding(
-                        padding: EdgeInsets.only(right: 2,bottom: 2),
+                        padding: EdgeInsets.only(right: 3,bottom: 2),
                         child: Icon(
                           Icons.add_a_photo,
                           size: 30,
@@ -495,6 +534,7 @@ class _HomeState extends State<Home> {
                         ],
                       ),
                       Column(children: [
+
                         IconButton(
                             icon: Icon(
                               Icons.chat_outlined,
@@ -504,6 +544,7 @@ class _HomeState extends State<Home> {
                             ),
                             onPressed: () {
                               setBottomBarIndex(2);
+                              showNewChatAlert = false;
                               if (loginStatus) {
                                 Navigator.of(context).pushNamed(MyChats.id);
                               } else {
@@ -546,7 +587,47 @@ class _HomeState extends State<Home> {
                     ],
                   ),
                 ),
-              )
+              ),
+              showNewChatAlert? Positioned(
+                bottom: 50,
+                right: 114,
+                child: Opacity(
+                  opacity: 0.8,
+                  child: InkWell(
+                    onTap: (){
+                      showNewChatAlert = false;
+                      if (loginStatus) {
+                        Navigator.of(context).pushNamed(MyChats.id);
+                      } else {
+                        loginStatus = false;
+                        print('no');
+                        Navigator.pushReplacement(context,
+                            MaterialPageRoute(builder: (context) {
+                              return NewLogin(
+                                autoLogin: false,
+                              );
+                            }));
+                      }
+                    },
+                    child: Container(
+                      width: 17,
+                      height: 17,
+                      decoration: BoxDecoration(
+                        borderRadius: BorderRadius.circular(5),
+                        color: Colors.red[600]
+                      ),
+                      child: Center(
+                          child: Text('1',textAlign: TextAlign.center,
+                            style: TextStyle(
+                            fontSize: 12,
+                              fontWeight: FontWeight.w700,
+                              color: Colors.white
+                          ),)
+                      ),
+                    ),
+                  ),
+                ),
+              ):Container(),
             ],
           )
         ],
@@ -933,7 +1014,7 @@ class _NewAdsState extends State<NewAds> {
         child: StreamBuilder(
             stream: Firestore.instance
                 .collection('Ads')
-                .orderBy('time')
+                .orderBy('time',descending: true)
                 .snapshots(),
             builder:
                 (BuildContext context, AsyncSnapshot<QuerySnapshot> snapshot) {
@@ -948,15 +1029,20 @@ class _NewAdsState extends State<NewAds> {
                 default:
                   return Container(
                     child: new GridView.count(
-                      reverse: true,
+                      reverse: false,
                       crossAxisCount: 2,
                       crossAxisSpacing: 0.1,
                       mainAxisSpacing: 0.2,
+                      addAutomaticKeepAlives: true,
+                      addSemanticIndexes: true,
                       childAspectRatio: screenSizeHieght2 > 800 ? 0.7 : 0.6,
                       children: List.generate(
-                          snapshot.data.documents.length.toInt(), (index) {
+                          snapshot.data.documents.length.toInt(),
+                              (index) {
                         return InkWell(
                           onTap: () {
+                            saveView(snapshot.data.documents[index].documentID.toString(),
+                                snapshot.data.documents[index]['name']);
                             Navigator.push(
                                 context,
                                 BouncyPageRoute(
@@ -1155,7 +1241,10 @@ class _NewAdsState extends State<NewAds> {
   }
 
   saveLike(Ad_id, Ad_name, likeCount) async {
-    if (doLike == false) {
+
+    if (likeAdId == Ad_id) {
+
+    }else{
       Firestore.instance.collection('Ads').document(Ad_id).updateData({
         "likes": likeCount + 1,
       });
@@ -1168,6 +1257,7 @@ class _NewAdsState extends State<NewAds> {
         'time': DateFormat('yyyy-MM-dd-HH:mm').format(DateTime.now()),
       });
       doLike = true;
+      likeAdId = Ad_id;
     }
   }
 
@@ -1191,11 +1281,11 @@ class BNBCustomPainter extends CustomPainter {
 
     Path path = Path();
     path.moveTo(0, 20); // Start
-    path.quadraticBezierTo(size.width * 0.20, 0, size.width * 0.35, 0);
+    path.quadraticBezierTo(size.width * 0.25, 0, size.width * 0.35, 0);
     path.quadraticBezierTo(size.width * 0.40, 0, size.width * 0.40, 8);
     path.arcToPoint(Offset(size.width * 0.60,8),
         radius: Radius.circular(20.0), clockwise: false);
-    path.quadraticBezierTo(size.width * 0.60, 0, size.width * 0.65, 0);
+    path.quadraticBezierTo(size.width * 0.60, 0, size.width * 0.63, 0);
     path.quadraticBezierTo(size.width * 0.80, 0, size.width, 20);
     path.lineTo(size.width, size.height);
     path.lineTo(0, size.height);
@@ -1209,3 +1299,4 @@ class BNBCustomPainter extends CustomPainter {
     return false;
   }
 }
+

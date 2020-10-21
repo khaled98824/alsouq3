@@ -33,13 +33,13 @@ void main() async {
   setupLocator();
    //Fix for : Unhandled Exception: ServicesBinding.defaultBinaryMessenger was accessed before the binding was initialized.
    WidgetsFlutterBinding.ensureInitialized();
-   //final appleSignInAvailable = await AppleSignInAvailable.check();
+   final appleSignInAvailable = await AppleSignInAvailable.check();
   runApp(
-     //   Provider<AppleSignInAvailable>.value(
-     // value: appleSignInAvailable,
-     // child:
+       Provider<AppleSignInAvailable>.value(
+     value: appleSignInAvailable,
+     child:
     MyApp(),
-  //)
+  )
   );
 }
 
@@ -47,9 +47,9 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return
-      // Provider<AuthService>(
-      // create: (_) => AuthService(),
-      // child:
+      Provider<AuthService>(
+      create: (_) => AuthService(),
+      child:
       MaterialApp(
         title: 'Souq Alfurat',
         debugShowCheckedModeBanner: false,
@@ -76,7 +76,7 @@ class MyApp extends StatelessWidget {
         },
         home: SplashScreen(),
       //),
-   // )
+    )
     );
   }
 }

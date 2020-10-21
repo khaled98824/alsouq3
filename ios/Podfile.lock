@@ -427,9 +427,9 @@ PODS:
   - libwebp/mux (1.1.0):
     - libwebp/demux
   - libwebp/webp (1.1.0)
-  - Mantle (2.1.5):
-    - Mantle/extobjc (= 2.1.5)
-  - Mantle/extobjc (2.1.5)
+  - Mantle (2.1.6):
+    - Mantle/extobjc (= 2.1.6)
+  - Mantle/extobjc (2.1.6)
   - nanopb (1.30906.0):
     - nanopb/decode (= 1.30906.0)
     - nanopb/encode (= 1.30906.0)
@@ -651,7 +651,7 @@ SPEC CHECKSUMS:
   image_picker: 9c3312491f862b28d21ecd8fdf0ee14e601b3f09
   leveldb-library: 55d93ee664b4007aac644a782d11da33fba316f7
   libwebp: 946cb3063cea9236285f7e9a8505d806d30e07f3
-  Mantle: 863ddda5376b35174cd7676e381d448aa52cc5e7
+  Mantle: 4c0ed6ce47c96eccc4dc3bb071deb3def0e2c3be
   nanopb: 59317e09cf1f1a0af72f12af412d54edf52603fc
   path_provider_linux: 4d630dc393e1f20364f3e3b4a2ff41d9674a84e4
   path_provider_windows: a2b81600c677ac1959367280991971cb9a1edb3b

@@ -1,11 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:sooq1alzour/Auth/NewLogin.dart';
 import 'package:sooq1alzour/models/PageRoute.dart';
-import 'package:sooq1alzour/ui/private_chat.dart';
-
-import 'ShowAds.dart';
 import 'chating2.dart';
 
 class MyChats extends StatefulWidget {
@@ -13,8 +9,6 @@ class MyChats extends StatefulWidget {
   @override
   _MyChatsState createState() => _MyChatsState();
 }
-//ScrollController scrollController = ScrollController();
-final Firestore _firestore = Firestore.instance;
 
 class _MyChatsState extends State<MyChats> {
   @override
@@ -22,7 +16,7 @@ class _MyChatsState extends State<MyChats> {
     return Scaffold(
       appBar: AppBar(
         centerTitle: true,
-        title: Text('دردشاتي',style: TextStyle(
+        title: Text('محادثاتي',style: TextStyle(
           fontSize: 20,
           fontFamily: 'AmiriQuran',
           height: 1,
@@ -75,9 +69,10 @@ class _MyChatsState extends State<MyChats> {
                                           color: Colors.black87,
                                         ),
                                         child: Row(
-                                          mainAxisAlignment: MainAxisAlignment.end,
+                                          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                                           crossAxisAlignment: CrossAxisAlignment.center,
                                           children: <Widget>[
+                                            Icon(Icons.arrow_back_ios_outlined,color: Colors.white,),
                                             Column(
                                               crossAxisAlignment: CrossAxisAlignment.start,
                                               mainAxisAlignment: MainAxisAlignment.start,
@@ -175,6 +170,7 @@ class _MyChatsState extends State<MyChats> {
                                             SizedBox(width: 2,),
                                             Icon(Icons.account_circle_outlined,size: 44,color: Colors.blue[800],),
                                             SizedBox(width: 2,),
+
                                           ],
                                         )),
                                   ),

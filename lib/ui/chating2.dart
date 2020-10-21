@@ -164,7 +164,8 @@ class _Chating2State extends State<Chating2> {
                       child: TextField(
                         controller: messageController,
                         textAlign: TextAlign.right,
-                        maxLines: 4,
+                        maxLines: 1,
+                        maxLength: 47,
                         decoration: InputDecoration(
                           hintText: "!... اكتب تعليقك هنا",
                         ),

@@ -48,26 +48,26 @@ FirebaseAuth _auth = FirebaseAuth.instance;
 
 
 class _NewLoginState extends State<NewLogin> {
-  // Future<void> _signInWithApple(BuildContext context) async {
-  //   try {
-  //     final authService = Provider.of<AuthService>(context, listen: false);
-  //     final user = await authService.signInWithApple();
-  //     print('uid: ${user.uid}');
-  //     userName = user.email;
-  //     userUid = user.uid;
-  //     currentUserId = user.uid;
-  //     doSaveName();
-  //     SharedPreferences sharedPref = await SharedPreferences.getInstance();
-  //     sharedPref.setBool('appleSignIn', true);
-  //     setState(() {
-  //       loginStatus = true;
-  //       userUid = user.uid;
-  //     });
-  //   } catch (e) {
-  //     // TODO: Show alert here
-  //     print(e);
-  //   }
-  // }
+  Future<void> _signInWithApple(BuildContext context) async {
+    try {
+      final authService = Provider.of<AuthService>(context, listen: false);
+      final user = await authService.signInWithApple();
+      print('uid: ${user.uid}');
+      userName = user.email;
+      userUid = user.uid;
+      currentUserId = user.uid;
+      doSaveName();
+      SharedPreferences sharedPref = await SharedPreferences.getInstance();
+      sharedPref.setBool('appleSignIn', true);
+      setState(() {
+        loginStatus = true;
+        userUid = user.uid;
+      });
+    } catch (e) {
+      // TODO: Show alert here
+      print(e);
+    }
+  }
 
   bool autoLogin;
   _NewLoginState({this.autoLogin});
@@ -180,8 +180,8 @@ class _NewLoginState extends State<NewLogin> {
 
   @override
   Widget build(BuildContext context) {
-    // final appleSignInAvailable =
-    //     Provider.of<AppleSignInAvailable>(context, listen: false);
+    final appleSignInAvailable =
+        Provider.of<AppleSignInAvailable>(context, listen: false);
     // TODO: implement build
     screenSizeWidth2 = MediaQuery.of(context).size.width;
     screenSizeHieght2 = MediaQuery.of(context).size.height;
@@ -311,15 +311,15 @@ class _NewLoginState extends State<NewLogin> {
                     color: Colors.grey
                   ),),
                 ),
-                // if (appleSignInAvailable.isAvailable)
-                //   SignInButton(
-                //       buttonType: ButtonType.apple,
-                //       btnColor: Colors.black,
-                //       btnTextColor: Colors.white,
-                //       onPressed: () {
-                //         _signInWithApple(context);
-                //         print('click');
-                //       }),
+                if (appleSignInAvailable.isAvailable)
+                  SignInButton(
+                      buttonType: ButtonType.apple,
+                      btnColor: Colors.black,
+                      btnTextColor: Colors.white,
+                      onPressed: () {
+                        _signInWithApple(context);
+                        print('click');
+                      }),
 
                 SizedBox(
                   height: 10,
