@@ -36,7 +36,7 @@
 	<key>LSRequiresIPhoneOS</key>
 	<true/>
 	<key>NSCameraUsageDescription</key>
-	<string>The application needs to take pictures to complete the creation of user ads</string>
+	<string>The application needs to fetch the images to complete the creation of the ads for the application user that wants to display</string>
 	<key>NSLocationAlwaysAndWhenInUseUsageDescription</key>
 	<string>This app needs access to location when open and in the background.</string>
 	<key>NSLocationAlwaysUsageDescription</key>
@@ -48,7 +48,7 @@
 	<key>NSPhotoLibraryAddUsageDescription</key>
 	<string>The application needs access to the images and upload them in order for the user to view his ads in the application</string>
 	<key>NSPhotoLibraryUsageDescription</key>
-	<string>Ad Drive app requires permission for the photo library to work,to upload image to firebase </string>
+	<string>The application needs to fetch the images in order to complete the creation of the ads to be displayed in the application </string>
 	<key>UILaunchStoryboardName</key>
 	<string>LaunchScreen</string>
 	<key>UIMainStoryboardFile</key>

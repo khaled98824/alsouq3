@@ -27,6 +27,7 @@ import 'package:sooq1alzour/ui/categories/Homes.dart';
 import 'package:sooq1alzour/ui/categories/Livestocks.dart';
 import 'package:sooq1alzour/ui/categories/Mobile.dart';
 import 'package:sooq1alzour/ui/categories/OccupationsAndServices.dart';
+import 'Exchange.dart';
 import 'MyChats.dart';
 import 'myAccount.dart';
 
@@ -503,7 +504,7 @@ class _HomeState extends State<Home> {
                       Column(children: [
                         IconButton(
                             icon: Icon(
-                              Icons.info,
+                              Icons.money,
                               color: currentIndex == 1
                                   ? Color(0xffF26726)
                                   : Colors.grey.shade600,
@@ -511,9 +512,9 @@ class _HomeState extends State<Home> {
                             onPressed: () {
                               setBottomBarIndex(1);
                               Navigator.push(
-                                  context, BouncyPageRoute(widget: AboutUs()));
+                                  context, BouncyPageRoute(widget: Exchange()));
                             }),
-                        Text('حول التطبيق',textAlign: TextAlign.center,
+                        Text('الصرف',textAlign: TextAlign.center,
                           style: TextStyle(
                             height: 0.1,
                             fontFamily: 'AmiriQuran',
