@@ -101,6 +101,13 @@ class _Chating2State extends State<Chating2> {
           height: 1,
           color: Colors.white,
         ),),
+        leading: InkWell(
+            onTap: () {
+
+              Navigator.of(context).pop();
+            },
+            child: Icon(
+              Icons.arrow_back_ios, color: Colors.white, size: 27,)),
       ),
       body:showBodyPrivate ? ListView(
         controller: scrollController,
@@ -153,7 +160,7 @@ class _Chating2State extends State<Chating2> {
             height: 10,
           ),
           SizedBox(
-            height: 42,
+            height: 60,
             child: loginStatus
                 ? Container(
               child: Row(

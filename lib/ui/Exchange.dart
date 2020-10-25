@@ -95,10 +95,12 @@ calculate(select){
                             style: TextStyle(
                               height: 1,
                               fontFamily: 'AmiriQuran',)),
-                        SizedBox(height: 5,),
+                        SizedBox(height: 7,),
                         Text(querySnapshotEx.documents[0]['d'],textAlign: TextAlign.center,
                             style: TextStyle(
                               height: 1,
+                              fontSize: 17,
+                              color: Colors.deepOrange,
                               fontFamily: 'AmiriQuran',))
                       ],
                     ),
@@ -143,10 +145,12 @@ calculate(select){
                             style: TextStyle(
                               height: 1,
                               fontFamily: 'AmiriQuran',)),
-                        SizedBox(height: 5,),
+                        SizedBox(height: 7,),
                         Text(querySnapshotEx.documents[0]['sh'],textAlign: TextAlign.center,
                           style: TextStyle(
                             height: 1,
+                            fontSize: 17,
+                            color: Colors.deepOrange,
                             fontFamily: 'AmiriQuran',))
                       ],
                     ),
@@ -191,10 +195,12 @@ calculate(select){
                             style: TextStyle(
                               height: 1,
                               fontFamily: 'AmiriQuran',)),
-                        SizedBox(height: 5,),
+                        SizedBox(height: 7,),
                         Text(querySnapshotEx.documents[0]['ad'],textAlign: TextAlign.center,
                             style: TextStyle(
                               height: 1,
+                              fontSize: 17,
+                              color: Colors.deepOrange,
                               fontFamily: 'AmiriQuran',))
                       ],
                     ),
@@ -222,6 +228,7 @@ calculate(select){
           SizedBox(height: 40,),
 
           Card(
+            color: Colors.grey[200],
             margin: EdgeInsets.all(10),
             child: Padding(
               padding: EdgeInsets.all(10),

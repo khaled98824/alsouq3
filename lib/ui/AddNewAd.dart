@@ -2,12 +2,10 @@ import 'dart:async';
 import 'dart:io';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:device_info/device_info.dart';
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:image_picker/image_picker.dart';
-import 'package:curved_navigation_bar/curved_navigation_bar.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -154,7 +152,7 @@ class _AddNewAdState extends State<AddNewAd> {
   var dropSelectItemCategory = 'إختر القسم الرئيسي';
   String category = '';
   List<String> dropItemsArea = ['إختر المنطقة من هنا',
-  'العاصمة', 'الفروانية','حولي', 'الجهراء' ,'الاحمدي' ,'مبارك الكبير'];
+    'العاصمة', 'الفروانية','حولي', 'الجهراء' ,'الاحمدي' ,'مبارك الكبير'];
 
   var dropSelectItemArea = 'إختر المنطقة من هنا';
   String area = '';
@@ -1130,6 +1128,7 @@ class _AddNewAdState extends State<AddNewAd> {
                         alignment: WrapAlignment.end,
                         crossAxisAlignment: WrapCrossAlignment.center,
                         children: <Widget>[
+
                           Container(
                             decoration: BoxDecoration(
                               borderRadius: BorderRadius.circular(10),
@@ -1142,7 +1141,7 @@ class _AddNewAdState extends State<AddNewAd> {
                             padding: EdgeInsets.only(
                                 top: 2, bottom: 3, left: 3, right: 1),
                             child: SizedBox(
-                              width: 180,
+                              width: 220,
                               height: 43,
                               child: TextFormField(
                                 controller: priceController,
@@ -1165,7 +1164,7 @@ class _AddNewAdState extends State<AddNewAd> {
                                     borderSide: BorderSide(color: Colors.green),
                                     borderRadius: BorderRadius.circular(10),
                                   ),
-                                  hintText: '!... أدخل السعر المطلوب',
+                                  hintText: '!... أدخل السعر المطلوب ,ارقام انجليزية',
                                   fillColor: Colors.white,
                                   hoverColor: Colors.white,
                                 ),
@@ -1206,7 +1205,7 @@ class _AddNewAdState extends State<AddNewAd> {
                             padding: EdgeInsets.only(
                                 top: 2, bottom: 3, left: 3, right: 1),
                             child: SizedBox(
-                              width: 180,
+                              width: 220,
                               height: 43,
                               child: TextFormField(
                                 controller: phoneController,
@@ -1229,7 +1228,7 @@ class _AddNewAdState extends State<AddNewAd> {
                                     borderSide: BorderSide(color: Colors.green),
                                     borderRadius: BorderRadius.circular(10),
                                   ),
-                                  hintText: '!... أدخل رقم جوالك',
+                                  hintText: '!... أدخل رقم جوالك, ارقام انجليزية',
                                   fillColor: Colors.white,
                                   hoverColor: Colors.white,
                                 ),
@@ -1312,6 +1311,7 @@ class _AddNewAdState extends State<AddNewAd> {
                         ],
                       ),
                     ),
+                    SizedBox(height: 60,)
                   ],
                 ),
               ),

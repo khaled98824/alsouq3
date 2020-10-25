@@ -2,6 +2,7 @@ import 'dart:async';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:curved_navigation_bar/curved_navigation_bar.dart';
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:sooq1alzour/Auth/NewLogin.dart';
 import 'package:sooq1alzour/models/PageRoute.dart';
@@ -175,7 +176,7 @@ class _MyAccountFState extends State<MyAccountF> {
                                               ),
                                               leading: InkWell(
                                                   onTap: () async {
-                                                    await Alert(context);
+                                                    await Alert(context,snapshot.data.documents[index]['name'],snapshot.data.documents[index].documentID);
                                                     deleteThisAd
                                                         ? Firestore.instance
                                                             .collection('Ads')
@@ -976,7 +977,7 @@ class _MyAccountFState extends State<MyAccountF> {
     );
   }
 
-  Future<Null> Alert(BuildContext context) {
+  Future<Null> Alert(BuildContext context,name,id) {
     return showDialog(
         context: context,
         barrierDismissible: false,
@@ -986,15 +987,15 @@ class _MyAccountFState extends State<MyAccountF> {
               'حذف إعلان',
               textAlign: TextAlign.right,
               style: TextStyle(
-                  fontSize: 22, fontFamily: 'AmiriQuran', height: 1.5),
+                  fontSize: 19, fontFamily: 'AmiriQuran', height: 1.5),
             ),
             content: SingleChildScrollView(
               child: ListBody(
                 children: <Widget>[
                   Text(
-                    'هل تريد حذف هذا الإعلان ؟',
+                    'هل تم بيع هذا الإعلان ؟',
                     style: TextStyle(
-                        fontSize: 15, fontFamily: 'AmiriQuran', height: 1.4),
+                        fontSize: 18, fontFamily: 'AmiriQuran', height: 1.4),
                   )
                 ],
               ),
@@ -1003,12 +1004,36 @@ class _MyAccountFState extends State<MyAccountF> {
               FlatButton(
                 onPressed: () {
                   Navigator.of(context).pop();
+                  setState(() {
+                    deleteThisAd = false;
+                  });
+                },
+                child: Text(
+                  'إلغاء',
+                  textAlign: TextAlign.center,
+                  style: TextStyle(
+                      fontSize: 17,
+                      fontFamily: 'AmiriQuran',
+                      color: Colors.white,
+                      height: 1.5),
+                ),
+                color: Colors.blueAccent,
+              ),
+              SizedBox(
+                width:10,
+              ),
+              FlatButton(
+                onPressed: () {
+                  setState(() {
+                    deleteThisAd = true;
+                  });
+                  Navigator.of(context).pop();
                 },
                 child: Text(
                   'لا',
                   textAlign: TextAlign.center,
                   style: TextStyle(
-                      fontSize: 22,
+                      fontSize: 17,
                       fontFamily: 'AmiriQuran',
                       color: Colors.white,
                       height: 1.5),
@@ -1023,20 +1048,25 @@ class _MyAccountFState extends State<MyAccountF> {
                   setState(() {
                     deleteThisAd = true;
                   });
-
+                  saveAdsSaled(name,id);
                   Navigator.of(context).pop();
                 },
                 child: Text(
-                  'تأكيد',
+                  'تم البيع',
                   textAlign: TextAlign.center,
                   style: TextStyle(
-                      fontSize: 22,
+                      fontSize: 17,
                       fontFamily: 'AmiriQuran',
                       color: Colors.white,
-                      height: 1.5),
+                      height: 1),
                 ),
                 color: Colors.blueAccent,
               ),
+
+              SizedBox(
+                width: 10,
+              ),
+
             ],
           );
         });
@@ -1514,4 +1544,14 @@ class BNBCustomPainter extends CustomPainter {
   bool shouldRepaint(CustomPainter oldDelegate) {
     return false;
   }
+}
+
+saveAdsSaled(name,id){
+  Firestore.instance.collection('AdsSaled').document()
+      .setData({
+    'name':name,
+    'Ad_id': id,
+    "time": DateFormat('yyyy-MM-dd-HH:mm')
+        .format(DateTime.now()),
+  });
 }

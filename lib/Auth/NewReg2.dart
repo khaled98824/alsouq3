@@ -172,6 +172,8 @@ class _NewRegState extends State<NewReg> {
       SharedPreferences sharedPref =
           await SharedPreferences.getInstance();
       sharedPref
+          .setString('password', _passwordcontroller.text);
+      sharedPref
           .setString('name', _namecontroller.text)
           .then((value) {
         Navigator.pushReplacement(

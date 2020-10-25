@@ -8,6 +8,8 @@ import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:sooq1alzour/Auth/NewLogin.dart';
+import 'package:sooq1alzour/models/PageRoute.dart';
+import 'package:sooq1alzour/ui/ShowAds.dart';
 
 import 'EditAd.dart';
 
@@ -63,7 +65,6 @@ class _PrivateChatState extends State<PrivateChat> {
         Firestore.instance.collection('users').document(currentUserId);
     documentsUser = await documentRefUser.get();
     setState(() {
-      showBody = true;
       showBodyPrivate = true;
     });
     idChat = currentUserId + documentId + documentsAds.data['uid'];
@@ -164,12 +165,12 @@ class _PrivateChatState extends State<PrivateChat> {
         ),
         leading: InkWell(
             onTap: () {
-              Navigator.pop(context);
+             Navigator.of(context).pop();
             },
             child: Icon(
               Icons.arrow_back_ios,
               color: Colors.white,
-              size: 23,
+              size: 25,
             )),
       ),
       body: showBodyPrivate
@@ -228,45 +229,50 @@ class _PrivateChatState extends State<PrivateChat> {
                   height: 10,
                 ),
                 SizedBox(
-                  height: 42,
+                  height: 60,
                   child: loginStatus
-                      ? Container(
-                          child: Row(
-                            children: <Widget>[
-                              Expanded(
-                                child: Padding(
-                                  padding: EdgeInsets.only(right: 10, left: 10),
-                                  child: TextField(
-                                    controller: messageController,
-                                    textAlign: TextAlign.right,
-                                    maxLines: 1,
-                                    maxLength: 47,
-                                    decoration: InputDecoration(
-                                      hintText: "!... اكتب تعليقك هنا",
+                      ? Padding(
+                    padding: EdgeInsets.only(top: 0),
+                        child: Container(
+                            child: Row(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              mainAxisAlignment: MainAxisAlignment.end,
+                              children: <Widget>[
+                                Expanded(
+                                  child: Padding(
+                                    padding: EdgeInsets.only(right: 10, left: 10,top: 0),
+                                    child: TextField(
+                                      controller: messageController,
+                                      textAlign: TextAlign.right,
+                                      maxLines: 1,
+                                      maxLength: 47,
+                                      decoration: InputDecoration(
+                                        hintText: "!... اكتب تعليقك هنا",
+                                      ),
+                                      onSubmitted: (value) => callBack(),
                                     ),
-                                    onSubmitted: (value) => callBack(),
                                   ),
                                 ),
-                              ),
-                              loginStatus
-                                  ? SendButton(
-                                      text: 'ارسل',
-                                      callback: () {
-                                        saveChatId();
-                                        callBack();
-                                        print(documentsUser.data['token']);
-                                      },
-                                    )
-                                  : Center(
-                                      child: SpinKitFadingCircle(
-                                        color: Colors.red,
-                                        size: 55,
-                                        duration: Duration(seconds: 2),
+                                loginStatus
+                                    ? SendButton(
+                                        text: 'ارسل',
+                                        callback: () {
+                                          saveChatId();
+                                          callBack();
+                                          print(documentsUser.data['token']);
+                                        },
+                                      )
+                                    : Center(
+                                        child: SpinKitFadingCircle(
+                                          color: Colors.red,
+                                          size: 55,
+                                          duration: Duration(seconds: 2),
+                                        ),
                                       ),
-                                    ),
-                            ],
+                              ],
+                            ),
                           ),
-                        )
+                      )
                       : Center(
                           child: SpinKitFadingCircle(
                             color: Colors.red,
@@ -291,7 +297,6 @@ class _PrivateChatState extends State<PrivateChat> {
   void dispose() {
     // TODO: implement dispose
     super.dispose();
-    showBody = false;
     showBodyPrivate = false;
     //docs.clear();
   }

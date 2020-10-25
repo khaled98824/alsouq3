@@ -1,16 +1,15 @@
 import 'dart:async';
+import 'package:flutter_swiper/flutter_swiper.dart';
 import 'dart:ui';
 import 'package:carousel_slider/carousel_options.dart';
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:curved_navigation_bar/curved_navigation_bar.dart';
 import 'package:flutter/material.dart';
 import 'package:get_it/get_it.dart';
 import 'package:intl/intl.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:sooq1alzour/Auth/NewLogin.dart';
 import 'package:sooq1alzour/Service/PushNotificationService.dart';
-import 'package:sooq1alzour/models/AdsModel.dart';
 import 'package:sooq1alzour/models/PageRoute.dart';
 import 'package:sooq1alzour/models/StaticVirables.dart';
 import 'package:sooq1alzour/ui/AddNewAd.dart';
@@ -37,7 +36,6 @@ class Home extends StatefulWidget {
   _HomeState createState() => _HomeState();
 }
 
-List<AdsModel> allList = List();
 var icons1 = Icons.burst_mode;
 var icons2 = Icons.home;
 var adImagesUrlF = List<dynamic>();
@@ -141,18 +139,18 @@ class _HomeState extends State<Home> {
     myChats = await firestore.collection('chats')
         .where('name',isEqualTo: currentUserId).getDocuments();
 
-
-    if(myChats.documents.length > chatsCount){
-      print(chatsCount);
-      setState(() {
-        showNewChatAlert = true;
-      });
-    }
-    sharedPref.setInt('ChatsCount', myChats.documents.length);
     /////
     SharedPreferences sharedPrefMessages = await SharedPreferences.getInstance();
-    chatsCount = sharedPrefMessages.getInt('myMessagesCount');
-
+    chatsCount = sharedPrefMessages.getInt('ChatsCount');
+    Timer(Duration(milliseconds: 600), (){
+      if(myChats.documents.length > chatsCount){
+        print(chatsCount);
+        setState(() {
+          showNewChatAlert = true;
+        });
+      }
+    });
+    sharedPref.setInt('ChatsCount', myChats.documents.length);
     var firestoreM = Firestore.instance;
     // myMessagesD = await firestoreM.collection('private_messages').document('pChat').collection('')
     //     .where('Ad_user',isEqualTo: currentUserId).getDocuments();
@@ -887,10 +885,10 @@ class MyButton extends StatelessWidget {
                 begin: Alignment.topLeft,
                 end: Alignment.bottomRight,
                 colors: [
-                  Colors.grey[200],
                   Colors.grey[300],
                   Colors.grey[400],
                   Colors.grey[500],
+                  Colors.grey[600],
                 ],
                 stops: [
                   0.1,
@@ -959,45 +957,43 @@ class GridViewItems extends StatelessWidget {
   }
 }
 
+
 Widget areaForAd() {
-  return Container(
-    child: CarouselSlider(
-      items: adImagesUrlF.map((url) {
-        return Builder(builder: (BuildContext context) {
-          return InkWell(
-            onTap: () {
-              print('w$screenSizeWidth2');
-              print('h$screenSizeHieght2');
-            },
-            child: Container(
-              height: 120,
-              // margin: EdgeInsets.only(right: 1, left: 1),
-              padding: EdgeInsets.only(right: 5, left: 1),
-              child: Hero(
+  return Column(
+      crossAxisAlignment: CrossAxisAlignment.center,
+      mainAxisAlignment: MainAxisAlignment.center,
+      children: <Widget>[
+        new Swiper(
+          itemBuilder: (BuildContext context, int index) {
+            return  Container(
+              decoration: new BoxDecoration(
+                borderRadius: BorderRadius.circular(20),
+              ),
+              child:Hero(
                   tag: Text('imageAd'),
                   child: ClipRRect(
                       borderRadius: BorderRadius.circular(3),
                       child: Image.network(
-                        url,
+                        adImagesUrlF[index],
                         fit: BoxFit.fill,
-                        height: 75,
-                        width: 370,
+                        // height: 75,
+                        // width: 390,
                       ))),
-            ),
-          );
-        });
-      }).toList(),
-      options: CarouselOptions(
-        initialPage: 0,
-        autoPlay: true,
-        pauseAutoPlayOnTouch: false,
-        autoPlayAnimationDuration: Duration(seconds: 3),
-        autoPlayInterval: Duration(seconds: 9),
-        disableCenter: false,
-        height: 84,
-      ),
-    ),
-  );
+            );
+
+          },
+          scrollDirection: Axis.horizontal,
+          itemCount: adImagesUrlF.length,
+          itemWidth: screenSizeWidth2-10,
+          itemHeight: 86.0,
+          duration: 2000,
+          autoplayDelay: 13000,
+          autoplay: true,
+          //pagination: new SwiperPagination(),
+          layout: SwiperLayout.STACK,
+        ),
+
+      ]);
 }
 
 class NewAds extends StatefulWidget {

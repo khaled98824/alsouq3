@@ -2,7 +2,6 @@ import 'dart:async';
 import 'dart:convert';
 import 'dart:io';
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
@@ -224,7 +223,7 @@ class _ShowAdState extends State<ShowAd> {
                                     autoPlayAnimationDuration:
                                         Duration(milliseconds: 900),
                                     disableCenter: false,
-                                    height: 240,),
+                                    height: 250,),
                               )
                             : Container(),
                         SizedBox(
@@ -278,7 +277,7 @@ class _ShowAdState extends State<ShowAd> {
                             ),
                             InkWell(
                               onTap: () {
-                                Navigator.pushReplacement(context, BouncyPageRoute(widget: PrivateChat(documentId: documentId,recipient:documentsAds['uid'] ,)));
+                                Navigator.push(context, BouncyPageRoute(widget: PrivateChat(documentId: documentId,recipient:documentsAds['uid'] ,)));
                               },
                               child: Container(
                                 width: 90,
@@ -829,7 +828,7 @@ class _ShowAdState extends State<ShowAd> {
                           height: 10,
                         ),
                         SizedBox(
-                          height: 42,
+                          height: 60,
                           child: loginStatus
                               ? Container(
                                   child: Row(
@@ -837,11 +836,11 @@ class _ShowAdState extends State<ShowAd> {
                                       Expanded(
                                         child: Padding(
                                           padding: EdgeInsets.only(
-                                              right: 10, left: 10),
+                                              right: 10, left: 10,top: 0),
                                           child: TextField(
                                             controller: messageController,
                                             textAlign: TextAlign.right,
-                                            maxLines: 4,
+                                            maxLines: 1,
                                             decoration: InputDecoration(
                                               hintText: "!... اكتب تعليقك هنا",
                                             ),
