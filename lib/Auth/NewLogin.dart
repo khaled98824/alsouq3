@@ -17,10 +17,7 @@ import 'NewReg2.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 
 GoogleSignIn _googleSignIn = GoogleSignIn(
-  scopes: <String>[
-    'email',
-    'https://www.googleapis.com/auth/contacts.readonly',
-  ],
+    scopes: ['email']
 );
 
 class NewLogin extends StatefulWidget {

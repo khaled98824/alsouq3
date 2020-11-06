@@ -164,10 +164,24 @@ class _EditAdState extends State<EditAd> {
   ];
   var dropSelectItemCategory = 'إختر القسم الرئيسي';
   String category = '';
-  var dropItemsArea = ['إختر المنطقة من هنا',
-    'العاصمة', 'الفروانية','حولي', 'الجهراء' ,'الاحمدي' ,'مبارك الكبير'];
 
   var dropSelectItemArea = 'إختر المنطقة من هنا';
+  var dropItemsArea = ['إختر المنطقة من هنا', 'الباغوز', 'السوسة',
+    'الشعفة', 'البوخاطر', 'هجين', 'البحرة',
+    'غرانيج', 'الكشكية', 'ابو حمام', 'ابو حردوب',
+    'البورحمة', 'سويدان', 'درنج', 'جمة',
+    'الشنان', 'الطيانة', 'ذيبان', 'الحوايج',
+    'الشحيل', 'الزر', 'البصيرة', 'الحجنة',
+    'الصور', 'الشدادي',
+    'الحسكة', 'جديد عقيدات', 'جديد بكارة', 'خشام',
+    'مراط', 'حطلة', 'الحسينية', 'الكسرة',
+    'حمار العلي','دير الزور',
+    'الرقة', 'منبج', 'حلب',
+    'إدلب', 'حمص', 'حماة',
+    'دمشق', 'درعا', 'حلب',
+  ];
+
+
   String area = '';
   bool chacked = false;
   bool chacked2 = false;
@@ -366,14 +380,13 @@ class _EditAdState extends State<EditAd> {
   void initState() {
     // TODO: implement initState
     super.initState();
-    addNewZ();
     if (Platform.isAndroid) {
       getInfoDevice();
     } else {
       getIosInfo();
     }
     getDocumentValue();
-
+    addNewZ();
   }
   List<String> newZList = [];
   addNewZ() async {
@@ -382,16 +395,17 @@ class _EditAdState extends State<EditAd> {
     QuerySnapshot qusListUsers =
     await firestore.collection('NewZ').getDocuments();
     if (qusListUsers != null) {
+      newZList.clear();
       for (int i = 0; qusListUsers.documents.length > newZList.length; i++) {
         setState(() {
-          print(qusListUsers.documents.length);
           newZList.add(qusListUsers.documents[i]['Z']);
         });
       }
+      print(qusListUsers.documents.length);
       print(newZList);
       if (newZList.length > 1) {
         setState(() {
-          dropItemsArea = newZList;
+          //dropItemsArea = newZList;
         });
       }
     }
@@ -413,9 +427,6 @@ class _EditAdState extends State<EditAd> {
       area = documentsAds['area'];
       status =documentsAds['status'];
     });
-    currectUser = await FirebaseAuth.instance.currentUser();
-    DocumentReference documentRefUser =Firestore.instance.collection('users').document(currectUser.uid);
-    documentsUser = await documentRefUser.get();
     setState(() {
       showBody =true;
     });
@@ -1439,7 +1450,7 @@ class _EditAdState extends State<EditAd> {
     if(_image1 !=null && category !=null && category2 !=null){
       if (_formkey.currentState.validate()) {
         SharedPreferences sharedPref = await SharedPreferences.getInstance();
-        Firestore.instance.collection('Ads').document().setData({
+        Firestore.instance.collection('Ads').document(documentId).updateData({
           'category': _category,
           'department': _department,
           'name': _name,
@@ -1451,7 +1462,9 @@ class _EditAdState extends State<EditAd> {
           'deviceNo': _deviceNo,
           'imagesUrl': urlImages,
           'phone': _phone,
-          'uid': sharedPref.getString('name')
+          'uid': sharedPref.getString('name'),
+          'likes':0,
+          'views':0,
         });
         nameController.clear();
         descriptionController.clear();

@@ -32,7 +32,6 @@ getData()async{
   querySnapshotEx = await firestore.collection('exchange').getDocuments();
   setState(() {
     dropSelectItemArea = querySnapshotEx.documents[0]['d'];
-    showData= true;
     dEx = querySnapshotEx.documents[0]['dEx'];
     shEx = querySnapshotEx.documents[0]['shEx'];
     adEx = querySnapshotEx.documents[0]['adEx'];
@@ -40,6 +39,7 @@ getData()async{
     for(int i =0 ; i<zones.length;i++){
       dropItemsArea.add(zones[i]);
     }
+    showData= true;
 
   });
 }

@@ -9,6 +9,7 @@ import 'package:sooq1alzour/models/PageRoute.dart';
 import 'package:sooq1alzour/Admin/Admin.dart';
 import 'package:sooq1alzour/ui/ComplaintsAndSuggestions.dart';
 import 'package:sooq1alzour/ui/EditAd.dart';
+import 'package:sooq1alzour/ui/myAds.dart';
 import 'AddNewAd.dart';
 import 'Home.dart';
 import 'package:url_launcher/url_launcher.dart';
@@ -118,88 +119,7 @@ class _MyAccountFState extends State<MyAccountF> {
                         default:
                           return Stack(
                             children: <Widget>[
-                              Padding(
-                                  padding: EdgeInsets.only(
-                                      top: screenSizeHieght2 < 895 ? 443 : 420),
-                                  child: ListView.builder(
-                                      itemCount: snapshot.data.documents.length,
-                                      itemBuilder:
-                                          (BuildContext context, index) {
-                                        return Card(
-                                          elevation: 2,
-                                          color: Colors.white70,
-                                          child: SizedBox(
-                                            height: 58,
-                                            child: ListTile(
-                                              onTap: () {
-                                                Navigator.push(
-                                                    context,
-                                                    BouncyPageRoute(
-                                                        widget: ShowAd(
-                                                      documentId: snapshot
-                                                          .data
-                                                          .documents[index]
-                                                          .documentID,
-                                                    )));
-                                              },
-                                              title: Text(
-                                                snapshot.data.documents[index]
-                                                    ['name'],
-                                                textAlign: TextAlign.right,
-                                                style: TextStyle(
-                                                  fontSize: 16,
-                                                ),
-                                              ),
-                                              trailing: InkWell(
-                                                  onTap: () {
-                                                    Navigator.push(
-                                                        context,
-                                                        BouncyPageRoute(
-                                                            widget: EditAd(
-                                                          documentId: snapshot
-                                                              .data
-                                                              .documents[index]
-                                                              .documentID,
-                                                        )));
-                                                  },
-                                                  child: Icon(
-                                                    Icons.mode_edit,
-                                                    color: Colors.blue,
-                                                    size: 32,
-                                                  )),
-                                              subtitle: Text(
-                                                snapshot.data.documents[index]
-                                                    ['time'],
-                                                style: TextStyle(
-                                                  fontSize: 13,
-                                                ),
-                                              ),
-                                              leading: InkWell(
-                                                  onTap: () async {
-                                                    await Alert(context,snapshot.data.documents[index]['name'],snapshot.data.documents[index].documentID);
-                                                    deleteThisAd
-                                                        ? Firestore.instance
-                                                            .collection('Ads')
-                                                            .document(snapshot
-                                                                .data
-                                                                .documents[
-                                                                    index]
-                                                                .documentID)
-                                                            .delete()
-                                                            .then((value) {
-                                                            print(
-                                                                'delete done');
-                                                          })
-                                                        : print('Do not');
-                                                  },
-                                                  child: Icon(
-                                                    Icons.delete_forever,
-                                                    color: Colors.red,
-                                                  )),
-                                            ),
-                                          ),
-                                        );
-                                      })),
+
                               Stack(
                                 children: [
                                   Positioned(
@@ -237,7 +157,8 @@ class _MyAccountFState extends State<MyAccountF> {
                                                     return NewLogin(
                                                       autoLogin: false,
                                                     );
-                                                  }));
+                                                  })
+                                              );
                                             }
                                           }),
                                     ),
@@ -472,22 +393,7 @@ class _MyAccountFState extends State<MyAccountF> {
               ),
             ],
           ),
-          Align(
-              alignment: Alignment(0.9, screenSizeHieght2 > 750 ? 0.2 : 0.4),
-              child: Padding(
-                padding: EdgeInsets.symmetric(
-                    vertical: screenSizeHieght2 > 750 ? 170 : 70,
-                    horizontal: 1),
-                child: Text(
-                  'إعلاناتي',
-                  style: TextStyle(
-                      fontSize: 20,
-                      decoration: TextDecoration.none,
-                      fontFamily: 'AmiriQuran',
-                      height: 0.1,
-                      color: Colors.blue[900]),
-                ),
-              )),
+
           Align(
             alignment: Alignment(0.9, 0),
             child: Padding(
@@ -678,7 +584,7 @@ class _MyAccountFState extends State<MyAccountF> {
                           InkWell(
                             onTap: () {
                               Navigator.push(
-                                  context, BouncyPageRoute(widget: Contact()));
+                                  context, BouncyPageRoute(widget: MyAds()));
                             },
                             child: Padding(
                               padding:
@@ -701,7 +607,7 @@ class _MyAccountFState extends State<MyAccountF> {
                                   SizedBox(
                                     width: 70,
                                   ),
-                                  Text('اتصل بنا',
+                                  Text('إعلاناتي',
                                       textAlign: TextAlign.right,
                                       style: TextStyle(
                                           decoration: TextDecoration.none,
@@ -718,7 +624,7 @@ class _MyAccountFState extends State<MyAccountF> {
                                           vertical: 3, horizontal: 3),
                                       child: Center(
                                         child: Icon(
-                                          Icons.call,
+                                          Icons.auto_awesome_motion,
                                           color: Colors.blueAccent,
                                         ),
                                       ),
@@ -727,71 +633,13 @@ class _MyAccountFState extends State<MyAccountF> {
                                 ],
                               ),
                             ),
+                          ),
+                          Container(
+                            width: MediaQuery.of(context).size.width,
+                            height: 1,
+                            color: Colors.grey,
                           ),
 
-                          Container(
-                            width: MediaQuery.of(context).size.width,
-                            height: 1,
-                            color: Colors.grey,
-                          ),
-                          InkWell(
-                            onTap: () {
-                              Navigator.push(
-                                  context, BouncyPageRoute(widget: AboutUs()));
-                            },
-                            child: Padding(
-                              padding:
-                                  EdgeInsets.only(top: 5, bottom: 5, right: 10),
-                              child: Row(
-                                crossAxisAlignment: CrossAxisAlignment.center,
-                                mainAxisAlignment:
-                                    MainAxisAlignment.spaceBetween,
-                                children: <Widget>[
-                                  Icon(Icons.arrow_back_ios),
-                                  SizedBox(
-                                    width: 50,
-                                  ),
-                                  SizedBox(
-                                    width: 60,
-                                  ),
-                                  SizedBox(
-                                    width: 60,
-                                  ),
-                                  SizedBox(
-                                    width: 50,
-                                  ),
-                                  Text('حول التطبيق',
-                                      textAlign: TextAlign.right,
-                                      style: TextStyle(
-                                          decoration: TextDecoration.none,
-                                          fontSize: 17,
-                                          fontFamily: 'AmiriQuran',
-                                          height: 1,
-                                          color: Colors.grey[700])),
-                                  Container(
-                                    decoration: BoxDecoration(
-                                        borderRadius: BorderRadius.circular(4),
-                                        color: Colors.grey[400]),
-                                    child: Padding(
-                                      padding: EdgeInsets.symmetric(
-                                          vertical: 3, horizontal: 3),
-                                      child: Center(
-                                        child: Icon(
-                                          Icons.info,
-                                          color: Colors.blueAccent,
-                                        ),
-                                      ),
-                                    ),
-                                  ),
-                                ],
-                              ),
-                            ),
-                          ),
-                          Container(
-                            width: MediaQuery.of(context).size.width,
-                            height: 1,
-                            color: Colors.grey,
-                          ),
                           InkWell(
                             onTap: () {
                               Navigator.push(
@@ -961,6 +809,180 @@ class _MyAccountFState extends State<MyAccountF> {
                               ),
                             ),
                           ),
+                          Container(
+                            width: MediaQuery.of(context).size.width,
+                            height: 1,
+                            color: Colors.grey,
+                          ),
+                          InkWell(
+                            onTap: () {
+                              loginAdmin(context);
+                            },
+                            child: Padding(
+                              padding:
+                              EdgeInsets.only(top: 5, bottom: 5, right: 10),
+                              child: Row(
+                                crossAxisAlignment: CrossAxisAlignment.center,
+                                mainAxisAlignment:
+                                MainAxisAlignment.spaceBetween,
+                                children: <Widget>[
+                                  Icon(Icons.arrow_back_ios),
+                                  SizedBox(
+                                    width: 60,
+                                  ),
+                                  SizedBox(
+                                    width: 60,
+                                  ),
+                                  SizedBox(
+                                    width: 60,
+                                  ),
+                                  SizedBox(
+                                    width: 70,
+                                  ),
+                                  Text('طلباتي',
+                                      textAlign: TextAlign.right,
+                                      style: TextStyle(
+                                          decoration: TextDecoration.none,
+                                          fontSize: 17,
+                                          fontFamily: 'AmiriQuran',
+                                          height: 1,
+                                          color: Colors.grey[700])),
+                                  Container(
+                                    decoration: BoxDecoration(
+                                        borderRadius: BorderRadius.circular(4),
+                                        color: Colors.grey[400]),
+                                    child: Padding(
+                                      padding: EdgeInsets.symmetric(
+                                          vertical: 3, horizontal: 3),
+                                      child: Center(
+                                        child: Icon(
+                                          Icons.shopping_cart_outlined,
+                                          color: Colors.blue[900],
+                                        ),
+                                      ),
+                                    ),
+                                  ),
+                                ],
+                              ),
+                            ),
+                          ),
+                          Container(
+                            width: MediaQuery.of(context).size.width,
+                            height: 1,
+                            color: Colors.grey,
+                          ),
+                          InkWell(
+                            onTap: () {
+                              Navigator.push(
+                                  context, BouncyPageRoute(widget: AboutUs()));
+                            },
+                            child: Padding(
+                              padding:
+                              EdgeInsets.only(top: 5, bottom: 5, right: 10),
+                              child: Row(
+                                crossAxisAlignment: CrossAxisAlignment.center,
+                                mainAxisAlignment:
+                                MainAxisAlignment.spaceBetween,
+                                children: <Widget>[
+                                  Icon(Icons.arrow_back_ios),
+                                  SizedBox(
+                                    width: 50,
+                                  ),
+                                  SizedBox(
+                                    width: 60,
+                                  ),
+                                  SizedBox(
+                                    width: 60,
+                                  ),
+                                  SizedBox(
+                                    width: 50,
+                                  ),
+                                  Text('حول التطبيق',
+                                      textAlign: TextAlign.right,
+                                      style: TextStyle(
+                                          decoration: TextDecoration.none,
+                                          fontSize: 17,
+                                          fontFamily: 'AmiriQuran',
+                                          height: 1,
+                                          color: Colors.grey[700])),
+                                  Container(
+                                    decoration: BoxDecoration(
+                                        borderRadius: BorderRadius.circular(4),
+                                        color: Colors.grey[400]),
+                                    child: Padding(
+                                      padding: EdgeInsets.symmetric(
+                                          vertical: 3, horizontal: 3),
+                                      child: Center(
+                                        child: Icon(
+                                          Icons.info,
+                                          color: Colors.blueAccent,
+                                        ),
+                                      ),
+                                    ),
+                                  ),
+                                ],
+                              ),
+                            ),
+                          ),
+                          Container(
+                            width: MediaQuery.of(context).size.width,
+                            height: 1,
+                            color: Colors.grey,
+                          ),
+                          InkWell(
+                            onTap: () {
+                              Navigator.push(
+                                  context, BouncyPageRoute(widget: Contact()));
+                            },
+                            child: Padding(
+                              padding:
+                              EdgeInsets.only(top: 5, bottom: 5, right: 10),
+                              child: Row(
+                                crossAxisAlignment: CrossAxisAlignment.center,
+                                mainAxisAlignment:
+                                MainAxisAlignment.spaceBetween,
+                                children: <Widget>[
+                                  Icon(Icons.arrow_back_ios),
+                                  SizedBox(
+                                    width: 50,
+                                  ),
+                                  SizedBox(
+                                    width: 40,
+                                  ),
+                                  SizedBox(
+                                    width: 70,
+                                  ),
+                                  SizedBox(
+                                    width: 70,
+                                  ),
+                                  Text('اتصل بنا',
+                                      textAlign: TextAlign.right,
+                                      style: TextStyle(
+                                          decoration: TextDecoration.none,
+                                          fontSize: 17,
+                                          fontFamily: 'AmiriQuran',
+                                          height: 1,
+                                          color: Colors.grey[700])),
+                                  Container(
+                                    decoration: BoxDecoration(
+                                        borderRadius: BorderRadius.circular(4),
+                                        color: Colors.grey[400]),
+                                    child: Padding(
+                                      padding: EdgeInsets.symmetric(
+                                          vertical: 3, horizontal: 3),
+                                      child: Center(
+                                        child: Icon(
+                                          Icons.call,
+                                          color: Colors.blueAccent,
+                                        ),
+                                      ),
+                                    ),
+                                  ),
+                                ],
+                              ),
+                            ),
+                          ),
+
                           Container(
                             width: MediaQuery.of(context).size.width,
                             height: 1,

@@ -11,7 +11,6 @@ import 'package:sooq1alzour/Auth/NewLogin.dart';
 import 'package:sooq1alzour/models/PageRoute.dart';
 import 'package:sooq1alzour/ui/ShowAds.dart';
 
-import 'EditAd.dart';
 
 class PrivateChat extends StatefulWidget {
   String documentId;
@@ -154,6 +153,7 @@ class _PrivateChatState extends State<PrivateChat> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
+        centerTitle: true,
         title: Text(
           'دردش',
           style: TextStyle(

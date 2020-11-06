@@ -95,6 +95,7 @@ class _Chating2State extends State<Chating2> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
+        centerTitle: true,
         title: Text('دردش',style: TextStyle(
           fontSize: 20,
           fontFamily: 'AmiriQuran',

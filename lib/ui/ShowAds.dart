@@ -88,7 +88,7 @@ class _ShowAdState extends State<ShowAd> {
     documentsUser = await documentRefUser.get();
     print("enter");
     final key1 =
-        'AAAA3axJ_PM:APA91bF-QTmmVGRzpPvqvaE3xioEvuaBkGmj8JT2aG-puw3_83aSBnEdC5n8RGj78a1n_996CbwbVpk8OxYumCPP8vBAA7ykx7BrXXETkSU-EiySB2hD96Gx8JHsRnbXgyXp2-H9Qk29';
+        'AAAAEqhhPwA:APA91bFNtgChlqlvVRjG0sYMUQUUKJpQlreNC1a0IAV_4ZZTIhdqYGq72IgGdRxnt4vt-9-yoowVbYwHzS6azKwV4GGCEm3WzVdQqS2t2JjyQcPZ5ZR_EQTmyJ69abl4cSE5nFymWR2F';
     final uri = 'https://fcm.googleapis.com/fcm/send';
     final headers = {
       'Content-Type': 'application/json',
@@ -782,7 +782,7 @@ class _ShowAdState extends State<ShowAd> {
                                   stream: _firestore
                                       .collection("messages")
                                       .where('Ad_id', isEqualTo: documentId)
-                                      .orderBy('realTime',descending: true)
+                                      .orderBy('realTime',descending: false)
                                       .snapshots(),
                                   builder: (context, snapshot) {
                                     if (!snapshot.hasData) {

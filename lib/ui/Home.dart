@@ -1,8 +1,6 @@
 import 'dart:async';
 import 'package:flutter_swiper/flutter_swiper.dart';
 import 'dart:ui';
-import 'package:carousel_slider/carousel_options.dart';
-import 'package:carousel_slider/carousel_slider.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:get_it/get_it.dart';
@@ -178,7 +176,7 @@ class _HomeState extends State<Home> {
         overflow: Overflow.visible,
         children: <Widget>[
           Scaffold(
-            backgroundColor: Colors.grey[300],
+            //backgroundColor: Colors.grey[100],
             body: SafeArea(
                 child: Column(
               children: <Widget>[
@@ -232,6 +230,7 @@ class _HomeState extends State<Home> {
                     ? Expanded(
                         child: SingleChildScrollView(
                           child: Container(
+                            color: Colors.grey[300],
                             child: Column(
                               children: <Widget>[
                                 Wrap(
@@ -872,14 +871,14 @@ class MyButton extends StatelessWidget {
             boxShadow: [
               BoxShadow(
                   color: Colors.grey[600],
-                  offset: Offset(4.0, 4.0),
+                  offset: Offset(2.0, 2.0),
                   blurRadius: 10.0,
-                  spreadRadius: 1.0),
+                  spreadRadius: 0.0),
               BoxShadow(
                   color: Colors.white,
-                  offset: Offset(-2.0, -2.0),
+                  offset: Offset(-1.0, -2.0),
                   blurRadius: 15.0,
-                  spreadRadius: 1.0),
+                  spreadRadius: 0.0),
             ],
             gradient: LinearGradient(
                 begin: Alignment.topLeft,
@@ -918,7 +917,6 @@ class GridViewItems extends StatelessWidget {
       onTap: callback,
       child: Card(
         elevation: 0,
-        color: Colors.grey[200],
         child: SizedBox(
           width: screenSizeWidth2 > 395 ? 190 : 172,
           height: 170,
@@ -937,7 +935,7 @@ class GridViewItems extends StatelessWidget {
                     margin: EdgeInsets.symmetric(horizontal: 27, vertical: 71),
                     decoration: BoxDecoration(
                         borderRadius: BorderRadius.circular(5),
-                        color: Colors.grey[50]),
+                        color: Colors.grey[300]),
                     child: Center(
                       child: Text(
                         text,
@@ -985,7 +983,7 @@ Widget areaForAd() {
           scrollDirection: Axis.horizontal,
           itemCount: adImagesUrlF.length,
           itemWidth: screenSizeWidth2-10,
-          itemHeight: 86.0,
+          itemHeight: 90.0,
           duration: 2000,
           autoplayDelay: 13000,
           autoplay: true,
@@ -1008,6 +1006,7 @@ class _NewAdsState extends State<NewAds> {
   @override
   Widget build(BuildContext context) {
     return Material(
+      color: Colors.grey[300],
         child: StreamBuilder(
             stream: Firestore.instance
                 .collection('Ads')

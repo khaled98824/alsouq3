@@ -6,6 +6,7 @@ import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 class PushNotificationService {
 
   final FirebaseMessaging _fcm = FirebaseMessaging();
+  bool a ;
   static Future<dynamic> myBackgroundMessageHandler(Map<String, dynamic> message) async {
     print("Enter");
     if (message.containsKey('data')) {
