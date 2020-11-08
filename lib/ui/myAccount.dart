@@ -9,6 +9,7 @@ import 'package:sooq1alzour/models/PageRoute.dart';
 import 'package:sooq1alzour/Admin/Admin.dart';
 import 'package:sooq1alzour/ui/ComplaintsAndSuggestions.dart';
 import 'package:sooq1alzour/ui/EditAd.dart';
+import 'package:sooq1alzour/ui/Requests.dart';
 import 'package:sooq1alzour/ui/myAds.dart';
 import 'AddNewAd.dart';
 import 'Home.dart';
@@ -639,7 +640,64 @@ class _MyAccountFState extends State<MyAccountF> {
                             height: 1,
                             color: Colors.grey,
                           ),
+                          InkWell(
+                            onTap: () {
+                              Navigator.push(context, BouncyPageRoute(widget: MyRequests()));
 
+                            },
+                            child: Padding(
+                              padding:
+                              EdgeInsets.only(top: 5, bottom: 5, right: 10),
+                              child: Row(
+                                crossAxisAlignment: CrossAxisAlignment.center,
+                                mainAxisAlignment:
+                                MainAxisAlignment.spaceBetween,
+                                children: <Widget>[
+                                  Icon(Icons.arrow_back_ios),
+                                  SizedBox(
+                                    width: 60,
+                                  ),
+                                  SizedBox(
+                                    width: 60,
+                                  ),
+                                  SizedBox(
+                                    width: 60,
+                                  ),
+                                  SizedBox(
+                                    width: 70,
+                                  ),
+                                  Text('طلباتي',
+                                      textAlign: TextAlign.right,
+                                      style: TextStyle(
+                                          decoration: TextDecoration.none,
+                                          fontSize: 17,
+                                          fontFamily: 'AmiriQuran',
+                                          height: 1,
+                                          color: Colors.grey[700])),
+                                  Container(
+                                    decoration: BoxDecoration(
+                                        borderRadius: BorderRadius.circular(4),
+                                        color: Colors.grey[400]),
+                                    child: Padding(
+                                      padding: EdgeInsets.symmetric(
+                                          vertical: 3, horizontal: 3),
+                                      child: Center(
+                                        child: Icon(
+                                          Icons.shopping_cart_outlined,
+                                          color: Colors.blue[900],
+                                        ),
+                                      ),
+                                    ),
+                                  ),
+                                ],
+                              ),
+                            ),
+                          ),
+                          Container(
+                            width: MediaQuery.of(context).size.width,
+                            height: 1,
+                            color: Colors.grey,
+                          ),
                           InkWell(
                             onTap: () {
                               Navigator.push(
@@ -814,63 +872,7 @@ class _MyAccountFState extends State<MyAccountF> {
                             height: 1,
                             color: Colors.grey,
                           ),
-                          InkWell(
-                            onTap: () {
-                              loginAdmin(context);
-                            },
-                            child: Padding(
-                              padding:
-                              EdgeInsets.only(top: 5, bottom: 5, right: 10),
-                              child: Row(
-                                crossAxisAlignment: CrossAxisAlignment.center,
-                                mainAxisAlignment:
-                                MainAxisAlignment.spaceBetween,
-                                children: <Widget>[
-                                  Icon(Icons.arrow_back_ios),
-                                  SizedBox(
-                                    width: 60,
-                                  ),
-                                  SizedBox(
-                                    width: 60,
-                                  ),
-                                  SizedBox(
-                                    width: 60,
-                                  ),
-                                  SizedBox(
-                                    width: 70,
-                                  ),
-                                  Text('طلباتي',
-                                      textAlign: TextAlign.right,
-                                      style: TextStyle(
-                                          decoration: TextDecoration.none,
-                                          fontSize: 17,
-                                          fontFamily: 'AmiriQuran',
-                                          height: 1,
-                                          color: Colors.grey[700])),
-                                  Container(
-                                    decoration: BoxDecoration(
-                                        borderRadius: BorderRadius.circular(4),
-                                        color: Colors.grey[400]),
-                                    child: Padding(
-                                      padding: EdgeInsets.symmetric(
-                                          vertical: 3, horizontal: 3),
-                                      child: Center(
-                                        child: Icon(
-                                          Icons.shopping_cart_outlined,
-                                          color: Colors.blue[900],
-                                        ),
-                                      ),
-                                    ),
-                                  ),
-                                ],
-                              ),
-                            ),
-                          ),
-                          Container(
-                            width: MediaQuery.of(context).size.width,
-                            height: 1,
-                            color: Colors.grey,
-                          ),
+
                           InkWell(
                             onTap: () {
                               Navigator.push(

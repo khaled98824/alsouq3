@@ -10,6 +10,7 @@ import 'package:sooq1alzour/ui/MyChats.dart';
 import 'package:sooq1alzour/ui/SearchUi.dart';
 import 'package:sooq1alzour/ui/SplashScreen.dart';
 import 'package:provider/provider.dart';
+import 'package:sooq1alzour/ui/addNewRequest.dart';
 import 'package:sooq1alzour/ui/categories/Cars&MotorCycles.dart';
 import 'package:sooq1alzour/ui/categories/Clothes.dart';
 import 'package:sooq1alzour/ui/categories/DevicesAndElectronics.dart';
@@ -58,6 +59,7 @@ class MyApp extends StatelessWidget {
           primarySwatch: Colors.indigo,
         ),
         routes: {
+          AddNewRequest.id : (context) => AddNewRequest(),
           Exchange.id : (context) => Exchange(),
           MyChats.id : (context) => MyChats(),
           SearchUi.id : (context) => SearchUi(),

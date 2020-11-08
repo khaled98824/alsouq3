@@ -49,7 +49,7 @@ class _AddNewAdState extends State<AddNewAd> {
   bool choseCategory = true;
   bool choseCategory2 = true;
   bool statusShow = true;
-
+  bool showAreaTextField = false;
   var dropItemsGames = [
     'إختر القسم الفرعي',
     'ألعاب موبايل',
@@ -151,22 +151,10 @@ class _AddNewAdState extends State<AddNewAd> {
   ];
   var dropSelectItemCategory = 'إختر القسم الرئيسي';
   String category = '';
-  List<String> dropItemsArea = ['إختر المنطقة من هنا', 'الباغوز', 'السوسة',
-    'الشعفة', 'البوخاطر', 'هجين', 'البحرة',
-    'غرانيج', 'الكشكية', 'ابو حمام', 'ابو حردوب',
-    'البورحمة', 'سويدان', 'درنج', 'جمة',
-    'الشنان', 'الطيانة', 'ذيبان', 'الحوايج',
-    'الشحيل', 'الزر', 'البصيرة', 'الحجنة',
-    'الصور', 'الشدادي',
-    'الحسكة', 'جديد عقيدات', 'جديد بكارة', 'خشام',
-    'مراط', 'حطلة', 'الحسينية', 'الكسرة',
-    'حمار العلي','دير الزور',
-    'الرقة', 'منبج', 'حلب',
-    'إدلب', 'حمص', 'حماة',
-    'دمشق', 'درعا', 'حلب',
+  List<String> dropItemsArea = ['إختر المحافظة',
   ];
 
-  var dropSelectItemArea = 'إختر المنطقة من هنا';
+  var dropSelectItemArea = 'إختر المحافظة';
   String area = '';
   bool chacked = false;
   bool chacked2 = false;
@@ -174,6 +162,8 @@ class _AddNewAdState extends State<AddNewAd> {
   TextEditingController descriptionController = TextEditingController();
   TextEditingController priceController = TextEditingController();
   TextEditingController phoneController = TextEditingController();
+  TextEditingController areaController = TextEditingController();
+
   final _formkey = GlobalKey<FormState>();
 
   var status = 'مستعمل';
@@ -406,7 +396,7 @@ class _AddNewAdState extends State<AddNewAd> {
     var firestore = Firestore.instance;
 
     QuerySnapshot qusListUsers =
-        await firestore.collection('NewZ').getDocuments();
+        await firestore.collection('NewZios').getDocuments();
     if (qusListUsers != null) {
       for (int i = 0; qusListUsers.documents.length > newZList.length; i++) {
         setState(() {
@@ -919,7 +909,7 @@ class _AddNewAdState extends State<AddNewAd> {
                                   return 'أدخل إسم لإعلانك';
                                 }
                               },
-                              maxLines: 2,
+                              maxLines: 1,
                               controller: nameController,
                               textAlign: TextAlign.right,
                               decoration: InputDecoration(
@@ -1087,7 +1077,7 @@ class _AddNewAdState extends State<AddNewAd> {
                           alignment: WrapAlignment.end,
                           children: <Widget>[
                             DropdownButton<String>(
-                              iconSize: 30,
+                              iconSize: 22,
                               style: TextStyle(color: Colors.green[800]),
                               items: dropItemsArea.map((String selectItem) {
                                 return DropdownMenuItem(
@@ -1101,31 +1091,62 @@ class _AddNewAdState extends State<AddNewAd> {
                                   padding: EdgeInsets.only(left: 6),
                                   child: Icon(
                                     Icons.menu,
-                                    size: 28,
+                                    size: 26,
                                   )),
                               onChanged: (String theDate) {
                                 setState(() {
                                   dropSelectItemArea = theDate;
                                   area = theDate;
+                                  showAreaTextField = true;
                                 });
                               },
                               value: dropSelectItemArea,
                               elevation: 7,
                             ),
                             Text(
-                              ': تحديد المنطقة ',
+                              'إختر المحافظة ثم أدخل منطقتك',
                               textAlign: TextAlign.center,
                               style: TextStyle(
                                   fontSize: 16,
                                   fontFamily: 'AmiriQuran',
                                   height: 1),
                             ),
+                            showAreaTextField ? SizedBox(
+                              height: 33,
+                              width: 200,
+                              child: TextFormField(
+                                controller: areaController,
+                                validator: (value) {
+                                  if (value.isEmpty) {
+                                    return 'أدخل منطقتك ...';
+                                  }
+                                },
+                                maxLines: 1,
+                                textAlign: TextAlign.right,
+                                decoration: InputDecoration(
+                                  hintText: '... أدخل منطقتك هنا',
+                                  hintStyle: TextStyle(
+                                    fontSize: 15,
+                                    height: 1
+                                  ),
+                                  enabledBorder: OutlineInputBorder(
+                                    borderSide:
+                                    BorderSide(color: Colors.blueAccent),
+                                    borderRadius: BorderRadius.circular(10),
+                                  ),
+                                  focusedBorder: OutlineInputBorder(
+                                    borderSide: BorderSide(color: Colors.green),
+                                    borderRadius: BorderRadius.circular(10),
+                                  ),
+                                ),
+                              ),
+                            ):Container(),
                           ],
                         ),
                       ),
                     ),
                     Padding(
-                      padding: EdgeInsets.only(top: 1),
+                      padding: EdgeInsets.only(top: 6),
                       child: Container(
                         width: MediaQuery.of(context).size.width - 5,
                         height: 4,
@@ -1151,7 +1172,7 @@ class _AddNewAdState extends State<AddNewAd> {
                           ),
                           Padding(
                             padding: EdgeInsets.only(
-                                top: 2, bottom: 3, left: 3, right: 1),
+                                top: 5, bottom: 3, left: 3, right: 1),
                             child: SizedBox(
                               width: 220,
                               height: 43,
@@ -1215,7 +1236,7 @@ class _AddNewAdState extends State<AddNewAd> {
                         children: <Widget>[
                           Padding(
                             padding: EdgeInsets.only(
-                                top: 2, bottom: 3, left: 3, right: 1),
+                                top: 6, bottom: 3, left: 3, right: 1),
                             child: SizedBox(
                               width: 220,
                               height: 43,
@@ -1323,7 +1344,7 @@ class _AddNewAdState extends State<AddNewAd> {
                         ],
                       ),
                     ),
-                    SizedBox(height: 60,)
+                    SizedBox(height: 80,)
                   ],
                 ),
               ),
@@ -1560,7 +1581,7 @@ class _AddNewAdState extends State<AddNewAd> {
         'time': DateFormat('yyyy-MM-dd-HH:mm').format(DateTime.now()),
         'status': _status,
         'description': _description,
-        'area': _area,
+        'area': _area +' = '+ areaController.text,
         'price': _price,
         'deviceNo': _deviceNo,
         'imagesUrl': urlImages,
@@ -1568,6 +1589,7 @@ class _AddNewAdState extends State<AddNewAd> {
         'uid': sharedPref.getString('name'),
         'likes':0,
         'views':0,
+        'isRequest': false,
       });
       nameController.clear();
       descriptionController.clear();

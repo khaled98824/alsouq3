@@ -14,6 +14,7 @@ import 'package:sooq1alzour/ui/AddNewAd.dart';
 import 'package:sooq1alzour/ui/AllAds.dart';
 import 'package:sooq1alzour/ui/SerchData.dart';
 import 'package:sooq1alzour/ui/ShowAds.dart';
+import 'package:sooq1alzour/ui/allRequests.dart';
 import 'package:sooq1alzour/ui/categories/Cars&MotorCycles.dart';
 import 'package:sooq1alzour/ui/categories/Clothes.dart';
 import 'package:sooq1alzour/ui/categories/DevicesAndElectronics.dart';
@@ -44,7 +45,10 @@ QuerySnapshot myChats ;
 int chatsCount =0 ;
 int myMessagesCount =0;
 QuerySnapshot myMessagesD ;
-
+bool doLike = false;
+var sizeForAd ;
+var duration ;
+var autoplayDelay ;
 bool showNewChatAlert = false;
 final List<String> _listItem = [
   'assets/images/Elct2.jpg',
@@ -59,6 +63,7 @@ final List<String> _listItem = [
   'assets/images/game.jpg',
   'assets/images/clothes.jpg',
   'assets/images/food.jpg',
+  'assets/images/requests.jpg'
 ];
 
 bool categoryOrAds = true;
@@ -127,6 +132,9 @@ class _HomeState extends State<Home> {
         .document('gocqpQlhow2tfetqlGpP');
     documentsAds = await documentRef.get();
     adImagesUrlF = documentsAds.data['urls'];
+    // sizeForAd =double.parse(documentsAds.data['size']) ;
+    // autoplayDelay = double.parse(documentsAds.data['autoplayDelay']);
+    // duration = double.parse(documentsAds.data['duration']);
     setState(() {
       showSliderAds = true;
     });
@@ -373,6 +381,25 @@ class _HomeState extends State<Home> {
                                     )
                                   ],
                                 ),
+
+                                Wrap(
+                                  crossAxisAlignment: WrapCrossAlignment.center,
+                                  alignment: WrapAlignment.spaceAround,
+                                  children: <Widget>[
+                                    GridViewItems(
+                                      text: "طلبات المستخدمين",
+                                      imagePath: _listItem[12],
+                                      callback: () {
+                                        Navigator.of(context)
+                                            .push(BouncyPageRoute(widget: AllRequests(
+                                          department: "",
+                                          category: "",
+                                        )));
+                                      },
+                                    ),
+
+                                  ],
+                                ),
                               ],
                             ),
                           ),
@@ -381,36 +408,17 @@ class _HomeState extends State<Home> {
                     : Expanded(
                         child: Container(
                             child: Padding(
-                        padding: EdgeInsets.only(top: 12),
+                        padding: EdgeInsets.only(top: 2),
                         child: Stack(
                           children: <Widget>[
-                            Align(
-                              alignment: Alignment(1, -1.1),
-                              child: Padding(
-                                padding: EdgeInsets.symmetric(
-                                    vertical: 13, horizontal: 4),
-                                child: Card(
-                                  child: Padding(
-                                    padding: EdgeInsets.only(
-                                        bottom: 6, top: 6, right: 30, left: 30),
-                                    child: Text(
-                                      'أحدث الإعلانات',
-                                      textAlign: TextAlign.center,
-                                      style: TextStyle(
-                                          fontSize: 16,
-                                          fontFamily: 'AmiriQuran',
-                                          height: 1),
-                                    ),
-                                  ),
-                                ),
-                              ),
-                            ),
+
                             Padding(
-                                padding: EdgeInsets.only(top: 30),
+                                padding: EdgeInsets.only(top: 4),
                                 child: NewAds()),
                           ],
                         ),
                       ))),
+                SizedBox(height: 80,)
               ],
             )),
 
@@ -983,7 +991,7 @@ Widget areaForAd() {
           scrollDirection: Axis.horizontal,
           itemCount: adImagesUrlF.length,
           itemWidth: screenSizeWidth2-10,
-          itemHeight: 90.0,
+          itemHeight: 99.0,
           duration: 2000,
           autoplayDelay: 13000,
           autoplay: true,
@@ -1009,7 +1017,7 @@ class _NewAdsState extends State<NewAds> {
       color: Colors.grey[300],
         child: StreamBuilder(
             stream: Firestore.instance
-                .collection('Ads')
+                .collection('Ads').where('isRequest',isEqualTo: false)
                 .orderBy('time',descending: true)
                 .snapshots(),
             builder:
@@ -1160,7 +1168,7 @@ class _NewAdsState extends State<NewAds> {
                                                             .documents[index]
                                                         ['area'],
                                                     style: TextStyle(
-                                                      fontSize: 14,
+                                                      fontSize: 13,
                                                       fontFamily: 'AmiriQuran',
                                                       height: 1.2,
                                                     ),
@@ -1168,14 +1176,14 @@ class _NewAdsState extends State<NewAds> {
                                                   SizedBox(
                                                     width: 3,
                                                   ),
-                                                  Text(
-                                                    ': المنطقة',
-                                                    style: TextStyle(
-                                                      fontSize: 14,
-                                                      fontFamily: 'AmiriQuran',
-                                                      height: 1.3,
-                                                    ),
-                                                  ),
+                                                  // Text(
+                                                  //   ': المنطقة',
+                                                  //   style: TextStyle(
+                                                  //     fontSize: 14,
+                                                  //     fontFamily: 'AmiriQuran',
+                                                  //     height: 1.3,
+                                                  //   ),
+                                                  // ),
                                                   SizedBox(
                                                     width: 9,
                                                   ),
@@ -1210,7 +1218,7 @@ class _NewAdsState extends State<NewAds> {
                                                   Text(
                                                     ': لايك',
                                                     style: TextStyle(
-                                                      fontSize: 12,
+                                                      fontSize: 11,
                                                       fontFamily: 'AmiriQuran',
                                                       height: 0,
                                                     ),

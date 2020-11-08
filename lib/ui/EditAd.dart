@@ -51,7 +51,7 @@ var adImagesUrl =List<dynamic>();
 bool showSlider=false;
 bool showBody=false;
 var  currectUser ;
-
+bool showAreaTextField = false ;
 class _EditAdState extends State<EditAd> {
   String documentId;
   int indexDocument;
@@ -165,21 +165,8 @@ class _EditAdState extends State<EditAd> {
   var dropSelectItemCategory = 'إختر القسم الرئيسي';
   String category = '';
 
-  var dropSelectItemArea = 'إختر المنطقة من هنا';
-  var dropItemsArea = ['إختر المنطقة من هنا', 'الباغوز', 'السوسة',
-    'الشعفة', 'البوخاطر', 'هجين', 'البحرة',
-    'غرانيج', 'الكشكية', 'ابو حمام', 'ابو حردوب',
-    'البورحمة', 'سويدان', 'درنج', 'جمة',
-    'الشنان', 'الطيانة', 'ذيبان', 'الحوايج',
-    'الشحيل', 'الزر', 'البصيرة', 'الحجنة',
-    'الصور', 'الشدادي',
-    'الحسكة', 'جديد عقيدات', 'جديد بكارة', 'خشام',
-    'مراط', 'حطلة', 'الحسينية', 'الكسرة',
-    'حمار العلي','دير الزور',
-    'الرقة', 'منبج', 'حلب',
-    'إدلب', 'حمص', 'حماة',
-    'دمشق', 'درعا', 'حلب',
-  ];
+  var dropSelectItemArea = 'إختر المحافظة';
+  var dropItemsArea = ['إختر المحافظة',];
 
 
   String area = '';
@@ -189,6 +176,8 @@ class _EditAdState extends State<EditAd> {
   TextEditingController descriptionController = TextEditingController();
   TextEditingController priceController = TextEditingController();
   TextEditingController phoneController = TextEditingController();
+  TextEditingController areaController = TextEditingController();
+
   final _formkey = GlobalKey<FormState>();
 
   var status = 'مستعمل';
@@ -393,7 +382,7 @@ class _EditAdState extends State<EditAd> {
     var firestore = Firestore.instance;
 
     QuerySnapshot qusListUsers =
-    await firestore.collection('NewZ').getDocuments();
+    await firestore.collection('NewZios').getDocuments();
     if (qusListUsers != null) {
       newZList.clear();
       for (int i = 0; qusListUsers.documents.length > newZList.length; i++) {
@@ -405,14 +394,14 @@ class _EditAdState extends State<EditAd> {
       print(newZList);
       if (newZList.length > 1) {
         setState(() {
-          //dropItemsArea = newZList;
+          dropItemsArea = newZList;
         });
       }
     }
   }
 
   getDocumentValue()async{
-    DocumentReference documentRef =Firestore.instance.collection('Ads').document(documentId);
+    DocumentReference documentRef = Firestore.instance.collection('Ads').document(documentId);
     documentsAds = await documentRef.get();
     adImagesUrl = documentsAds.data['imagesUrl'];
     setState(() {
@@ -1064,7 +1053,7 @@ class _EditAdState extends State<EditAd> {
                         alignment: WrapAlignment.end,
                         children: <Widget>[
                           DropdownButton<String>(
-                            iconSize: 30,
+                            iconSize: 22,
                             style: TextStyle(color: Colors.green[800]),
                             items: dropItemsArea.map((String selectItem) {
                               return DropdownMenuItem(
@@ -1078,31 +1067,62 @@ class _EditAdState extends State<EditAd> {
                                 padding: EdgeInsets.only(left: 6),
                                 child: Icon(
                                   Icons.menu,
-                                  size: 28,
+                                  size: 26,
                                 )),
                             onChanged: (String theDate) {
                               setState(() {
                                 dropSelectItemArea = theDate;
                                 area = theDate;
+                                showAreaTextField = true;
                               });
                             },
                             value: dropSelectItemArea,
                             elevation: 7,
                           ),
                           Text(
-                            ': تحديد المنطقة ',
+                            'إختر المحافظة ثم أدخل منطقتك',
                             textAlign: TextAlign.center,
                             style: TextStyle(
-                                fontSize: 20,
+                                fontSize: 16,
                                 fontFamily: 'AmiriQuran',
-                                height: 0.5),
+                                height: 1),
                           ),
+                          showAreaTextField ? SizedBox(
+                            height: 33,
+                            width: 200,
+                            child: TextFormField(
+                              controller: areaController,
+                              validator: (value) {
+                                if (value.isEmpty) {
+                                  return 'أدخل منطقتك ...';
+                                }
+                              },
+                              maxLines: 1,
+                              textAlign: TextAlign.right,
+                              decoration: InputDecoration(
+                                hintText: '... أدخل منطقتك هنا',
+                                hintStyle: TextStyle(
+                                    fontSize: 15,
+                                    height: 1
+                                ),
+                                enabledBorder: OutlineInputBorder(
+                                  borderSide:
+                                  BorderSide(color: Colors.blueAccent),
+                                  borderRadius: BorderRadius.circular(10),
+                                ),
+                                focusedBorder: OutlineInputBorder(
+                                  borderSide: BorderSide(color: Colors.green),
+                                  borderRadius: BorderRadius.circular(10),
+                                ),
+                              ),
+                            ),
+                          ):Container(),
                         ],
                       ),
                     ),
                   ),
                   Padding(
-                    padding: EdgeInsets.only(top: 1),
+                    padding: EdgeInsets.only(top: 6),
                     child: Container(
                       width: MediaQuery.of(context).size.width - 5,
                       height: 4,
@@ -1311,91 +1331,7 @@ class _EditAdState extends State<EditAd> {
               ),
             ),
           ),
-          bottomNavigationBar: CurvedNavigationBar(
-              color: Colors.red[500],
-              backgroundColor: Colors.orange,
-              buttonBackgroundColor: Colors.white,
-              animationDuration: Duration(milliseconds: 300),
-              height: 66,
-              animationCurve: Curves.bounceInOut,
-              index: 1,
-              onTap: (index) {
-                Timer(Duration(milliseconds: 300), () {
-                  if (index == 0) {
-                    Navigator.of(context).pushNamed(MyAccount.id);
-                    loadingImage = false;
-                  } else if (index == 1) {
-                    Navigator.of(context).pushNamed(EditAd.id);
-                    loadingImage = false;
-                  } else if (index == 2) {
-                    Navigator.of(context).pushNamed(Home.id);
-                    loadingImage = false;
-                  }
-                });
-              },
-              items: <Widget>[
-                Icon(
-                  Icons.person,
-                  color: Colors.blue[900],
-                  size: 29,
-                ),
-                Icon(
-                  Icons.add_photo_alternate,
-                  color: Colors.blue[900],
-                  size: 31,
-                ),
-                Icon(
-                  Icons.home,
-                  color: Colors.blue[900],
-                  size: 29,
-                ),
-              ]),
-        ),
-        Align(
-          alignment: Alignment(1, 1),
-          child: Padding(
-            padding: EdgeInsets.symmetric(vertical: 10, horizontal: 48),
-            child: Text(
-              'الرئيسية',
-              style: TextStyle(
-                  fontSize: 15,
-                  color: Colors.white,
-                  decoration: TextDecoration.none,
-                  fontFamily: 'AmiriQuran',
-                  height: 1),
-            ),
-          ),
-        ),
-        Align(
-          alignment: Alignment(-1, 1),
-          child: Padding(
-            padding: EdgeInsets.symmetric(vertical: 10, horizontal: 53),
-            child: Text(
-              'حسابي',
-              style: TextStyle(
-                  fontSize: 15,
-                  color: Colors.white,
-                  decoration: TextDecoration.none,
-                  fontFamily: 'AmiriQuran',
-                  height: 1),
-            ),
-          ),
-        ),
-        Align(
-          alignment: Alignment(-0.1, 1),
-          child: Padding(
-            padding: EdgeInsets.symmetric(vertical: 10, horizontal: 40),
-            child: Text(
-              'أضف إعلان',
-              style: TextStyle(
-                  fontSize: 16,
-                  color: Colors.white,
-                  decoration: TextDecoration.none,
-                  fontFamily: 'AmiriQuran',
-                  height: 1),
-            ),
-          ),
-        ),
+        )
       ],
     );
   }
@@ -1457,7 +1393,7 @@ class _EditAdState extends State<EditAd> {
           'time': DateFormat('yyyy-MM-dd-HH:mm').format(DateTime.now()),
           'status': _status,
           'description': _description,
-          'area': _area,
+          'area': _area +' = '+ areaController.text,
           'price': _price,
           'deviceNo': _deviceNo,
           'imagesUrl': urlImages,

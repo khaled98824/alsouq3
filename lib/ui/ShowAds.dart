@@ -34,7 +34,7 @@ String currentUserName;
 TextEditingController messageController = TextEditingController();
 ScrollController scrollController = ScrollController();
 int imageUrl4Show;
-
+bool isRequest = true ;
 var adImagesUrl = List<dynamic>();
 bool showSlider = false;
 bool showBody = false;
@@ -78,8 +78,9 @@ class _ShowAdState extends State<ShowAd> {
     setState(() {
       showSlider = true;
       showBody = true;
+      isRequest = documentsAds.data['isRequest'];
     });
-    setState(() {});
+
   }
 
   makePostRequest(token1, AdsN) async {
@@ -423,8 +424,53 @@ class _ShowAdState extends State<ShowAd> {
                               color: Colors.grey[300]),
                         ),
                         SizedBox(
-                          height:5,
+                          height:7,
                         ),
+                        isRequest ? Row(
+                          mainAxisAlignment: MainAxisAlignment.end,
+                          children: <Widget>[
+                            Text(
+                              'طلب',
+                              textAlign: TextAlign.right,
+                              style: TextStyle(
+                                fontSize: 16,
+                                fontFamily: 'AmiriQuran',
+                                height: 1,
+                                color: Colors.red[600],
+                              ),
+                            ),
+                            SizedBox(
+                              width: 70,
+                            ),
+                            Text(
+                              ': طلب ام إعلان ',
+                              textAlign: TextAlign.right,
+                              style: TextStyle(
+                                fontSize: 16,
+                                fontFamily: 'AmiriQuran',
+                                height: 1,
+                                color: Colors.grey[700],
+                              ),
+                            ),
+                            SizedBox(
+                              width: 10,
+                            )
+                          ],
+                        ):Container(),
+                        isRequest ?SizedBox(
+                          height:7,
+                        ):Container(),
+                        isRequest ? Container(
+                          width: MediaQuery.of(context).size.width - 6,
+                          height: 2,
+                          decoration: BoxDecoration(
+                              borderRadius: BorderRadius.circular(5),
+                              color: Colors.grey[300]),
+                        ):Container(),
+
+                        isRequest ? SizedBox(
+                          height:5,
+                        ):Container(),
                         Row(
                           mainAxisAlignment: MainAxisAlignment.end,
                           children: <Widget>[
@@ -434,7 +480,7 @@ class _ShowAdState extends State<ShowAd> {
                               style: TextStyle(
                                 fontSize: 16,
                                 fontFamily: 'AmiriQuran',
-                                height: 1,
+                                height: 0,
                                 color: Colors.black,
                               ),
                             ),
@@ -469,8 +515,10 @@ class _ShowAdState extends State<ShowAd> {
                         SizedBox(
                           height: 5,
                         ),
-                        Row(
-                          mainAxisAlignment: MainAxisAlignment.end,
+                        Wrap(
+                          crossAxisAlignment: WrapCrossAlignment.center,
+                          alignment: WrapAlignment.end,
+                          runAlignment: WrapAlignment.center,
                           children: <Widget>[
                             Text(
                               documentsAds['description'],
