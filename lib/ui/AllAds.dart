@@ -113,20 +113,29 @@ class _AdsFulState extends State<AdsFul> {
                                     borderRadius: BorderRadius.circular(10),
                                   ),
                                   SizedBox(
-                                    height: 5,
+                                    height: 6,
                                   ),
 
                                  Stack(
                                    children: [
-
-                                     IconButton(
-                                         icon: Icon(Icons.favorite_border,size: 30,color: Colors.red,),
-                                         onPressed: (){
-                                           saveLike(snapshot.data.documents[index].documentID.toString(),
-                                               snapshot.data.documents[index]['name'],
-                                               snapshot.data.documents[index]['likes']
-                                           );
-                                         }),
+                                     Column(
+                                       children: [
+                                         SizedBox(height: 17,),
+                                         Row(
+                                           children: [
+                                             SizedBox(width: 10,),
+                                             InkWell(
+                                                 onTap: (){
+                                                   saveLike(snapshot.data.documents[index].documentID.toString(),
+                                                       snapshot.data.documents[index]['name'],
+                                                       snapshot.data.documents[index]['likes']
+                                                   );
+                                                 },
+                                                 child: Icon(Icons.favorite_border,size: 30,color: Colors.red)),
+                                           ],
+                                         )
+                                       ],
+                                     ),
                                     Container(
                                       child: Column(
                                         children: [
@@ -137,18 +146,20 @@ class _AdsFulState extends State<AdsFul> {
                                               Text(
                                                 snapshot.data.documents[index]['name'],
                                                 style: TextStyle(
-                                                  fontSize: 15,
+                                                  fontSize: 13,
                                                   fontFamily: 'AmiriQuran',
                                                   height: 1.2,
                                                 ),
                                               ),
                                               SizedBox(
-                                                width: 5,
+                                                width:snapshot.data
+                                                    .documents[index]
+                                                ['name'].toString().length<9 ?10:5,
                                               ),
                                             ],
                                           ),
                                           SizedBox(
-                                            height: 4,
+                                            height: 6,
                                           ),
                                           Row(
                                             crossAxisAlignment: CrossAxisAlignment.end,
@@ -158,7 +169,7 @@ class _AdsFulState extends State<AdsFul> {
                                                 snapshot.data.documents[index]['price']
                                                     .toString(),
                                                 style: TextStyle(
-                                                  fontSize: 14,
+                                                  fontSize: 13,
                                                   fontFamily: 'AmiriQuran',
                                                   height: 1.2,
                                                 ),
@@ -169,14 +180,14 @@ class _AdsFulState extends State<AdsFul> {
                                               Text(
                                                 ': السعر',
                                                 style: TextStyle(
-                                                  fontSize: 14,
+                                                  fontSize: 13,
                                                   fontFamily: 'AmiriQuran',
                                                   height: 1.2,
                                                 ),
                                               ),
                                             ],
                                           ),
-
+                                          SizedBox(height: 3,),
                                           Row(
                                             crossAxisAlignment: CrossAxisAlignment.end,
                                             mainAxisAlignment: MainAxisAlignment.end,
@@ -192,31 +203,26 @@ class _AdsFulState extends State<AdsFul> {
                                               SizedBox(
                                                 width: 3,
                                               ),
-                                              Text(
-                                                ': المنطقة',
-                                                style: TextStyle(
-                                                  fontSize: 13,
-                                                  fontFamily: 'AmiriQuran',
-                                                  height: 1.3,
-                                                ),
-                                              ),
                                               SizedBox(
                                                 width: 9,
                                               ),
                                             ],
                                           ),
+                                         SizedBox(height: 4,),
                                          Row(
                                            crossAxisAlignment: CrossAxisAlignment.end,
                                            mainAxisAlignment: MainAxisAlignment.start,
                                            children: [
-                                             SizedBox(width: 4,),
+                                             SizedBox(width: 7,),
                                              snapshot.data.documents[index]['likes'].toString()!= null ?
-                                             Text(snapshot.data.documents[index]['likes'].toString(),style:
+                                             Text(snapshot.data.documents[index]['likes'].toString(),
+                                               style:
                                                TextStyle(
                                                  height: 0,
                                                  fontSize: 12
                                                ),):Container(),
-                                             Text(': لايك',style: TextStyle(
+                                             Text(': لايك',
+                                               style: TextStyle(
                                                fontSize: 12,
                                                fontFamily: 'AmiriQuran',
                                                height: 0,
@@ -228,7 +234,7 @@ class _AdsFulState extends State<AdsFul> {
                                       ),
                                     )
                                    ],
-                                 )
+                                 ),
                                 ],
                               )),
                         ),

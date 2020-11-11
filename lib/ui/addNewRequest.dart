@@ -151,7 +151,10 @@ class _AddNewRequestState extends State<AddNewRequest> {
   ];
   var dropSelectItemCategory = 'إختر القسم الرئيسي';
   String category = '';
-  List<String> dropItemsArea = ['إختر المحافظة',  ];
+  List<String> dropItemsArea = ['إختر المحافظة','دير الزور','الرقة',
+    'الحسكة','القامشلي','حلب','حماة','إدلب','حمص','دمشق','درعا',
+    'ريف دمشق','السويداء','طرطوس','القنيطرة','اللاذقية',
+  ];
 
   var dropSelectItemArea = 'إختر المحافظة';
   String area = '';

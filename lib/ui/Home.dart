@@ -172,6 +172,7 @@ class _HomeState extends State<Home> {
           overflow: Overflow.visible,
           children: <Widget>[
             Scaffold(
+              backgroundColor: Colors.grey[300],
               body: SafeArea(
                   child: Column(
                 children: <Widget>[
@@ -465,7 +466,7 @@ class _HomeState extends State<Home> {
                           children: [
                             IconButton(
                               icon: Icon(
-                                Icons.account_circle_outlined,
+                                Icons.account_circle_outlined,size: 29,
                                 color: currentIndex == 0
                                     ? Color(0xffF26726)
                                     : Colors.grey.shade600,
@@ -496,7 +497,7 @@ class _HomeState extends State<Home> {
                         Column(children: [
                           IconButton(
                               icon: Icon(
-                                Icons.money,
+                                Icons.money,size: 29,
                                 color: currentIndex == 1
                                     ? Color(0xffF26726)
                                     : Colors.grey.shade600,
@@ -530,7 +531,7 @@ class _HomeState extends State<Home> {
 
                           IconButton(
                               icon: Icon(
-                                Icons.chat_outlined,
+                                Icons.chat_outlined,size: 29,
                                 color: currentIndex == 2
                                     ? Color(0xffF26726)
                                     : Colors.grey.shade600,
@@ -561,7 +562,7 @@ class _HomeState extends State<Home> {
                           children: [
                             IconButton(
                                 icon: Icon(
-                                  Icons.home,
+                                  Icons.home,size: 29,
                                   color: currentIndex == 3
                                       ? Color(0xffF26726)
                                       : Colors.grey.shade600,
@@ -959,20 +960,25 @@ Widget areaForAd() {
       children: <Widget>[
         new Swiper(
           itemBuilder: (BuildContext context, int index) {
-            return  Container(
-              decoration: new BoxDecoration(
-                borderRadius: BorderRadius.circular(20),
+            return  InkWell(
+              onTap: (){
+
+              },
+              child: Container(
+                decoration: new BoxDecoration(
+                  borderRadius: BorderRadius.circular(20),
+                ),
+                child:Hero(
+                    tag: Text('imageAd'),
+                    child: ClipRRect(
+                        borderRadius: BorderRadius.circular(3),
+                        child: Image.network(
+                          adImagesUrlF[index],
+                          fit: BoxFit.fill,
+                          // height: 75,
+                          // width: 390,
+                        ))),
               ),
-              child:Hero(
-                  tag: Text('imageAd'),
-                  child: ClipRRect(
-                      borderRadius: BorderRadius.circular(3),
-                      child: Image.network(
-                        adImagesUrlF[index],
-                        fit: BoxFit.fill,
-                        // height: 75,
-                        // width: 390,
-                      ))),
             );
 
           },
@@ -1072,27 +1078,28 @@ class _NewAdsState extends State<NewAds> {
                                       borderRadius: BorderRadius.circular(3),
                                     ),
                                     SizedBox(
-                                      height: 5,
+                                      height: 6,
                                     ),
                                     Stack(
                                       children: [
-                                        IconButton(
-                                            icon: Icon(
-                                              Icons.favorite_border,
-                                              size: 30,
-                                              color: Colors.red,
-                                            ),
-                                            onPressed: () {
-                                              saveLike(
-                                                  snapshot.data.documents[index]
-                                                      .documentID
-                                                      .toString(),
-                                                  snapshot.data.documents[index]
-                                                      ['name'],
-                                                  snapshot.data.documents[index]
-                                                      ['likes']);
-                                            }),
-
+                                        Column(
+                                          children: [
+                                            SizedBox(height: 17,),
+                                            Row(
+                                              children: [
+                                                SizedBox(width: 10,),
+                                                InkWell(
+                                                    onTap: (){
+                                                      saveLike(snapshot.data.documents[index].documentID.toString(),
+                                                          snapshot.data.documents[index]['name'],
+                                                          snapshot.data.documents[index]['likes']
+                                                      );
+                                                    },
+                                                    child: Icon(Icons.favorite_border,size: 30,color: Colors.red)),
+                                              ],
+                                            )
+                                          ],
+                                        ),
                                         Container(
                                           child: Column(
                                             children: [
@@ -1107,13 +1114,15 @@ class _NewAdsState extends State<NewAds> {
                                                             .documents[index]
                                                         ['name'],
                                                     style: TextStyle(
-                                                      fontSize: 14,
+                                                      fontSize: 13,
                                                       fontFamily: 'AmiriQuran',
                                                       height: 1.2,
                                                     ),
                                                   ),
                                                   SizedBox(
-                                                    width: 8,
+                                                    width:snapshot.data
+                                                        .documents[index]
+                                                    ['name'].toString().length<9 ?10:5,
                                                   ),
                                                 ],
                                               ),
@@ -1152,6 +1161,7 @@ class _NewAdsState extends State<NewAds> {
                                                   ),
                                                 ],
                                               ),
+                                              SizedBox(height: 3,),
                                               Row(
                                                 crossAxisAlignment:
                                                     CrossAxisAlignment.end,
@@ -1169,34 +1179,34 @@ class _NewAdsState extends State<NewAds> {
                                                     ),
                                                   ),
                                                   SizedBox(
-                                                    width: 3,
+                                                    width:snapshot.data
+                                                        .documents[index]
+                                                    ['area'].toString().length<9 ?14:3,
                                                   ),
 
-                                                  SizedBox(
-                                                    width: 9,
-                                                  ),
                                                 ],
                                               ),
+                                              SizedBox(height: 4,),
                                               Row(
                                                 crossAxisAlignment:
-                                                    CrossAxisAlignment.end,
+                                                    CrossAxisAlignment.center,
                                                 mainAxisAlignment:
                                                     MainAxisAlignment.start,
                                                 children: [
                                                   SizedBox(
-                                                    width: 4,
+                                                    width: 7,
                                                   ),
                                                   snapshot.data.documents[index]['likes'].toString() != null
                                                       ? Text(snapshot.data.documents[index]['likes']
                                                               .toString(),
                                                           style: TextStyle(
-                                                              height:0.5,
+                                                              height:0.2,
                                                               fontSize: 12),
                                                         )
                                                       : Container(),
                                                   //CountLikes(),
                                                   Text(
-                                                    ': لايك',
+                                                    ' : لايك',
                                                     style: TextStyle(
                                                       fontSize: 11,
                                                       fontFamily: 'AmiriQuran',

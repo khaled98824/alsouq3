@@ -25,7 +25,7 @@ class _NewRegState extends State<NewReg> {
     if(qus!=null){
       for (int i=0; qus.documents.length>_namesList.length;  i ++){
         setState(() {
-          _namesList.add(qus.documents[i]['name']);
+          _namesList.add(qus.documents[i]['user_uid']);
 
         });
 
@@ -173,6 +173,8 @@ class _NewRegState extends State<NewReg> {
           await SharedPreferences.getInstance();
       sharedPref
           .setString('password', _passwordcontroller.text);
+      sharedPref
+          .setString('myArea', _countrycontroller.text);
       sharedPref
           .setString('name', _namecontroller.text)
           .then((value) {

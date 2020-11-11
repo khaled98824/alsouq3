@@ -9,6 +9,7 @@ import 'package:sooq1alzour/models/PageRoute.dart';
 import 'package:sooq1alzour/Admin/Admin.dart';
 import 'package:sooq1alzour/ui/ComplaintsAndSuggestions.dart';
 import 'package:sooq1alzour/ui/EditAd.dart';
+import 'package:sooq1alzour/ui/EditMyAccount.dart';
 import 'package:sooq1alzour/ui/Requests.dart';
 import 'package:sooq1alzour/ui/myAds.dart';
 import 'AddNewAd.dart';
@@ -48,6 +49,7 @@ class _MyAccountFState extends State<MyAccountF> {
       currentIndex = index;
     });
   }
+
   @override
   void initState() {
     getCurrentUserInfo();
@@ -61,9 +63,7 @@ class _MyAccountFState extends State<MyAccountF> {
         if (currentUserId != null) {
           showBody = true;
         }
-
       });
-
     });
   }
 
@@ -72,9 +72,8 @@ class _MyAccountFState extends State<MyAccountF> {
     SharedPreferences sharedPref = await SharedPreferences.getInstance();
     currentUserName = sharedPref.getString('name');
     print(sharedPref.getString('name'));
-    DocumentReference documentRef = Firestore.instance
-        .collection('users')
-        .document(currentUserName);
+    DocumentReference documentRef =
+        Firestore.instance.collection('users').document(currentUserName);
     documentsUser = await documentRef.get();
 
     DocumentReference documentRefAdmin =
@@ -120,7 +119,6 @@ class _MyAccountFState extends State<MyAccountF> {
                         default:
                           return Stack(
                             children: <Widget>[
-
                               Stack(
                                 children: [
                                   Positioned(
@@ -149,17 +147,18 @@ class _MyAccountFState extends State<MyAccountF> {
                                           elevation: 0.1,
                                           onPressed: () {
                                             if (loginStatus) {
-                                              Navigator.of(context).pushNamed(AddNewAd.id);
+                                              Navigator.of(context)
+                                                  .pushNamed(AddNewAd.id);
                                             } else {
                                               loginStatus = false;
                                               print('no');
                                               Navigator.pushReplacement(context,
-                                                  MaterialPageRoute(builder: (context) {
-                                                    return NewLogin(
-                                                      autoLogin: false,
-                                                    );
-                                                  })
-                                              );
+                                                  MaterialPageRoute(
+                                                      builder: (context) {
+                                                return NewLogin(
+                                                  autoLogin: false,
+                                                );
+                                              }));
                                             }
                                           }),
                                     ),
@@ -170,7 +169,8 @@ class _MyAccountFState extends State<MyAccountF> {
                                       width: size.width,
                                       height: 80,
                                       child: Row(
-                                        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                                        mainAxisAlignment:
+                                            MainAxisAlignment.spaceEvenly,
                                         children: [
                                           Column(
                                             children: [
@@ -184,88 +184,114 @@ class _MyAccountFState extends State<MyAccountF> {
                                                 onPressed: () {
                                                   setBottomBarIndex(0);
                                                   if (loginStatus) {
-                                                    Navigator.of(context).pushNamed(MyAccount.id);
+                                                    Navigator.of(context)
+                                                        .pushNamed(
+                                                            MyAccount.id);
                                                   } else {
                                                     print('no dd');
-                                                    Navigator.pushReplacement(context,
-                                                        MaterialPageRoute(builder: (context) {
-                                                          return NewLogin(
-                                                            autoLogin: false,
-                                                          );
-                                                        }));
+                                                    Navigator.pushReplacement(
+                                                        context,
+                                                        MaterialPageRoute(
+                                                            builder: (context) {
+                                                      return NewLogin(
+                                                        autoLogin: false,
+                                                      );
+                                                    }));
                                                   }
                                                 },
                                                 splashColor: Colors.white,
                                               ),
-                                              Text('حسابي',textAlign: TextAlign.center,
+                                              Text(
+                                                'حسابي',
+                                                textAlign: TextAlign.center,
                                                 style: TextStyle(
                                                   height: 0.1,
                                                   fontFamily: 'AmiriQuran',
-                                                ),),
+                                                ),
+                                              ),
                                             ],
                                           ),
-                                          Column(children: [
-                                            IconButton(
-                                                icon: Icon(
-                                                  Icons.info,
-                                                  color: currentIndex == 1
-                                                      ? Color(0xffF26726)
-                                                      : Colors.grey.shade600,
+                                          Column(
+                                            children: [
+                                              IconButton(
+                                                  icon: Icon(
+                                                    Icons.info,
+                                                    color: currentIndex == 1
+                                                        ? Color(0xffF26726)
+                                                        : Colors.grey.shade600,
+                                                  ),
+                                                  onPressed: () {
+                                                    setBottomBarIndex(1);
+                                                    Navigator.push(
+                                                        context,
+                                                        BouncyPageRoute(
+                                                            widget: AboutUs()));
+                                                  }),
+                                              Text(
+                                                'حول التطبيق',
+                                                textAlign: TextAlign.center,
+                                                style: TextStyle(
+                                                  height: 0.1,
+                                                  fontFamily: 'AmiriQuran',
                                                 ),
-                                                onPressed: () {
-                                                  setBottomBarIndex(1);
-                                                  Navigator.push(
-                                                      context, BouncyPageRoute(widget: AboutUs()));
-                                                }),
-                                            Text('حول التطبيق',textAlign: TextAlign.center,
-                                              style: TextStyle(
-                                                height: 0.1,
-                                                fontFamily: 'AmiriQuran',
-                                              ),),
-                                          ],),
+                                              ),
+                                            ],
+                                          ),
                                           Column(
                                             children: [
                                               Container(
                                                 width: size.width * 0.20,
                                               ),
-                                              Text('أضف إعلان',textAlign: TextAlign.center,
+                                              Text(
+                                                'أضف إعلان',
+                                                textAlign: TextAlign.center,
                                                 style: TextStyle(
                                                     height: 5,
                                                     fontFamily: 'AmiriQuran',
                                                     fontSize: 14,
-                                                    color: Color(0xffF26726)
-                                                ),),
+                                                    color: Color(0xffF26726)),
+                                              ),
                                             ],
                                           ),
-                                          Column(children: [
-                                            IconButton(
-                                                icon: Icon(
-                                                  Icons.chat_outlined,
-                                                  color: currentIndex == 2
-                                                      ? Color(0xffF26726)
-                                                      : Colors.grey.shade600,
+                                          Column(
+                                            children: [
+                                              IconButton(
+                                                  icon: Icon(
+                                                    Icons.chat_outlined,
+                                                    color: currentIndex == 2
+                                                        ? Color(0xffF26726)
+                                                        : Colors.grey.shade600,
+                                                  ),
+                                                  onPressed: () {
+                                                    setBottomBarIndex(2);
+                                                    if (loginStatus) {
+                                                      Navigator.of(context)
+                                                          .pushNamed(
+                                                              MyChats.id);
+                                                    } else {
+                                                      loginStatus = false;
+                                                      print('no');
+                                                      Navigator.pushReplacement(
+                                                          context,
+                                                          MaterialPageRoute(
+                                                              builder:
+                                                                  (context) {
+                                                        return NewLogin(
+                                                          autoLogin: false,
+                                                        );
+                                                      }));
+                                                    }
+                                                  }),
+                                              Text(
+                                                'محادثاتي',
+                                                textAlign: TextAlign.center,
+                                                style: TextStyle(
+                                                  height: 0.1,
+                                                  fontFamily: 'AmiriQuran',
                                                 ),
-                                                onPressed: () {
-                                                  setBottomBarIndex(2);
-                                                  if (loginStatus) {
-                                                    Navigator.of(context).pushNamed(MyChats.id);
-                                                  } else {
-                                                    loginStatus = false;
-                                                    print('no');
-                                                    Navigator.pushReplacement(context,
-                                                        MaterialPageRoute(builder: (context) {
-                                                          return NewLogin(
-                                                            autoLogin: false,
-                                                          );
-                                                        }));
-                                                  }
-                                                }),
-                                            Text('محادثاتي',textAlign: TextAlign.center,
-                                              style: TextStyle(
-                                                height: 0.1,
-                                                fontFamily: 'AmiriQuran',
-                                              ),)
-                                          ],),
+                                              )
+                                            ],
+                                          ),
                                           Column(
                                             children: [
                                               IconButton(
@@ -277,13 +303,17 @@ class _MyAccountFState extends State<MyAccountF> {
                                                   ),
                                                   onPressed: () {
                                                     setBottomBarIndex(0);
-                                                    Navigator.of(context).pushNamed(Home.id);
+                                                    Navigator.of(context)
+                                                        .pushNamed(Home.id);
                                                   }),
-                                              Text('الرئيسية',textAlign: TextAlign.center,
+                                              Text(
+                                                'الرئيسية',
+                                                textAlign: TextAlign.center,
                                                 style: TextStyle(
                                                   height: 0.1,
                                                   fontFamily: 'AmiriQuran',
-                                                ),)
+                                                ),
+                                              )
                                             ],
                                           )
                                         ],
@@ -297,7 +327,6 @@ class _MyAccountFState extends State<MyAccountF> {
                       }
                     },
                   )),
-
                 )
               : Column(
                   mainAxisAlignment: MainAxisAlignment.center,
@@ -348,16 +377,17 @@ class _MyAccountFState extends State<MyAccountF> {
                       ),
                       InkWell(
                           onTap: () async {
-
-                              SharedPreferences sharedPref = await SharedPreferences.getInstance();
-                              sharedPref.setInt('navigatorSelect', null);
-                              loginStatus=false;
-                              checkLogin =false;
-                              Navigator.pushReplacement(context,
-                                  MaterialPageRoute(builder: (context) {
-                                    return NewLogin(autoLogin: false,);
-                                  }));
-
+                            SharedPreferences sharedPref =
+                                await SharedPreferences.getInstance();
+                            sharedPref.setInt('navigatorSelect', null);
+                            loginStatus = false;
+                            checkLogin = false;
+                            Navigator.pushReplacement(context,
+                                MaterialPageRoute(builder: (context) {
+                              return NewLogin(
+                                autoLogin: false,
+                              );
+                            }));
                           },
                           child: Icon(
                             Icons.exit_to_app,
@@ -394,7 +424,6 @@ class _MyAccountFState extends State<MyAccountF> {
               ),
             ],
           ),
-
           Align(
             alignment: Alignment(0.9, 0),
             child: Padding(
@@ -589,11 +618,11 @@ class _MyAccountFState extends State<MyAccountF> {
                             },
                             child: Padding(
                               padding:
-                              EdgeInsets.only(top: 5, bottom: 5, right: 10),
+                                  EdgeInsets.only(top: 5, bottom: 5, right: 10),
                               child: Row(
                                 crossAxisAlignment: CrossAxisAlignment.center,
                                 mainAxisAlignment:
-                                MainAxisAlignment.spaceBetween,
+                                    MainAxisAlignment.spaceBetween,
                                 children: <Widget>[
                                   Icon(Icons.arrow_back_ios),
                                   SizedBox(
@@ -642,16 +671,16 @@ class _MyAccountFState extends State<MyAccountF> {
                           ),
                           InkWell(
                             onTap: () {
-                              Navigator.push(context, BouncyPageRoute(widget: MyRequests()));
-
+                              Navigator.push(context,
+                                  BouncyPageRoute(widget: MyRequests()));
                             },
                             child: Padding(
                               padding:
-                              EdgeInsets.only(top: 5, bottom: 5, right: 10),
+                                  EdgeInsets.only(top: 5, bottom: 5, right: 10),
                               child: Row(
                                 crossAxisAlignment: CrossAxisAlignment.center,
                                 mainAxisAlignment:
-                                MainAxisAlignment.spaceBetween,
+                                    MainAxisAlignment.spaceBetween,
                                 children: <Widget>[
                                   Icon(Icons.arrow_back_ios),
                                   SizedBox(
@@ -872,7 +901,6 @@ class _MyAccountFState extends State<MyAccountF> {
                             height: 1,
                             color: Colors.grey,
                           ),
-
                           InkWell(
                             onTap: () {
                               Navigator.push(
@@ -880,11 +908,11 @@ class _MyAccountFState extends State<MyAccountF> {
                             },
                             child: Padding(
                               padding:
-                              EdgeInsets.only(top: 5, bottom: 5, right: 10),
+                                  EdgeInsets.only(top: 5, bottom: 5, right: 10),
                               child: Row(
                                 crossAxisAlignment: CrossAxisAlignment.center,
                                 mainAxisAlignment:
-                                MainAxisAlignment.spaceBetween,
+                                    MainAxisAlignment.spaceBetween,
                                 children: <Widget>[
                                   Icon(Icons.arrow_back_ios),
                                   SizedBox(
@@ -938,11 +966,11 @@ class _MyAccountFState extends State<MyAccountF> {
                             },
                             child: Padding(
                               padding:
-                              EdgeInsets.only(top: 5, bottom: 5, right: 10),
+                                  EdgeInsets.only(top: 5, bottom: 5, right: 10),
                               child: Row(
                                 crossAxisAlignment: CrossAxisAlignment.center,
                                 mainAxisAlignment:
-                                MainAxisAlignment.spaceBetween,
+                                    MainAxisAlignment.spaceBetween,
                                 children: <Widget>[
                                   Icon(Icons.arrow_back_ios),
                                   SizedBox(
@@ -984,12 +1012,45 @@ class _MyAccountFState extends State<MyAccountF> {
                               ),
                             ),
                           ),
-
                           Container(
                             width: MediaQuery.of(context).size.width,
                             height: 1,
                             color: Colors.grey,
                           ),
+                          SizedBox(
+                            height: 10,
+                          ),
+                          InkWell(
+                            onTap: (){
+                              Navigator.push(context,BouncyPageRoute(widget: EditAccount()));
+                            },
+                            child: Container(
+                                width: 180,
+                                height: 40,
+                                decoration: BoxDecoration(
+                                    borderRadius: BorderRadius.circular(10),
+                                    color: Colors.grey[400]),
+                                child: Center(
+                                  child: Row(
+                                    mainAxisAlignment: MainAxisAlignment.end,
+                                    crossAxisAlignment: CrossAxisAlignment.center,
+                                    children: [
+                                      Text('تعديل معلومات حسابي', textAlign: TextAlign.right,
+                                          style: TextStyle(
+                                              decoration: TextDecoration.none,
+                                              fontSize: 15,
+                                              fontFamily: 'AmiriQuran',
+                                              height: 1,
+                                              color: Colors.black)),
+                                      IconButton(
+                                          icon: Icon(Icons.edit_outlined,
+                                            size: 25,
+                                            color: Colors.blue[900],),
+                                          onPressed: () {}),
+                                    ],
+                                  ),
+                                )),
+                          )
                         ],
                       ),
                     )
@@ -1001,7 +1062,7 @@ class _MyAccountFState extends State<MyAccountF> {
     );
   }
 
-  Future<Null> Alert(BuildContext context,name,id) {
+  Future<Null> Alert(BuildContext context, name, id) {
     return showDialog(
         context: context,
         barrierDismissible: false,
@@ -1044,7 +1105,7 @@ class _MyAccountFState extends State<MyAccountF> {
                 color: Colors.blueAccent,
               ),
               SizedBox(
-                width:10,
+                width: 10,
               ),
               FlatButton(
                 onPressed: () {
@@ -1072,7 +1133,7 @@ class _MyAccountFState extends State<MyAccountF> {
                   setState(() {
                     deleteThisAd = true;
                   });
-                  saveAdsSaled(name,id);
+                  saveAdsSaled(name, id);
                   Navigator.of(context).pop();
                 },
                 child: Text(
@@ -1086,11 +1147,9 @@ class _MyAccountFState extends State<MyAccountF> {
                 ),
                 color: Colors.blueAccent,
               ),
-
               SizedBox(
                 width: 10,
               ),
-
             ],
           );
         });
@@ -1542,6 +1601,7 @@ class _AboutUsState extends State<AboutUs> {
     );
   }
 }
+
 class BNBCustomPainter extends CustomPainter {
   @override
   void paint(Canvas canvas, Size size) {
@@ -1570,12 +1630,10 @@ class BNBCustomPainter extends CustomPainter {
   }
 }
 
-saveAdsSaled(name,id){
-  Firestore.instance.collection('AdsSaled').document()
-      .setData({
-    'name':name,
+saveAdsSaled(name, id) {
+  Firestore.instance.collection('AdsSaled').document().setData({
+    'name': name,
     'Ad_id': id,
-    "time": DateFormat('yyyy-MM-dd-HH:mm')
-        .format(DateTime.now()),
+    "time": DateFormat('yyyy-MM-dd-HH:mm').format(DateTime.now()),
   });
 }

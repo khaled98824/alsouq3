@@ -140,7 +140,7 @@ class _NewLoginState extends State<NewLogin> {
       var firestore = Firestore.instance;
       QuerySnapshot qus = await firestore
           .collection('users')
-          .where('name', isEqualTo: _namecontroller.text)
+          .where('user_uid', isEqualTo: _namecontroller.text)
           .getDocuments();
       saveShared();
       print(qus.documents[0]['password']);
