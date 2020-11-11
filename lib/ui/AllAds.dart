@@ -1,5 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:intl/intl.dart';
 import 'package:sooq1alzour/Auth/NewLogin.dart';
 import 'package:sooq1alzour/models/PageRoute.dart';
@@ -18,6 +19,8 @@ class Ads extends StatelessWidget {
     return AdsFul(department: department,category: category,);
   }
 }
+var likesAdsIds= [ ];
+
 String likeAdId ;
 bool like =false;
 class AdsFul extends StatefulWidget {
@@ -47,6 +50,7 @@ class _AdsFulState extends State<AdsFul> {
 
   @override
   Widget build(BuildContext context) {
+    print('re build');
     return Material(
       child: StreamBuilder(
         stream: Firestore.instance
@@ -61,7 +65,13 @@ class _AdsFulState extends State<AdsFul> {
             );
           switch (snapshot.connectionState) {
             case ConnectionState.waiting:
-              return new Text('Loading...');
+              return new Center(
+                child: SpinKitFadingCircle(
+                  color: Colors.red,
+                  size: 70,
+                  duration: Duration(seconds: 2),
+                ),
+              );
             default:
               return Stack(
                 children: <Widget>[
@@ -174,7 +184,7 @@ class _AdsFulState extends State<AdsFul> {
                                               Text(
                                                 snapshot.data.documents[index]['area'],
                                                 style: TextStyle(
-                                                  fontSize: 14,
+                                                  fontSize: 13,
                                                   fontFamily: 'AmiriQuran',
                                                   height: 1.2,
                                                 ),
@@ -185,7 +195,7 @@ class _AdsFulState extends State<AdsFul> {
                                               Text(
                                                 ': المنطقة',
                                                 style: TextStyle(
-                                                  fontSize: 14,
+                                                  fontSize: 13,
                                                   fontFamily: 'AmiriQuran',
                                                   height: 1.3,
                                                 ),
@@ -297,25 +307,33 @@ class _AdsFulState extends State<AdsFul> {
   }
 
   saveLike(Ad_id, Ad_name, likeCount) async {
-
     if (likeAdId == Ad_id) {
 
     }else{
-      Firestore.instance.collection('Ads').document(Ad_id).updateData({
-        "likes": likeCount + 1,
-      });
+      if(likesAdsIds.contains(Ad_id)){
 
-      Firestore.instance.collection('likes').document().setData({
-        'Ad_id': Ad_id,
-        'Ad_name': Ad_name,
-        'who_like': currentUserId,
-        'like': true,
-        'time': DateFormat('yyyy-MM-dd-HH:mm').format(DateTime.now()),
-      });
-      doLike = true;
-      likeAdId = Ad_id;
+      }else{
+        Firestore.instance.collection('Ads').document(Ad_id).updateData({
+          "likes": likeCount + 1,
+        });
+
+        Firestore.instance.collection('likes').document().setData({
+          'Ad_id': Ad_id,
+          'Ad_name': Ad_name,
+          'who_like': currentUserId,
+          'like': true,
+          'time': DateFormat('yyyy-MM-dd-HH:mm').format(DateTime.now()),
+        });
+        doLike = true;
+        likeAdId = Ad_id;
+        likesAdsIds.add(Ad_id);
+        print('like done');
+      }
+
+      print(likesAdsIds);
     }
   }
+
 
   saveView(Ad_id,Ad_name)async{
 

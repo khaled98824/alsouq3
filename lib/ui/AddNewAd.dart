@@ -400,11 +400,9 @@ class _AddNewAdState extends State<AddNewAd> {
     if (qusListUsers != null) {
       for (int i = 0; qusListUsers.documents.length > newZList.length; i++) {
         setState(() {
-          print(qusListUsers.documents.length);
           newZList.add(qusListUsers.documents[i]['Z']);
         });
       }
-      print(newZList);
       if (newZList.length > 1) {
         setState(() {
           dropItemsArea = newZList;
@@ -901,7 +899,7 @@ class _AddNewAdState extends State<AddNewAd> {
                           padding: EdgeInsets.only(
                               right: 10, left: 10, bottom: 2, top: 2),
                           child: SizedBox(
-                            height: 42,
+                            height: 54,
                             width: 240,
                             child: TextFormField(
                               validator: (value) {
@@ -910,6 +908,7 @@ class _AddNewAdState extends State<AddNewAd> {
                                 }
                               },
                               maxLines: 1,
+                              maxLength: 38,
                               controller: nameController,
                               textAlign: TextAlign.right,
                               decoration: InputDecoration(
@@ -1571,7 +1570,7 @@ class _AddNewAdState extends State<AddNewAd> {
       _phone,
       context) async {
 
-  if(_image1 !=null && category !=null && category2 !=null){
+  if(_image1 !=null && category !=null && category2 !=null && _image1 !=null){
     if (_formkey.currentState.validate()) {
       SharedPreferences sharedPref = await SharedPreferences.getInstance();
       Firestore.instance.collection('Ads').document().setData({

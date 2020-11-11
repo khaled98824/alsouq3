@@ -391,7 +391,6 @@ class _EditAdState extends State<EditAd> {
         });
       }
       print(qusListUsers.documents.length);
-      print(newZList);
       if (newZList.length > 1) {
         setState(() {
           dropItemsArea = newZList;
@@ -882,10 +881,11 @@ class _EditAdState extends State<EditAd> {
                         padding: EdgeInsets.only(
                             right: 10, left: 10, bottom: 2, top: 2),
                         child: SizedBox(
-                          height: 42,
+                          height: 55,
                           width: 220,
                           child: TextFormField(
-                            maxLines: 2,
+                            maxLines: 1,
+                            maxLength: 38,
                             controller: nameController,
                             textAlign: TextAlign.right,
                             decoration: InputDecoration(
@@ -1382,7 +1382,6 @@ class _EditAdState extends State<EditAd> {
       _image7,
       _phone,
       context) async {
-    var currentUser = await FirebaseAuth.instance.currentUser();
     if(_image1 !=null && category !=null && category2 !=null){
       if (_formkey.currentState.validate()) {
         SharedPreferences sharedPref = await SharedPreferences.getInstance();

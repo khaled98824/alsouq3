@@ -129,21 +129,21 @@ class SerchListAdminUsers extends StatelessWidget{
                     height: 2,
                     color: Colors.grey,
                   ),
-//                Row(
-//                  children: <Widget>[
-//                    InkWell(
-//                      onTap: (){
-//                        Firestore.instance
-//                            .collection('users')
-//                            .document(lis['user_uid'])
-//                            .delete()
-//                            .then((value) {
-//                          print('delete done');
-//                        });
-//                      },
-//                        child: Icon(Icons.delete_forever,color: Colors.red,))
-//                  ],
-//                )
+               Row(
+                 children: <Widget>[
+                   InkWell(
+                     onLongPress: (){
+                       Firestore.instance
+                           .collection('users')
+                           .document(lis['user_uid'])
+                           .delete()
+                           .then((value) {
+                         print('delete done');
+                       });
+                     },
+                       child: Icon(Icons.delete_forever,color: Colors.red,))
+                 ],
+               )
 
                 ],
               ),

@@ -900,7 +900,7 @@ class _AddNewRequestState extends State<AddNewRequest> {
                           padding: EdgeInsets.only(
                               right: 10, left: 10, bottom: 2, top: 2),
                           child: SizedBox(
-                            height: 42,
+                            height: 54,
                             width: 240,
                             child: TextFormField(
                               validator: (value) {
@@ -908,7 +908,8 @@ class _AddNewRequestState extends State<AddNewRequest> {
                                   return 'أدخل إسم لطلبك';
                                 }
                               },
-                              maxLines: 2,
+                              maxLines: 1,
+                              maxLength: 38,
                               controller: nameController,
                               textAlign: TextAlign.right,
                               decoration: InputDecoration(
