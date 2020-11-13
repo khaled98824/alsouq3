@@ -152,110 +152,180 @@ class _ShowAdState extends State<ShowAd> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-        body: showBody
-            ? Column(
-                children: <Widget>[
-                  Expanded(
-                    child: ListView(
-                      controller: scrollController,
-                      children: <Widget>[
-                        Row(
-                          mainAxisAlignment: MainAxisAlignment.end,
-                          children: <Widget>[
-                            Text(
-                              documentsUser['name'],
-                              textAlign: TextAlign.right,
-                              style: TextStyle(
-                                fontSize: 18,
-                                fontFamily: 'AmiriQuran',
-                                height: 0.7,
-                                color: Colors.black,
+    return SafeArea(
+      child: Scaffold(
+          body: showBody
+              ? Column(
+                  children: <Widget>[
+                    Expanded(
+                      child: ListView(
+                        controller: scrollController,
+                        children: <Widget>[
+                          Row(
+                            mainAxisAlignment: MainAxisAlignment.end,
+                            children: <Widget>[
+                              Text(
+                                documentsUser['name'],
+                                textAlign: TextAlign.right,
+                                style: TextStyle(
+                                  fontSize: 18,
+                                  fontFamily: 'AmiriQuran',
+                                  height: 0.7,
+                                  color: Colors.black,
+                                ),
                               ),
-                            ),
-                            SizedBox(
-                              width: 120,
-                            ),
-                            InkWell(
-                                onTap: () {
-                                  Navigator.of(context).pop();
-                                },
-                                child: Icon(
-                                  Icons.arrow_forward_ios,
-                                  size: 27,
-                                )),
-                          ],
-                        ),
-                        SizedBox(
-                          height: 5,
-                        ),
-                        showSlider
-                            ? CarouselSlider(
-                                items: adImagesUrl.map((url) {
-                                  return Builder(
-                                      builder: (BuildContext context) {
-                                    return InkWell(
-                                      onTap: () {
-                                        Navigator.push(
-                                            context,
-                                            BouncyPageRoute(
-                                                widget: PageImage(
-                                                    imageUrl: adImagesUrl[
-                                                        imageUrl4Show])));
-                                      },
-                                      child: Container(
-                                        child: Hero(
-                                            tag: Text('imageAd'),
-                                            child: ClipRRect(
-                                                borderRadius:
-                                                    BorderRadius.circular(17),
-                                                child: Image.network(url))),
-                                      ),
-                                    );
-                                  });
-                                }).toList(),
-                                options: CarouselOptions(
-                                    initialPage: 0,
-                                    autoPlay: true,
-                                    onPageChanged: (a, b) {
-                                      imageUrl4Show = a;
-                                    },
-                                    pauseAutoPlayOnTouch: true,
-                                    autoPlayAnimationDuration:
-                                        Duration(milliseconds: 900),
-                                    disableCenter: false,
-                                    height: 250,),
-                              )
-                            : Container(),
-                        SizedBox(
-                          height: 5,
-                        ),
-                        Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceAround,
-                          children: <Widget>[
-                            InkWell(
-                              onTap: () {},
-                              child: Container(
-                                width: 90,
-                                height: 34,
-                                decoration: BoxDecoration(
-                                    borderRadius: BorderRadius.circular(8),
-                                    color: Colors.blueAccent),
-                                child: InkWell(
+                              SizedBox(
+                                width: 120,
+                              ),
+                              InkWell(
                                   onTap: () {
-                                    messageController.clear();
-                                    scrollController.animateTo(
-                                        scrollController
-                                            .position.maxScrollExtent,
-                                        duration:
-                                            const Duration(milliseconds: 300),
-                                        curve: Curves.easeOut);
+                                    Navigator.of(context).pop();
                                   },
+                                  child: Icon(
+                                    Icons.arrow_forward_ios,
+                                    size: 27,
+                                  )),
+                            ],
+                          ),
+                          SizedBox(
+                            height: 5,
+                          ),
+                          showSlider
+                              ? CarouselSlider(
+                                  items: adImagesUrl.map((url) {
+                                    return Builder(
+                                        builder: (BuildContext context) {
+                                      return InkWell(
+                                        onTap: () {
+                                          Navigator.push(
+                                              context,
+                                              BouncyPageRoute(
+                                                  widget: PageImage(
+                                                      imageUrl: adImagesUrl[
+                                                          imageUrl4Show])));
+                                        },
+                                        child: Container(
+                                          child: Hero(
+                                              tag: Text('imageAd'),
+                                              child: ClipRRect(
+                                                  borderRadius:
+                                                      BorderRadius.circular(17),
+                                                  child: Image.network(url))),
+                                        ),
+                                      );
+                                    });
+                                  }).toList(),
+                                  options: CarouselOptions(
+                                      initialPage: 0,
+                                      autoPlay: true,
+                                      onPageChanged: (a, b) {
+                                        imageUrl4Show = a;
+                                      },
+                                      pauseAutoPlayOnTouch: true,
+                                      autoPlayAnimationDuration:
+                                          Duration(milliseconds: 900),
+                                      disableCenter: false,
+                                      height: 250,),
+                                )
+                              : Container(),
+                          SizedBox(
+                            height: 5,
+                          ),
+                          Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceAround,
+                            children: <Widget>[
+                              InkWell(
+                                onTap: () {},
+                                child: Container(
+                                  width: 90,
+                                  height: 34,
+                                  decoration: BoxDecoration(
+                                      borderRadius: BorderRadius.circular(8),
+                                      color: Colors.blueAccent),
+                                  child: InkWell(
+                                    onTap: () {
+                                      messageController.clear();
+                                      scrollController.animateTo(
+                                          scrollController
+                                              .position.maxScrollExtent,
+                                          duration:
+                                              const Duration(milliseconds: 300),
+                                          curve: Curves.easeOut);
+                                    },
+                                    child: Row(
+                                      mainAxisAlignment: MainAxisAlignment.center,
+                                      children: <Widget>[
+                                        Text(
+                                          'علق',
+                                          textAlign: TextAlign.center,
+                                          style: TextStyle(
+                                            fontSize: 19,
+                                            fontFamily: 'AmiriQuran',
+                                            height: 0.7,
+                                            color: Colors.white,
+                                          ),
+                                        ),
+                                        SizedBox(
+                                          width: 12,
+                                        ),
+                                        Icon(
+                                          Icons.comment,
+                                          color: Colors.white,
+                                        ),
+                                      ],
+                                    ),
+                                  ),
+                                ),
+                              ),
+                              InkWell(
+                                onTap: () {
+                                  Navigator.push(context, BouncyPageRoute(widget: PrivateChat(documentId: documentId,recipient:documentsAds['uid'] ,)));
+                                },
+                                child: Container(
+                                  width: 130,
+                                  height: 34,
+                                  decoration: BoxDecoration(
+                                      borderRadius: BorderRadius.circular(8),
+                                      color: Colors.blueAccent),
                                   child: Row(
                                     mainAxisAlignment: MainAxisAlignment.center,
                                     children: <Widget>[
                                       Text(
-                                        'علق',
+                                        'دردشة خاصة',
+                                        textAlign: TextAlign.center,
+                                        style: TextStyle(
+                                          fontSize: 17,
+                                          fontFamily: 'AmiriQuran',
+                                          height: 0.7,
+                                          color: Colors.white,
+                                        ),
+                                      ),
+                                      SizedBox(
+                                        width: 8,
+                                      ),
+                                      Icon(
+                                        Icons.mark_chat_read_outlined,
+                                        color: Colors.white,
+                                      ),
+                                    ],
+                                  ),
+                                ),
+                              ),
+                              InkWell(
+                                onTap: () {
+                                  launch('tel:${documentsAds['phone']}');
+                                },
+                                child: Container(
+                                  width: 90,
+                                  height: 34,
+                                  decoration: BoxDecoration(
+                                      borderRadius: BorderRadius.circular(8),
+                                      color: Colors.blueAccent),
+                                  child: Row(
+                                    mainAxisAlignment: MainAxisAlignment.center,
+                                    children: <Widget>[
+                                      Text(
+                                        'اتصل',
                                         textAlign: TextAlign.center,
                                         style: TextStyle(
                                           fontSize: 19,
@@ -268,657 +338,589 @@ class _ShowAdState extends State<ShowAd> {
                                         width: 12,
                                       ),
                                       Icon(
-                                        Icons.comment,
+                                        Icons.call,
                                         color: Colors.white,
                                       ),
                                     ],
                                   ),
                                 ),
-                              ),
-                            ),
-                            InkWell(
-                              onTap: () {
-                                Navigator.push(context, BouncyPageRoute(widget: PrivateChat(documentId: documentId,recipient:documentsAds['uid'] ,)));
-                              },
-                              child: Container(
-                                width: 90,
-                                height: 34,
-                                decoration: BoxDecoration(
-                                    borderRadius: BorderRadius.circular(8),
-                                    color: Colors.blueAccent),
-                                child: Row(
-                                  mainAxisAlignment: MainAxisAlignment.center,
-                                  children: <Widget>[
-                                    Text(
-                                      'دردش',
-                                      textAlign: TextAlign.center,
-                                      style: TextStyle(
-                                        fontSize: 18,
-                                        fontFamily: 'AmiriQuran',
-                                        height: 0.7,
-                                        color: Colors.white,
-                                      ),
-                                    ),
-                                    SizedBox(
-                                      width: 12,
-                                    ),
-                                    Icon(
-                                      Icons.mark_chat_read_outlined,
-                                      color: Colors.white,
-                                    ),
-                                  ],
-                                ),
-                              ),
-                            ),
-                            InkWell(
-                              onTap: () {
-                                launch('tel:${documentsAds['phone']}');
-                              },
-                              child: Container(
-                                width: 90,
-                                height: 34,
-                                decoration: BoxDecoration(
-                                    borderRadius: BorderRadius.circular(8),
-                                    color: Colors.blueAccent),
-                                child: Row(
-                                  mainAxisAlignment: MainAxisAlignment.center,
-                                  children: <Widget>[
-                                    Text(
-                                      'اتصل',
-                                      textAlign: TextAlign.center,
-                                      style: TextStyle(
-                                        fontSize: 19,
-                                        fontFamily: 'AmiriQuran',
-                                        height: 0.7,
-                                        color: Colors.white,
-                                      ),
-                                    ),
-                                    SizedBox(
-                                      width: 12,
-                                    ),
-                                    Icon(
-                                      Icons.call,
-                                      color: Colors.white,
-                                    ),
-                                  ],
-                                ),
-                              ),
-                            )
-                          ],
-                        ),
-                        Padding(
-                            padding:
-                                EdgeInsets.only(top: 20, bottom: 10, right: 10),
-                            child: Text(
-                              documentsAds['name'],
-                              textAlign: TextAlign.right,
-                              style: TextStyle(
-                                fontSize: 19,
-                                fontFamily: 'AmiriQuran',
-                                height: 0.7,
-                                color: Colors.black,
-                              ),
-                            )),
-                        Padding(
-                            padding:
-                                EdgeInsets.only(top: 4, bottom: 5, right: 10),
-                            child: Text(
-                              documentsAds['time'],
-                              textAlign: TextAlign.right,
-                              style: TextStyle(
-                                fontSize: 13,
-                                fontFamily: 'AmiriQuran',
-                                height: 0.7,
-                                color: Colors.black,
-                              ),
-                            )),
-                        Container(
-                          width: MediaQuery.of(context).size.width - 6,
-                          height: 5,
-                          decoration: BoxDecoration(
-                              borderRadius: BorderRadius.circular(5),
-                              color: Colors.grey),
-                        ),
-                        SizedBox(
-                          height: 5,
-                        ),
-                        Row(
-                          mainAxisAlignment: MainAxisAlignment.end,
-                          children: <Widget>[
-                            Text(
-                              documentsAds['uid'],
-                              textAlign: TextAlign.right,
-                              style: TextStyle(
-                                fontSize: 16,
-                                fontFamily: 'AmiriQuran',
-                                height: 1,
-                                color: Colors.black,
-                              ),
-                            ),
-                            SizedBox(
-                              width: 70,
-                            ),
-                            Text(
-                              ': المعلن ',
-                              textAlign: TextAlign.right,
-                              style: TextStyle(
-                                fontSize: 16,
-                                fontFamily: 'AmiriQuran',
-                                height: 1,
-                                color: Colors.grey[700],
-                              ),
-                            ),
-                            SizedBox(
-                              width: 10,
-                            )
-                          ],
-                        ),
-                        SizedBox(
-                          height:7,
-                        ),
-                        Container(
-                          width: MediaQuery.of(context).size.width - 6,
-                          height: 2,
-                          decoration: BoxDecoration(
-                              borderRadius: BorderRadius.circular(5),
-                              color: Colors.grey[300]),
-                        ),
-                        SizedBox(
-                          height:7,
-                        ),
-                        isRequest ? Row(
-                          mainAxisAlignment: MainAxisAlignment.end,
-                          children: <Widget>[
-                            Text(
-                              'طلب',
-                              textAlign: TextAlign.right,
-                              style: TextStyle(
-                                fontSize: 16,
-                                fontFamily: 'AmiriQuran',
-                                height: 1,
-                                color: Colors.red[600],
-                              ),
-                            ),
-                            SizedBox(
-                              width: 70,
-                            ),
-                            Text(
-                              ': طلب ام إعلان ',
-                              textAlign: TextAlign.right,
-                              style: TextStyle(
-                                fontSize: 16,
-                                fontFamily: 'AmiriQuran',
-                                height: 1,
-                                color: Colors.grey[700],
-                              ),
-                            ),
-                            SizedBox(
-                              width: 10,
-                            )
-                          ],
-                        ):Container(),
-                        isRequest ?SizedBox(
-                          height:7,
-                        ):Container(),
-                        isRequest ? Container(
-                          width: MediaQuery.of(context).size.width - 6,
-                          height: 2,
-                          decoration: BoxDecoration(
-                              borderRadius: BorderRadius.circular(5),
-                              color: Colors.grey[300]),
-                        ):Container(),
-
-                        isRequest ? SizedBox(
-                          height:5,
-                        ):Container(),
-                        Row(
-                          mainAxisAlignment: MainAxisAlignment.end,
-                          children: <Widget>[
-                            Text(
-                              documentsAds['area'],
-                              textAlign: TextAlign.right,
-                              style: TextStyle(
-                                fontSize: 16,
-                                fontFamily: 'AmiriQuran',
-                                height: 0,
-                                color: Colors.black,
-                              ),
-                            ),
-                            SizedBox(
-                              width: 80,
-                            ),
-                            Text(
-                              ': المنطقة ',
-                              textAlign: TextAlign.right,
-                              style: TextStyle(
-                                fontSize: 16,
-                                fontFamily: 'AmiriQuran',
-                                height: 1,
-                                color: Colors.grey[700],
-                              ),
-                            ),
-                            SizedBox(
-                              width: 10,
-                            )
-                          ],
-                        ),
-                        SizedBox(
-                          height: 5,
-                        ),
-                        Container(
-                          width: MediaQuery.of(context).size.width - 6,
-                          height: 2,
-                          decoration: BoxDecoration(
-                              borderRadius: BorderRadius.circular(5),
-                              color: Colors.grey[300]),
-                        ),
-                        SizedBox(
-                          height: 5,
-                        ),
-                        Wrap(
-                          crossAxisAlignment: WrapCrossAlignment.center,
-                          alignment: WrapAlignment.end,
-                          runAlignment: WrapAlignment.center,
-                          children: <Widget>[
-                            Text(
-                              documentsAds['description'],
-                              textAlign: TextAlign.right,
-                              style: TextStyle(
-                                fontSize: 13,
-                                fontFamily: 'AmiriQuran',
-                                height: 1,
-                                color: Colors.black,
-                              ),
-                            ),
-                            SizedBox(
-                              width: 80,
-                            ),
-                            Text(
-                              ': الوصف ',
-                              textAlign: TextAlign.right,
-                              style: TextStyle(
-                                fontSize: 16,
-                                fontFamily: 'AmiriQuran',
-                                height: 1,
-                                color: Colors.grey[700],
-                              ),
-                            ),
-                            SizedBox(
-                              width: 10,
-                            )
-                          ],
-                        ),
-                        SizedBox(
-                          height: 5,
-                        ),
-                        Container(
-                          width: MediaQuery.of(context).size.width - 6,
-                          height: 2,
-                          decoration: BoxDecoration(
-                              borderRadius: BorderRadius.circular(5),
-                              color: Colors.grey[300]),
-                        ),
-                        SizedBox(
-                          height: 5,
-                        ),
-                        Row(
-                          mainAxisAlignment: MainAxisAlignment.end,
-                          children: <Widget>[
-                            Text(
-                              documentsAds['status'],
-                              textAlign: TextAlign.right,
-                              style: TextStyle(
-                                fontSize: 16,
-                                fontFamily: 'AmiriQuran',
-                                height: 1,
-                                color: Colors.black,
-                              ),
-                            ),
-                            SizedBox(
-                              width: 80,
-                            ),
-                            Text(
-                              ': الحالة ',
-                              textAlign: TextAlign.right,
-                              style: TextStyle(
-                                fontSize: 16,
-                                fontFamily: 'AmiriQuran',
-                                height: 1,
-                                color: Colors.grey[700],
-                              ),
-                            ),
-                            SizedBox(
-                              width: 10,
-                            )
-                          ],
-                        ),
-                        SizedBox(
-                          height: 5,
-                        ),
-                        Container(
-                          width: MediaQuery.of(context).size.width - 6,
-                          height: 2,
-                          decoration: BoxDecoration(
-                              borderRadius: BorderRadius.circular(5),
-                              color: Colors.grey[300]),
-                        ),
-                        SizedBox(
-                          height: 5,
-                        ),
-                        Row(
-                          mainAxisAlignment: MainAxisAlignment.end,
-                          children: <Widget>[
-                            Text(
-                              documentsAds['category'],
-                              textAlign: TextAlign.right,
-                              style: TextStyle(
-                                fontSize: 16,
-                                fontFamily: 'AmiriQuran',
-                                height: 1,
-                                color: Colors.black,
-                              ),
-                            ),
-                            SizedBox(
-                              width: 80,
-                            ),
-                            Text(
-                              ': القسم ',
-                              textAlign: TextAlign.right,
-                              style: TextStyle(
-                                fontSize: 16,
-                                fontFamily: 'AmiriQuran',
-                                height: 1,
-                                color: Colors.grey[700],
-                              ),
-                            ),
-                            SizedBox(
-                              width: 10,
-                            )
-                          ],
-                        ),
-                        SizedBox(
-                          height: 5,
-                        ),
-                        Container(
-                          width: MediaQuery.of(context).size.width - 6,
-                          height: 2,
-                          decoration: BoxDecoration(
-                              borderRadius: BorderRadius.circular(5),
-                              color: Colors.grey[300]),
-                        ),
-                        SizedBox(
-                          height: 5,
-                        ),
-                        Row(
-                          mainAxisAlignment: MainAxisAlignment.end,
-                          children: <Widget>[
-                            Text(
-                              documentsAds['department'],
-                              textAlign: TextAlign.right,
-                              style: TextStyle(
-                                fontSize: 16,
-                                fontFamily: 'AmiriQuran',
-                                height: 1,
-                                color: Colors.black,
-                              ),
-                            ),
-                            SizedBox(
-                              width: 40,
-                            ),
-                            Text(
-                              ': القسم الفرعي ',
-                              textAlign: TextAlign.right,
-                              style: TextStyle(
-                                fontSize: 16,
-                                fontFamily: 'AmiriQuran',
-                                height: 1,
-                                color: Colors.grey[700],
-                              ),
-                            ),
-                            SizedBox(
-                              width: 10,
-                            )
-                          ],
-                        ),
-                        SizedBox(
-                          height: 6,
-                        ),
-                        Container(
-                          width: MediaQuery.of(context).size.width - 6,
-                          height: 2,
-                          decoration: BoxDecoration(
-                              borderRadius: BorderRadius.circular(5),
-                              color: Colors.grey[300]),
-                        ),
-                        SizedBox(
-                          height: 5,
-                        ),
-                        Row(
-                          mainAxisAlignment: MainAxisAlignment.end,
-                          children: <Widget>[
-                            Text(
-                              documentsAds['phone'],
-                              textAlign: TextAlign.right,
-                              style: TextStyle(
-                                fontSize: 16,
-                                fontFamily: 'AmiriQuran',
-                                height: 1,
-                                color: Colors.black,
-                              ),
-                            ),
-                            SizedBox(
-                              width: 80,
-                            ),
-                            Text(
-                              ': موبايل ',
-                              textAlign: TextAlign.right,
-                              style: TextStyle(
-                                fontSize: 16,
-                                fontFamily: 'AmiriQuran',
-                                height: 1,
-                                color: Colors.grey[700],
-                              ),
-                            ),
-                            SizedBox(
-                              width: 10,
-                            )
-                          ],
-                        ),
-                        SizedBox(
-                          height: 6,
-                        ),
-                        Container(
-                          width: MediaQuery.of(context).size.width - 6,
-                          height: 2,
-                          decoration: BoxDecoration(
-                              borderRadius: BorderRadius.circular(5),
-                              color: Colors.grey[300]),
-                        ),
-                        SizedBox(
-                          height: 6,
-                        ),
-                        Row(
-                          mainAxisAlignment: MainAxisAlignment.end,
-                          children: <Widget>[
-                            Text(
-                              qusViews.documents.length.toString(),
-                              textAlign: TextAlign.right,
-                              style: TextStyle(
-                                fontSize: 16,
-                                fontFamily: 'AmiriQuran',
-                                height: 1,
-                                color: Colors.black,
-                              ),
-                            ),
-                            SizedBox(
-                              width: 80,
-                            ),
-                            Text(
-                              ': المشاهدات ',
-                              textAlign: TextAlign.right,
-                              style: TextStyle(
-                                fontSize: 16,
-                                fontFamily: 'AmiriQuran',
-                                height: 1,
-                                color: Colors.grey[700],
-                              ),
-                            ),
-                            SizedBox(
-                              width: 10,
-                            )
-                          ],
-                        ),
-                        SizedBox(
-                          height: 6,
-                        ),
-                        Container(
-                          width: MediaQuery.of(context).size.width - 6,
-                          height: 2,
-                          decoration: BoxDecoration(
-                              borderRadius: BorderRadius.circular(5),
-                              color: Colors.grey[300]),
-                        ),
-                        SizedBox(
-                          height: 5,
-                        ),
-                        Row(
-                          mainAxisAlignment: MainAxisAlignment.end,
-                          children: <Widget>[
-                            Text(
-                              documentsAds['price'].toString(),
-                              textAlign: TextAlign.right,
-                              style: TextStyle(
-                                fontSize: 16,
-                                fontFamily: 'AmiriQuran',
-                                height: 1,
-                                color: Colors.red,
-                              ),
-                            ),
-                            SizedBox(
-                              width: 80,
-                            ),
-                            Text(
-                              ': السعر ',
-                              textAlign: TextAlign.right,
-                              style: TextStyle(
-                                fontSize: 16,
-                                fontFamily: 'AmiriQuran',
-                                height: 1,
-                                color: Colors.grey[700],
-                              ),
-                            ),
-                            SizedBox(
-                              width: 10,
-                            )
-                          ],
-                        ),
-                        SizedBox(
-                          height: 5,
-                        ),
-                        Container(
-                          width: MediaQuery.of(context).size.width - 6,
-                          height: 5,
-                          decoration: BoxDecoration(
-                              borderRadius: BorderRadius.circular(5),
-                              color: Colors.grey),
-                        ),
-                        showMessages
-                            ? Padding(
-                                padding: EdgeInsets.only(
-                                    top: 10, right: 10, left: 10),
-                                child: StreamBuilder<QuerySnapshot>(
-                                  stream: _firestore
-                                      .collection("messages")
-                                      .where('Ad_id', isEqualTo: documentId)
-                                      .orderBy('realTime',descending: false)
-                                      .snapshots(),
-                                  builder: (context, snapshot) {
-                                    if (!snapshot.hasData) {
-                                      return Center(
-                                          child: Column(
-                                        children: <Widget>[
-                                          // CircularProgressIndicator(strokeWidth: 1,),
-                                          SizedBox(
-                                            height: 8,
-                                          ),
-                                          Text(
-                                            '!...لا توجد تعليقات ',
-                                            style: TextStyle(
-                                              fontSize: 16,
-                                              fontFamily: 'AmiriQuran',
-                                              height: 1,
-                                              color: Colors.grey[500],
-                                            ),
-                                          )
-                                        ],
-                                      ));
-                                    }
-                                    docs = snapshot.data.documents;
-                                    List<Widget> messages = docs
-                                        .map((doc) => Message(
-                                            from: doc.data["from"],
-                                            text: doc.data["text"],
-                                            time: doc.data['date'],
-                                            me: documentsUser['name'] ==
-                                                doc.data["name"]))
-                                        .toList();
-
-                                    return Column(
-                                      children: <Widget>[
-                                        ...messages,
-                                      ],
-                                    );
-                                  },
-                                ),
                               )
-                            : Container(),
-                        SizedBox(
-                          height: 10,
-                        ),
-                        SizedBox(
-                          height: 60,
-                          child: loginStatus
-                              ? Container(
-                                  child: Row(
-                                    children: <Widget>[
-                                      Expanded(
-                                        child: Padding(
-                                          padding: EdgeInsets.only(
-                                              right: 10, left: 10,top: 0),
-                                          child: TextField(
-                                            controller: messageController,
-                                            textAlign: TextAlign.right,
-                                            maxLines: 1,
-                                            decoration: InputDecoration(
-                                              hintText: "!... اكتب تعليقك هنا",
+                            ],
+                          ),
+                          Padding(
+                              padding:
+                                  EdgeInsets.only(top: 20, bottom: 10, right: 10),
+                              child: Text(
+                                documentsAds['name'],
+                                textAlign: TextAlign.right,
+                                style: TextStyle(
+                                  fontSize: 19,
+                                  fontFamily: 'AmiriQuran',
+                                  height: 0.7,
+                                  color: Colors.black,
+                                ),
+                              )),
+                          Padding(
+                              padding:
+                                  EdgeInsets.only(top: 4, bottom: 5, right: 10),
+                              child: Text(
+                                documentsAds['time'],
+                                textAlign: TextAlign.right,
+                                style: TextStyle(
+                                  fontSize: 13,
+                                  fontFamily: 'AmiriQuran',
+                                  height: 0.7,
+                                  color: Colors.black,
+                                ),
+                              )),
+                          Container(
+                            width: MediaQuery.of(context).size.width - 6,
+                            height: 5,
+                            decoration: BoxDecoration(
+                                borderRadius: BorderRadius.circular(5),
+                                color: Colors.grey),
+                          ),
+                          SizedBox(
+                            height: 5,
+                          ),
+                          Row(
+                            mainAxisAlignment: MainAxisAlignment.end,
+                            children: <Widget>[
+                              Text(
+                                documentsAds['uid'],
+                                textAlign: TextAlign.right,
+                                style: TextStyle(
+                                  fontSize: 16,
+                                  fontFamily: 'AmiriQuran',
+                                  height: 1,
+                                  color: Colors.black,
+                                ),
+                              ),
+                              SizedBox(
+                                width: 70,
+                              ),
+                              Text(
+                                ': المعلن ',
+                                textAlign: TextAlign.right,
+                                style: TextStyle(
+                                  fontSize: 16,
+                                  fontFamily: 'AmiriQuran',
+                                  height: 1,
+                                  color: Colors.grey[700],
+                                ),
+                              ),
+                              SizedBox(
+                                width: 10,
+                              )
+                            ],
+                          ),
+                          SizedBox(
+                            height:7,
+                          ),
+                          Container(
+                            width: MediaQuery.of(context).size.width - 6,
+                            height: 2,
+                            decoration: BoxDecoration(
+                                borderRadius: BorderRadius.circular(5),
+                                color: Colors.grey[300]),
+                          ),
+                          SizedBox(
+                            height:7,
+                          ),
+                          isRequest ? Row(
+                            mainAxisAlignment: MainAxisAlignment.end,
+                            children: <Widget>[
+                              Text(
+                                'طلب',
+                                textAlign: TextAlign.right,
+                                style: TextStyle(
+                                  fontSize: 16,
+                                  fontFamily: 'AmiriQuran',
+                                  height: 1,
+                                  color: Colors.red[600],
+                                ),
+                              ),
+                              SizedBox(
+                                width: 70,
+                              ),
+                              Text(
+                                ': طلب ام إعلان ',
+                                textAlign: TextAlign.right,
+                                style: TextStyle(
+                                  fontSize: 16,
+                                  fontFamily: 'AmiriQuran',
+                                  height: 1,
+                                  color: Colors.grey[700],
+                                ),
+                              ),
+                              SizedBox(
+                                width: 10,
+                              )
+                            ],
+                          ):Container(),
+                          isRequest ?SizedBox(
+                            height:7,
+                          ):Container(),
+                          isRequest ? Container(
+                            width: MediaQuery.of(context).size.width - 6,
+                            height: 2,
+                            decoration: BoxDecoration(
+                                borderRadius: BorderRadius.circular(5),
+                                color: Colors.grey[300]),
+                          ):Container(),
+
+                          isRequest ? SizedBox(
+                            height:5,
+                          ):Container(),
+                          Row(
+                            mainAxisAlignment: MainAxisAlignment.end,
+                            children: <Widget>[
+                              Text(
+                                documentsAds['area'],
+                                textAlign: TextAlign.right,
+                                style: TextStyle(
+                                  fontSize: 16,
+                                  fontFamily: 'AmiriQuran',
+                                  height: 0,
+                                  color: Colors.black,
+                                ),
+                              ),
+                              SizedBox(
+                                width: 80,
+                              ),
+                              Text(
+                                ': المنطقة ',
+                                textAlign: TextAlign.right,
+                                style: TextStyle(
+                                  fontSize: 16,
+                                  fontFamily: 'AmiriQuran',
+                                  height: 1,
+                                  color: Colors.grey[700],
+                                ),
+                              ),
+                              SizedBox(
+                                width: 10,
+                              )
+                            ],
+                          ),
+                          SizedBox(
+                            height: 5,
+                          ),
+                          Container(
+                            width: MediaQuery.of(context).size.width - 6,
+                            height: 2,
+                            decoration: BoxDecoration(
+                                borderRadius: BorderRadius.circular(5),
+                                color: Colors.grey[300]),
+                          ),
+                          SizedBox(
+                            height: 5,
+                          ),
+                          Wrap(
+                            crossAxisAlignment: WrapCrossAlignment.center,
+                            alignment: WrapAlignment.end,
+                            runAlignment: WrapAlignment.center,
+                            children: <Widget>[
+                              Text(
+                                documentsAds['description'],
+                                textAlign: TextAlign.right,
+                                style: TextStyle(
+                                  fontSize: 13,
+                                  fontFamily: 'AmiriQuran',
+                                  height: 1,
+                                  color: Colors.black,
+                                ),
+                              ),
+                              SizedBox(
+                                width: 80,
+                              ),
+                              Text(
+                                ': الوصف ',
+                                textAlign: TextAlign.right,
+                                style: TextStyle(
+                                  fontSize: 16,
+                                  fontFamily: 'AmiriQuran',
+                                  height: 1,
+                                  color: Colors.grey[700],
+                                ),
+                              ),
+                              SizedBox(
+                                width: 10,
+                              )
+                            ],
+                          ),
+                          SizedBox(
+                            height: 5,
+                          ),
+                          Container(
+                            width: MediaQuery.of(context).size.width - 6,
+                            height: 2,
+                            decoration: BoxDecoration(
+                                borderRadius: BorderRadius.circular(5),
+                                color: Colors.grey[300]),
+                          ),
+                          SizedBox(
+                            height: 5,
+                          ),
+                          Row(
+                            mainAxisAlignment: MainAxisAlignment.end,
+                            children: <Widget>[
+                              Text(
+                                documentsAds['status'],
+                                textAlign: TextAlign.right,
+                                style: TextStyle(
+                                  fontSize: 16,
+                                  fontFamily: 'AmiriQuran',
+                                  height: 1,
+                                  color: Colors.black,
+                                ),
+                              ),
+                              SizedBox(
+                                width: 80,
+                              ),
+                              Text(
+                                ': الحالة ',
+                                textAlign: TextAlign.right,
+                                style: TextStyle(
+                                  fontSize: 16,
+                                  fontFamily: 'AmiriQuran',
+                                  height: 1,
+                                  color: Colors.grey[700],
+                                ),
+                              ),
+                              SizedBox(
+                                width: 10,
+                              )
+                            ],
+                          ),
+                          SizedBox(
+                            height: 5,
+                          ),
+                          Container(
+                            width: MediaQuery.of(context).size.width - 6,
+                            height: 2,
+                            decoration: BoxDecoration(
+                                borderRadius: BorderRadius.circular(5),
+                                color: Colors.grey[300]),
+                          ),
+                          SizedBox(
+                            height: 5,
+                          ),
+                          Row(
+                            mainAxisAlignment: MainAxisAlignment.end,
+                            children: <Widget>[
+                              Text(
+                                documentsAds['category'],
+                                textAlign: TextAlign.right,
+                                style: TextStyle(
+                                  fontSize: 16,
+                                  fontFamily: 'AmiriQuran',
+                                  height: 1,
+                                  color: Colors.black,
+                                ),
+                              ),
+                              SizedBox(
+                                width: 80,
+                              ),
+                              Text(
+                                ': القسم ',
+                                textAlign: TextAlign.right,
+                                style: TextStyle(
+                                  fontSize: 16,
+                                  fontFamily: 'AmiriQuran',
+                                  height: 1,
+                                  color: Colors.grey[700],
+                                ),
+                              ),
+                              SizedBox(
+                                width: 10,
+                              )
+                            ],
+                          ),
+                          SizedBox(
+                            height: 5,
+                          ),
+                          Container(
+                            width: MediaQuery.of(context).size.width - 6,
+                            height: 2,
+                            decoration: BoxDecoration(
+                                borderRadius: BorderRadius.circular(5),
+                                color: Colors.grey[300]),
+                          ),
+                          SizedBox(
+                            height: 5,
+                          ),
+                          Row(
+                            mainAxisAlignment: MainAxisAlignment.end,
+                            children: <Widget>[
+                              Text(
+                                documentsAds['department'],
+                                textAlign: TextAlign.right,
+                                style: TextStyle(
+                                  fontSize: 16,
+                                  fontFamily: 'AmiriQuran',
+                                  height: 1,
+                                  color: Colors.black,
+                                ),
+                              ),
+                              SizedBox(
+                                width: 40,
+                              ),
+                              Text(
+                                ': القسم الفرعي ',
+                                textAlign: TextAlign.right,
+                                style: TextStyle(
+                                  fontSize: 16,
+                                  fontFamily: 'AmiriQuran',
+                                  height: 1,
+                                  color: Colors.grey[700],
+                                ),
+                              ),
+                              SizedBox(
+                                width: 10,
+                              )
+                            ],
+                          ),
+                          SizedBox(
+                            height: 6,
+                          ),
+                          Container(
+                            width: MediaQuery.of(context).size.width - 6,
+                            height: 2,
+                            decoration: BoxDecoration(
+                                borderRadius: BorderRadius.circular(5),
+                                color: Colors.grey[300]),
+                          ),
+                          SizedBox(
+                            height: 5,
+                          ),
+                          Row(
+                            mainAxisAlignment: MainAxisAlignment.end,
+                            children: <Widget>[
+                              Text(
+                                documentsAds['phone'],
+                                textAlign: TextAlign.right,
+                                style: TextStyle(
+                                  fontSize: 16,
+                                  fontFamily: 'AmiriQuran',
+                                  height: 1,
+                                  color: Colors.black,
+                                ),
+                              ),
+                              SizedBox(
+                                width: 80,
+                              ),
+                              Text(
+                                ': موبايل ',
+                                textAlign: TextAlign.right,
+                                style: TextStyle(
+                                  fontSize: 16,
+                                  fontFamily: 'AmiriQuran',
+                                  height: 1,
+                                  color: Colors.grey[700],
+                                ),
+                              ),
+                              SizedBox(
+                                width: 10,
+                              )
+                            ],
+                          ),
+                          SizedBox(
+                            height: 6,
+                          ),
+                          Container(
+                            width: MediaQuery.of(context).size.width - 6,
+                            height: 2,
+                            decoration: BoxDecoration(
+                                borderRadius: BorderRadius.circular(5),
+                                color: Colors.grey[300]),
+                          ),
+                          SizedBox(
+                            height: 6,
+                          ),
+                          Row(
+                            mainAxisAlignment: MainAxisAlignment.end,
+                            children: <Widget>[
+                              Text(
+                                qusViews.documents.length.toString(),
+                                textAlign: TextAlign.right,
+                                style: TextStyle(
+                                  fontSize: 16,
+                                  fontFamily: 'AmiriQuran',
+                                  height: 1,
+                                  color: Colors.black,
+                                ),
+                              ),
+                              SizedBox(
+                                width: 80,
+                              ),
+                              Text(
+                                ': المشاهدات ',
+                                textAlign: TextAlign.right,
+                                style: TextStyle(
+                                  fontSize: 16,
+                                  fontFamily: 'AmiriQuran',
+                                  height: 1,
+                                  color: Colors.grey[700],
+                                ),
+                              ),
+                              SizedBox(
+                                width: 10,
+                              )
+                            ],
+                          ),
+                          SizedBox(
+                            height: 6,
+                          ),
+                          Container(
+                            width: MediaQuery.of(context).size.width - 6,
+                            height: 2,
+                            decoration: BoxDecoration(
+                                borderRadius: BorderRadius.circular(5),
+                                color: Colors.grey[300]),
+                          ),
+                          SizedBox(
+                            height: 5,
+                          ),
+                          Row(
+                            mainAxisAlignment: MainAxisAlignment.end,
+                            children: <Widget>[
+                              Text(
+                                documentsAds['price'].toString(),
+                                textAlign: TextAlign.right,
+                                style: TextStyle(
+                                  fontSize: 16,
+                                  fontFamily: 'AmiriQuran',
+                                  height: 1,
+                                  color: Colors.red,
+                                ),
+                              ),
+                              SizedBox(
+                                width: 80,
+                              ),
+                              Text(
+                                ': السعر ',
+                                textAlign: TextAlign.right,
+                                style: TextStyle(
+                                  fontSize: 16,
+                                  fontFamily: 'AmiriQuran',
+                                  height: 1,
+                                  color: Colors.grey[700],
+                                ),
+                              ),
+                              SizedBox(
+                                width: 10,
+                              )
+                            ],
+                          ),
+                          SizedBox(
+                            height: 5,
+                          ),
+                          Container(
+                            width: MediaQuery.of(context).size.width - 6,
+                            height: 5,
+                            decoration: BoxDecoration(
+                                borderRadius: BorderRadius.circular(5),
+                                color: Colors.grey),
+                          ),
+                          showMessages
+                              ? Padding(
+                                  padding: EdgeInsets.only(
+                                      top: 10, right: 10, left: 10),
+                                  child: StreamBuilder<QuerySnapshot>(
+                                    stream: _firestore
+                                        .collection("messages")
+                                        .where('Ad_id', isEqualTo: documentId)
+                                        .orderBy('realTime',descending: false)
+                                        .snapshots(),
+                                    builder: (context, snapshot) {
+                                      if (!snapshot.hasData) {
+                                        return Center(
+                                            child: Column(
+                                          children: <Widget>[
+                                            // CircularProgressIndicator(strokeWidth: 1,),
+                                            SizedBox(
+                                              height: 8,
                                             ),
-                                            onSubmitted: (value) => callBack(),
-                                          ),
-                                        ),
-                                      ),
-                                      loginStatus
-                                          ? SendButton(
-                                              text: 'ارسل',
-                                              callback: callBack,
+                                            Text(
+                                              '!...لا توجد تعليقات ',
+                                              style: TextStyle(
+                                                fontSize: 16,
+                                                fontFamily: 'AmiriQuran',
+                                                height: 1,
+                                                color: Colors.grey[500],
+                                              ),
                                             )
-                                          : Container(),
-                                    ],
+                                          ],
+                                        ));
+                                      }
+                                      docs = snapshot.data.documents;
+                                      List<Widget> messages = docs
+                                          .map((doc) => Message(
+                                              from: doc.data["from"],
+                                              text: doc.data["text"],
+                                              time: doc.data['date'],
+                                              me: documentsUser['name'] ==
+                                                  doc.data["name"]))
+                                          .toList();
+
+                                      return Column(
+                                        children: <Widget>[
+                                          ...messages,
+                                        ],
+                                      );
+                                    },
                                   ),
                                 )
                               : Container(),
-                        )
-                      ],
+                          SizedBox(
+                            height: 10,
+                          ),
+                          SizedBox(
+                            height: 60,
+                            child: loginStatus
+                                ? Container(
+                                    child: Row(
+                                      children: <Widget>[
+                                        Expanded(
+                                          child: Padding(
+                                            padding: EdgeInsets.only(
+                                                right: 10, left: 10,top: 0),
+                                            child: TextField(
+                                              controller: messageController,
+                                              textAlign: TextAlign.right,
+                                              maxLines: 1,
+                                              decoration: InputDecoration(
+                                                hintText: "!... اكتب تعليقك هنا",
+                                              ),
+                                              onSubmitted: (value) => callBack(),
+                                            ),
+                                          ),
+                                        ),
+                                        loginStatus
+                                            ? SendButton(
+                                                text: 'ارسل',
+                                                callback: callBack,
+                                              )
+                                            : Container(),
+                                      ],
+                                    ),
+                                  )
+                                : Container(),
+                          )
+                        ],
+                      ),
                     ),
-                  ),
-                ],
-              )
-            : Center(
-          child: SpinKitFadingCircle(
-            color: Colors.red,
-            size: 100,
-            duration: Duration(seconds: 2),
+                  ],
+                )
+              : Center(
+            child: SpinKitFadingCircle(
+              color: Colors.red,
+              size: 100,
+              duration: Duration(seconds: 2),
+            ),
           ),
-        ),
+      ),
     );
   }
 

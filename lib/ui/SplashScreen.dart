@@ -1,5 +1,6 @@
 import 'dart:async';
 
+import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -43,44 +44,11 @@ int loginOrHome;
   }
   @override
   Widget build(BuildContext context) {
+
     return Scaffold(
-      body: Container(
-        child: ListView(
-
-          children: <Widget>[
-            Opacity(
-                opacity: 1,
-                child: Image.asset('assets/images/souq1624wpng.png')
-            ),
-
-            Shimmer.fromColors(
-              period: Duration(milliseconds: 1800),
-              baseColor: Color(0xffF26726),
-              highlightColor: Color(0xffF26799),
-              child: Container(
-                padding: EdgeInsets.only(top: 100),
-                child: Center(
-                  child: Text(
-                    "سوق الفرات سوق الجميع",
-                      style: TextStyle(
-                          fontSize: 35,
-                          fontFamily: 'AmiriQuran',
-                          fontWeight: FontWeight.w500,
-                          //height: 1,
-                        shadows: <Shadow>[
-                          Shadow(
-                              blurRadius: 55.0,
-                              color: Colors.black87,
-                              offset: Offset.fromDirection(120, 12)
-                          )
-                        ]
-                    ),
-                  ),
-                ),
-              ),
-            )
-          ],
-        ),
-      ),
+      body:Image.asset('assets/images/alsouq-poster.jpg',
+          fit: BoxFit.fill,
+          width: MediaQuery.of(context).size.width,
+          height: MediaQuery.of(context).size.height)
     );
   }}

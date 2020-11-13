@@ -15,38 +15,27 @@ List<String> _namesList =[];
 
 class _EditAccountState extends State<EditAccount> {
   void initState() {
-    getUsersNames();
     super.initState();
     getCurrentUserInfo();
   }
 
   getCurrentUserInfo()async{
     SharedPreferences sharedPref = await SharedPreferences.getInstance();
+    var firestore = Firestore.instance;
+    QuerySnapshot qus = await firestore.collection('users').where('user_uid',isEqualTo: currentUserId).getDocuments();
+    print(qus.documents[0]['area']);
     setState(() {
       _passwordcontroller =
           TextEditingController(text: sharedPref.getString('password'));
       _namecontroller =
           TextEditingController(text: sharedPref.getString('name'));
       _countrycontroller =
-          TextEditingController(text: sharedPref.getString('myArea'));
+          TextEditingController(text:qus.documents[0]['area'] );
       _uidController =
           TextEditingController(text: currentUserId);
     });
   }
-  getUsersNames()async{
-    var firestore = Firestore.instance;
-    QuerySnapshot qus = await firestore.collection('users').getDocuments();
-    if(qus!=null){
-      for (int i=0; qus.documents.length>_namesList.length;  i ++){
-        setState(() {
-          _namesList.add(qus.documents[i]['name']);
 
-        });
-
-      }
-    }
-
-  }
   final _formkey = GlobalKey<FormState>();
 
   TextEditingController _namecontroller = TextEditingController();

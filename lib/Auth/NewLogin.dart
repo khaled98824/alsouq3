@@ -72,7 +72,7 @@ class _NewLoginState extends State<NewLogin> {
   void initState() {
     super.initState();
     isSignIn =false;
-    getUsersNames();
+    //getUsersNames();
     if (autoLogin == false) {
       checkboxVal = false;
     } else {
@@ -80,18 +80,18 @@ class _NewLoginState extends State<NewLogin> {
     }
   }
 
-  getUsersNames() async {
-    var firestore = Firestore.instance;
-    QuerySnapshot qus = await firestore.collection('users').getDocuments();
-    if (qus != null) {
-      for (int i = 0; qus.documents.length > _namesList.length; i++) {
-        setState(() {
-          _namesList.add(qus.documents[i]['uid']);
-        });
-      }
-    }
-    print(_namesList);
-  }
+  // getUsersNames() async {
+  //   var firestore = Firestore.instance;
+  //   QuerySnapshot qus = await firestore.collection('users').getDocuments();
+  //   if (qus != null) {
+  //     for (int i = 0; qus.documents.length > _namesList.length; i++) {
+  //       setState(() {
+  //         _namesList.add(qus.documents[i]['user_uid']);
+  //       });
+  //     }
+  //   }
+  //   print('names list $_namesList');
+  // }
 
   checkAutoLogin() async {
     SharedPreferences sharedPref = await SharedPreferences.getInstance();
