@@ -151,9 +151,23 @@ class _AddNewAdState extends State<AddNewAd> {
   ];
   var dropSelectItemCategory = 'إختر القسم الرئيسي';
   String category = '';
-  List<String> dropItemsArea = ['إختر المحافظة','دير الزور','الرقة',
-    'الحسكة','القامشلي','حلب','حماة','إدلب','حمص','دمشق','درعا',
-    'ريف دمشق','السويداء','طرطوس','القنيطرة','اللاذقية',
+  List<String> dropItemsArea = [
+    'إختر المحافظة',
+    'دير الزور',
+    'الرقة',
+    'الحسكة',
+    'القامشلي',
+    'حلب',
+    'حماة',
+    'إدلب',
+    'حمص',
+    'دمشق',
+    'درعا',
+    'ريف دمشق',
+    'السويداء',
+    'طرطوس',
+    'القنيطرة',
+    'اللاذقية',
   ];
 
   var dropSelectItemArea = 'إختر المحافظة';
@@ -378,6 +392,7 @@ class _AddNewAdState extends State<AddNewAd> {
       currentIndex = index;
     });
   }
+
   @override
   void initState() {
     // TODO: implement initState
@@ -472,7 +487,8 @@ class _AddNewAdState extends State<AddNewAd> {
                                     },
                                     child: Container(
                                       decoration: BoxDecoration(
-                                          borderRadius: BorderRadius.circular(5),
+                                          borderRadius:
+                                              BorderRadius.circular(5),
                                           color: Colors.blue),
                                       height: 60,
                                       width: 85,
@@ -518,7 +534,8 @@ class _AddNewAdState extends State<AddNewAd> {
                                                 child: SpinKitFadingCircle(
                                                   color: Colors.red,
                                                   size: 70,
-                                                  duration: Duration(seconds: 2),
+                                                  duration:
+                                                      Duration(seconds: 2),
                                                 ),
                                               ),
                                             ),
@@ -690,7 +707,8 @@ class _AddNewAdState extends State<AddNewAd> {
                                   children: <Widget>[
                                     DropdownButton<String>(
                                       iconSize: 30,
-                                      style: TextStyle(color: Colors.green[800]),
+                                      style:
+                                          TextStyle(color: Colors.green[800]),
                                       items: dropItemsCategory
                                           .map((String selectItem) {
                                         return DropdownMenuItem(
@@ -702,8 +720,8 @@ class _AddNewAdState extends State<AddNewAd> {
                                       iconDisabledColor: Colors.green[800],
                                       iconEnabledColor: Colors.green[800],
                                       icon: Padding(
-                                          padding:
-                                              EdgeInsets.only(left: 10, right: 5),
+                                          padding: EdgeInsets.only(
+                                              left: 10, right: 5),
                                           child: Icon(
                                             Icons.menu,
                                             size: 28,
@@ -717,7 +735,8 @@ class _AddNewAdState extends State<AddNewAd> {
                                           category = dropSelectItemCategory;
                                           if (dropSelectItemCategory ==
                                               dropItemsCategory[2]) {
-                                            dropItemsCategory2 = dropItemsMobile;
+                                            dropItemsCategory2 =
+                                                dropItemsMobile;
                                             choseCategory2 = true;
                                             statusShow = true;
                                             dropSelectItemCategory2 =
@@ -740,7 +759,8 @@ class _AddNewAdState extends State<AddNewAd> {
                                             dropSelectItemCategory2 =
                                                 dropSelectItemCategory2;
                                             category2 =
-                                                dropItemsDevicesAndElectronics[1];
+                                                dropItemsDevicesAndElectronics[
+                                                    1];
                                           } else if (dropSelectItemCategory ==
                                               dropItemsCategory[4]) {
                                             choseCategory2 = false;
@@ -784,7 +804,8 @@ class _AddNewAdState extends State<AddNewAd> {
                                               dropItemsCategory[9]) {
                                             choseCategory2 = true;
                                             statusShow = true;
-                                            dropItemsCategory2 = dropItemsFarming;
+                                            dropItemsCategory2 =
+                                                dropItemsFarming;
                                             dropSelectItemCategory2 =
                                                 dropSelectItemCategory2;
                                             category2 = dropItemsFarming[1];
@@ -800,7 +821,8 @@ class _AddNewAdState extends State<AddNewAd> {
                                               dropItemsCategory[11]) {
                                             choseCategory2 = true;
                                             statusShow = true;
-                                            dropItemsCategory2 = dropItemsClothes;
+                                            dropItemsCategory2 =
+                                                dropItemsClothes;
                                             dropSelectItemCategory2 =
                                                 dropSelectItemCategory2;
                                             category2 = dropItemsClothes[1];
@@ -848,7 +870,8 @@ class _AddNewAdState extends State<AddNewAd> {
                                             }).toList(),
                                             isExpanded: false,
                                             dropdownColor: Colors.grey[200],
-                                            iconDisabledColor: Colors.green[800],
+                                            iconDisabledColor:
+                                                Colors.green[800],
                                             iconEnabledColor: Colors.green[800],
                                             icon: Padding(
                                                 padding: EdgeInsets.only(
@@ -859,7 +882,8 @@ class _AddNewAdState extends State<AddNewAd> {
                                                 )),
                                             onChanged: (String theDate) {
                                               setState(() {
-                                                dropSelectItemCategory2 = theDate;
+                                                dropSelectItemCategory2 =
+                                                    theDate;
                                                 category2 =
                                                     dropSelectItemCategory2;
                                               });
@@ -923,7 +947,9 @@ class _AddNewAdState extends State<AddNewAd> {
                           'ضع إسم للإعلان',
                           textAlign: TextAlign.center,
                           style: TextStyle(
-                              fontSize: 16, fontFamily: 'AmiriQuran', height: 1),
+                              fontSize: 16,
+                              fontFamily: 'AmiriQuran',
+                              height: 1),
                         ),
                       ],
                       alignment: WrapAlignment.center,
@@ -1112,36 +1138,39 @@ class _AddNewAdState extends State<AddNewAd> {
                                   fontFamily: 'AmiriQuran',
                                   height: 1),
                             ),
-                            showAreaTextField ? SizedBox(
-                              height: 33,
-                              width: 200,
-                              child: TextFormField(
-                                controller: areaController,
-                                validator: (value) {
-                                  if (value.isEmpty) {
-                                    return 'أدخل منطقتك ...';
-                                  }
-                                },
-                                maxLines: 1,
-                                textAlign: TextAlign.right,
-                                decoration: InputDecoration(
-                                  hintText: '... أدخل منطقتك هنا',
-                                  hintStyle: TextStyle(
-                                    fontSize: 15,
-                                    height: 1
-                                  ),
-                                  enabledBorder: OutlineInputBorder(
-                                    borderSide:
-                                    BorderSide(color: Colors.blueAccent),
-                                    borderRadius: BorderRadius.circular(10),
-                                  ),
-                                  focusedBorder: OutlineInputBorder(
-                                    borderSide: BorderSide(color: Colors.green),
-                                    borderRadius: BorderRadius.circular(10),
-                                  ),
-                                ),
-                              ),
-                            ):Container(),
+                            showAreaTextField
+                                ? SizedBox(
+                                    height: 33,
+                                    width: 200,
+                                    child: TextFormField(
+                                      controller: areaController,
+                                      validator: (value) {
+                                        if (value.isEmpty) {
+                                          return 'أدخل منطقتك ...';
+                                        }
+                                      },
+                                      maxLines: 1,
+                                      textAlign: TextAlign.right,
+                                      decoration: InputDecoration(
+                                        hintText: '... أدخل منطقتك هنا',
+                                        hintStyle:
+                                            TextStyle(fontSize: 15, height: 1),
+                                        enabledBorder: OutlineInputBorder(
+                                          borderSide: BorderSide(
+                                              color: Colors.blueAccent),
+                                          borderRadius:
+                                              BorderRadius.circular(10),
+                                        ),
+                                        focusedBorder: OutlineInputBorder(
+                                          borderSide:
+                                              BorderSide(color: Colors.green),
+                                          borderRadius:
+                                              BorderRadius.circular(10),
+                                        ),
+                                      ),
+                                    ),
+                                  )
+                                : Container(),
                           ],
                         ),
                       ),
@@ -1162,7 +1191,6 @@ class _AddNewAdState extends State<AddNewAd> {
                         alignment: WrapAlignment.end,
                         crossAxisAlignment: WrapCrossAlignment.center,
                         children: <Widget>[
-
                           Container(
                             decoration: BoxDecoration(
                               borderRadius: BorderRadius.circular(10),
@@ -1198,7 +1226,8 @@ class _AddNewAdState extends State<AddNewAd> {
                                     borderSide: BorderSide(color: Colors.green),
                                     borderRadius: BorderRadius.circular(10),
                                   ),
-                                  hintText: '!... أدخل السعر المطلوب ,ارقام انجليزية',
+                                  hintText:
+                                      '!... أدخل السعر المطلوب ,ارقام انجليزية',
                                   fillColor: Colors.white,
                                   hoverColor: Colors.white,
                                 ),
@@ -1262,7 +1291,8 @@ class _AddNewAdState extends State<AddNewAd> {
                                     borderSide: BorderSide(color: Colors.green),
                                     borderRadius: BorderRadius.circular(10),
                                   ),
-                                  hintText: '!... أدخل رقم جوالك, ارقام انجليزية',
+                                  hintText:
+                                      '!... أدخل رقم جوالك, ارقام انجليزية',
                                   fillColor: Colors.white,
                                   hoverColor: Colors.white,
                                 ),
@@ -1345,7 +1375,9 @@ class _AddNewAdState extends State<AddNewAd> {
                         ],
                       ),
                     ),
-                    SizedBox(height: 80,)
+                    SizedBox(
+                      height: 80,
+                    )
                   ],
                 ),
               ),
@@ -1363,20 +1395,37 @@ class _AddNewAdState extends State<AddNewAd> {
               ),
               Positioned(
                 left: size.width / 2.4,
-                bottom: 0,
-                child: Center(
-                  heightFactor: 2.5,
-                  widthFactor: 1.1,
-                  child: FloatingActionButton(
-                      backgroundColor: Color(0xffF26726),
-                      child: Padding(
-                        padding: EdgeInsets.only(right: 2),
-                        child: Icon(
-                          Icons.add_a_photo,
-                          size: 30,
-                        ),
-                      ),
-                      elevation: 0.1,
+                bottom: size.height / 15,
+                child: InkWell(
+                  onTap: () {
+                    if (loginStatus) {
+                      Navigator.of(context).pushNamed(AddNewAd.id);
+                    } else {
+                      loginStatus = false;
+                      print('no');
+                      Navigator.pushReplacement(context,
+                          MaterialPageRoute(builder: (context) {
+                        return NewLogin(
+                          autoLogin: false,
+                        );
+                      }));
+                    }
+                  },
+                  child: Container(
+                    width: 58,
+                    height: 58,
+                    decoration: BoxDecoration(
+                        borderRadius: BorderRadius.circular(30),
+                        color: Color(0xffF26726)),
+                    child: IconButton(
+                      icon: Padding(
+                          padding:
+                              EdgeInsets.only(left: 3, right: 22, bottom: 5),
+                          child: Icon(
+                            Icons.add_a_photo,
+                            size: 35,
+                            color: Colors.white,
+                          )),
                       onPressed: () {
                         if (loginStatus) {
                           Navigator.of(context).pushNamed(AddNewAd.id);
@@ -1385,12 +1434,14 @@ class _AddNewAdState extends State<AddNewAd> {
                           print('no');
                           Navigator.pushReplacement(context,
                               MaterialPageRoute(builder: (context) {
-                                return NewLogin(
-                                  autoLogin: false,
-                                );
-                              }));
+                            return NewLogin(
+                              autoLogin: false,
+                            );
+                          }));
                         }
-                      }),
+                      },
+                    ),
+                  ),
                 ),
               ),
               Positioned(
@@ -1418,83 +1469,98 @@ class _AddNewAdState extends State<AddNewAd> {
                                 print('no dd');
                                 Navigator.pushReplacement(context,
                                     MaterialPageRoute(builder: (context) {
-                                      return NewLogin(
-                                        autoLogin: false,
-                                      );
-                                    }));
+                                  return NewLogin(
+                                    autoLogin: false,
+                                  );
+                                }));
                               }
                             },
                             splashColor: Colors.white,
                           ),
-                          Text('حسابي',textAlign: TextAlign.center,
+                          Text(
+                            'حسابي',
+                            textAlign: TextAlign.center,
                             style: TextStyle(
                               height: 0.1,
                               fontFamily: 'AmiriQuran',
-                            ),),
+                            ),
+                          ),
                         ],
                       ),
-                      Column(children: [
-                        IconButton(
-                            icon: Icon(
-                              Icons.info,
-                              color: currentIndex == 1
-                                  ? Color(0xffF26726)
-                                  : Colors.grey.shade600,
+                      Column(
+                        children: [
+                          IconButton(
+                              icon: Icon(
+                                Icons.info,
+                                color: currentIndex == 1
+                                    ? Color(0xffF26726)
+                                    : Colors.grey.shade600,
+                              ),
+                              onPressed: () {
+                                setBottomBarIndex(1);
+                                Navigator.push(context,
+                                    BouncyPageRoute(widget: AboutUs()));
+                              }),
+                          Text(
+                            'حول التطبيق',
+                            textAlign: TextAlign.center,
+                            style: TextStyle(
+                              height: 0.1,
+                              fontFamily: 'AmiriQuran',
                             ),
-                            onPressed: () {
-                              setBottomBarIndex(1);
-                              Navigator.push(
-                                  context, BouncyPageRoute(widget: AboutUs()));
-                            }),
-                        Text('حول التطبيق',textAlign: TextAlign.center,
-                          style: TextStyle(
-                            height: 0.1,
-                            fontFamily: 'AmiriQuran',
-                          ),),
-                      ],),
+                          ),
+                        ],
+                      ),
                       Column(
                         children: [
                           Container(
                             width: size.width * 0.20,
                           ),
-                          Text('أضف إعلان',textAlign: TextAlign.center,
+                          Text(
+                            'أضف إعلان',
+                            textAlign: TextAlign.center,
                             style: TextStyle(
                                 height: 5,
                                 fontFamily: 'AmiriQuran',
                                 fontSize: 14,
-                                color: Color(0xffF26726)
-                            ),),
+                                color: Color(0xffF26726)),
+                          ),
                         ],
                       ),
-                      Column(children: [
-                        IconButton(
-                            icon: Icon(
-                              Icons.chat_outlined,
-                              color: currentIndex == 2
-                                  ? Color(0xffF26726)
-                                  : Colors.grey.shade600,
+                      Column(
+                        children: [
+                          IconButton(
+                              icon: Icon(
+                                Icons.chat_outlined,
+                                color: currentIndex == 2
+                                    ? Color(0xffF26726)
+                                    : Colors.grey.shade600,
+                              ),
+                              onPressed: () {
+                                setBottomBarIndex(2);
+                                if (loginStatus) {
+                                  Navigator.of(context).pushNamed(MyChats.id);
+                                } else {
+                                  loginStatus = false;
+                                  print('no');
+                                  Navigator.pushReplacement(context,
+                                      MaterialPageRoute(builder: (context) {
+                                    return NewLogin(
+                                      autoLogin: false,
+                                    );
+                                  }));
+                                }
+                              }),
+                          Text(
+                            'محادثاتي',
+                            textAlign: TextAlign.center,
+                            style: TextStyle(
+                              height: 0.1,
+                              fontFamily: 'AmiriQuran',
                             ),
-                            onPressed: () {
-                              setBottomBarIndex(2);
-                              if (loginStatus) {
-                                Navigator.of(context).pushNamed(MyChats.id);
-                              } else {
-                                loginStatus = false;
-                                print('no');
-                                Navigator.pushReplacement(context,
-                                    MaterialPageRoute(builder: (context) {
-                                      return NewLogin(
-                                        autoLogin: false,
-                                      );
-                                    }));
-                              }
-                            }),
-                        Text('محادثاتي',textAlign: TextAlign.center,
-                          style: TextStyle(
-                            height: 0.1,
-                            fontFamily: 'AmiriQuran',
-                          ),)
-                      ],),
+                          )
+                        ],
+                      ),
                       Column(
                         children: [
                           IconButton(
@@ -1508,11 +1574,14 @@ class _AddNewAdState extends State<AddNewAd> {
                                 setBottomBarIndex(0);
                                 Navigator.of(context).pushNamed(Home.id);
                               }),
-                          Text('الرئيسية',textAlign: TextAlign.center,
+                          Text(
+                            'الرئيسية',
+                            textAlign: TextAlign.center,
                             style: TextStyle(
                               height: 0.1,
                               fontFamily: 'AmiriQuran',
-                            ),)
+                            ),
+                          )
                         ],
                       )
                     ],
@@ -1571,53 +1640,56 @@ class _AddNewAdState extends State<AddNewAd> {
       _image7,
       _phone,
       context) async {
-
-  if(_image1 !=null && category !=null && category2 !=null && _image1 !=null){
-    if (_formkey.currentState.validate()) {
-      SharedPreferences sharedPref = await SharedPreferences.getInstance();
-      Firestore.instance.collection('Ads').document().setData({
-        'category': _category,
-        'department': _department,
-        'name': _name,
-        'time': DateFormat('yyyy-MM-dd-HH:mm').format(DateTime.now()),
-        'status': _status,
-        'description': _description,
-        'area': _area +' = '+ areaController.text,
-        'price': _price,
-        'deviceNo': _deviceNo,
-        'imagesUrl': urlImages,
-        'phone': _phone,
-        'uid': sharedPref.getString('name'),
-        'likes':0,
-        'views':0,
-        'isRequest': false,
-      });
-      nameController.clear();
-      descriptionController.clear();
-      priceController.clear();
-      phoneController.clear();
-      imageUrl = null;
-      imageUrl2 = null;
-      imageUrl3 = null;
-      imageUrl4 = null;
-      imageUrl5 = null;
-      imageUrl6 = null;
-      imageUrl7 = null;
-      Navigator.pushReplacement(
-        context,
-        MaterialPageRoute(builder: (context) => Home()),
-      );
-      loadingImage = false;
+    if (_image1 != null &&
+        category != null &&
+        category2 != null &&
+        _image1 != null) {
+      if (_formkey.currentState.validate()) {
+        SharedPreferences sharedPref = await SharedPreferences.getInstance();
+        Firestore.instance.collection('Ads').document().setData({
+          'category': _category,
+          'department': _department,
+          'name': _name,
+          'time': DateFormat('yyyy-MM-dd-HH:mm').format(DateTime.now()),
+          'status': _status,
+          'description': _description,
+          'area': _area + ' = ' + areaController.text,
+          'price': _price,
+          'deviceNo': _deviceNo,
+          'imagesUrl': urlImages,
+          'phone': _phone,
+          'uid': sharedPref.getString('name'),
+          'likes': 0,
+          'views': 0,
+          'isRequest': false,
+        });
+        nameController.clear();
+        descriptionController.clear();
+        priceController.clear();
+        phoneController.clear();
+        imageUrl = null;
+        imageUrl2 = null;
+        imageUrl3 = null;
+        imageUrl4 = null;
+        imageUrl5 = null;
+        imageUrl6 = null;
+        imageUrl7 = null;
+        Navigator.pushReplacement(
+          context,
+          MaterialPageRoute(builder: (context) => Home()),
+        );
+        loadingImage = false;
+      } else {
+        print('please try later');
+      }
     } else {
-      print('please try later');
+      showMessage('رجائاً تأكد من إضافة صورة واختيار اقسام إعلانك');
     }
-  }else{
-    showMessage('رجائاً تأكد من إضافة صورة واختيار اقسام إعلانك');
   }
-  }
+
   showMessage(String msg) {
     Fluttertoast.showToast(
-        msg:msg,
+        msg: msg,
         gravity: ToastGravity.CENTER,
         toastLength: Toast.LENGTH_LONG,
         backgroundColor: Colors.blue,
@@ -1625,6 +1697,7 @@ class _AddNewAdState extends State<AddNewAd> {
         textColor: Colors.white);
   }
 }
+
 class BNBCustomPainter extends CustomPainter {
   @override
   void paint(Canvas canvas, Size size) {

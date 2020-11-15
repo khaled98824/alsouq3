@@ -185,20 +185,37 @@ class _MyAdsState extends State<MyAds> {
                           ),
                           Positioned(
                             left: size.width / 2.4,
-                            bottom: 0,
-                            child: Center(
-                              heightFactor: 2.5,
-                              widthFactor: 1.1,
-                              child: FloatingActionButton(
-                                  backgroundColor: Color(0xffF26726),
-                                  child: Padding(
-                                    padding: EdgeInsets.only(right: 2),
-                                    child: Icon(
-                                      Icons.add_a_photo,
-                                      size: 30,
-                                    ),
-                                  ),
-                                  elevation: 0.1,
+                            bottom: size.height / 15,
+                            child: InkWell(
+                              onTap: () {
+                                if (loginStatus) {
+                                  Navigator.of(context).pushNamed(AddNewAd.id);
+                                } else {
+                                  loginStatus = false;
+                                  print('no');
+                                  Navigator.pushReplacement(context,
+                                      MaterialPageRoute(builder: (context) {
+                                        return NewLogin(
+                                          autoLogin: false,
+                                        );
+                                      }));
+                                }
+                              },
+                              child: Container(
+                                width: 58,
+                                height: 58,
+                                decoration: BoxDecoration(
+                                    borderRadius: BorderRadius.circular(30),
+                                    color: Color(0xffF26726)),
+                                child: IconButton(
+                                  icon: Padding(
+                                      padding:
+                                      EdgeInsets.only(left: 3, right: 22, bottom: 5),
+                                      child: Icon(
+                                        Icons.add_a_photo,
+                                        size: 35,
+                                        color: Colors.white,
+                                      )),
                                   onPressed: () {
                                     if (loginStatus) {
                                       Navigator.of(context).pushNamed(AddNewAd.id);
@@ -210,10 +227,11 @@ class _MyAdsState extends State<MyAds> {
                                             return NewLogin(
                                               autoLogin: false,
                                             );
-                                          })
-                                      );
+                                          }));
                                     }
-                                  }),
+                                  },
+                                ),
+                              ),
                             ),
                           ),
                           Positioned(

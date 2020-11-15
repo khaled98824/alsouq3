@@ -62,6 +62,7 @@ calculate(select){
   void dispose() {
     // TODO: implement dispose
     super.dispose();
+    dropItemsArea.clear();
   }
   @override
   Widget build(BuildContext context) {

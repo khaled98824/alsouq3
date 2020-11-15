@@ -11,31 +11,31 @@ class EditAccount extends StatefulWidget {
   _EditAccountState createState() => _EditAccountState();
 }
 bool equalName ;
-List<String> _namesList =[];
 
 class _EditAccountState extends State<EditAccount> {
   void initState() {
+    getUsersNames();
     super.initState();
     getCurrentUserInfo();
   }
 
   getCurrentUserInfo()async{
     SharedPreferences sharedPref = await SharedPreferences.getInstance();
-    var firestore = Firestore.instance;
-    QuerySnapshot qus = await firestore.collection('users').where('user_uid',isEqualTo: currentUserId).getDocuments();
-    print(qus.documents[0]['area']);
     setState(() {
       _passwordcontroller =
           TextEditingController(text: sharedPref.getString('password'));
       _namecontroller =
           TextEditingController(text: sharedPref.getString('name'));
       _countrycontroller =
-          TextEditingController(text:qus.documents[0]['area'] );
+          TextEditingController(text: sharedPref.getString('myArea'));
       _uidController =
           TextEditingController(text: currentUserId);
     });
   }
+  getUsersNames()async{
 
+
+  }
   final _formkey = GlobalKey<FormState>();
 
   TextEditingController _namecontroller = TextEditingController();
@@ -208,7 +208,9 @@ class _EditAccountState extends State<EditAccount> {
       SharedPreferences sharedPref =
       await SharedPreferences.getInstance();
       sharedPref
-          .setString('password', _passwordcontroller.text)
+          .setString('password', _passwordcontroller.text);
+      sharedPref
+          .setString('myArea', _countrycontroller.text)
           .then((value) {
         Navigator.pushReplacement(
             context,

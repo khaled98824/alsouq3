@@ -118,13 +118,11 @@ class _HomeState extends State<Home> {
       setState(() {
         checkLogin = false;
         loginStatus = false;
-        print('object');
       });
     } else {
       setState(() {
         checkLogin = true;
       });
-      print('checkLogincc${qus.documents[0]['name']}');
     }
   }
 
@@ -441,16 +439,16 @@ class _HomeState extends State<Home> {
                         }
                       },
                       child: Padding(
-                        padding: EdgeInsets.symmetric(vertical: 5,horizontal: 5),
+                        padding: EdgeInsets.symmetric(vertical: 2,horizontal: 1),
                         child: Container(
-                          width: 54,
-                          height: 54,
+                          width: 58,
+                          height: 58,
                           decoration: BoxDecoration(
                               borderRadius: BorderRadius.circular(30),
                               color: Color(0xffF26726)),
                           child: Padding(
                             padding: EdgeInsets.only(right: 22,left: 10,bottom: 5),
-                              child: Icon(Icons.add_a_photo,size: 32,color: Colors.white,)),
+                              child: Icon(Icons.add_a_photo,size: 35,color: Colors.white,)),
                         ),
                       ),
                     ),

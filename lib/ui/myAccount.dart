@@ -2,6 +2,7 @@ import 'dart:async';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:curved_navigation_bar/curved_navigation_bar.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:intl/intl.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:sooq1alzour/Auth/NewLogin.dart';
@@ -109,13 +110,22 @@ class _MyAccountFState extends State<MyAccountF> {
                     builder: (BuildContext context,
                         AsyncSnapshot<QuerySnapshot> snapshot) {
                       if (!snapshot.hasData)
-                        return Text(
-                          'Loading...',
-                          style: TextStyle(fontSize: 60),
+                        return Center(
+                          child: SpinKitFadingCircle(
+                            color: Colors.red,
+                            size: 70,
+                            duration: Duration(seconds: 2),
+                          ),
                         );
                       switch (snapshot.connectionState) {
                         case ConnectionState.waiting:
-                          return new Text('Loading...');
+                          return new Center(
+                            child: SpinKitFadingCircle(
+                              color: Colors.red,
+                              size: 70,
+                              duration: Duration(seconds: 2),
+                            ),
+                          );
                         default:
                           return Stack(
                             children: <Widget>[
@@ -131,36 +141,53 @@ class _MyAccountFState extends State<MyAccountF> {
                                   ),
                                   Positioned(
                                     left: size.width / 2.4,
-                                    bottom: 0,
-                                    child: Center(
-                                      heightFactor: 2.5,
-                                      widthFactor: 1.1,
-                                      child: FloatingActionButton(
-                                          backgroundColor: Color(0xffF26726),
-                                          child: Padding(
-                                            padding: EdgeInsets.only(right: 2),
-                                            child: Icon(
-                                              Icons.add_a_photo,
-                                              size: 30,
-                                            ),
-                                          ),
-                                          elevation: 0.1,
-                                          onPressed: () {
-                                            if (loginStatus) {
-                                              Navigator.of(context)
-                                                  .pushNamed(AddNewAd.id);
-                                            } else {
-                                              loginStatus = false;
-                                              print('no');
-                                              Navigator.pushReplacement(context,
-                                                  MaterialPageRoute(
-                                                      builder: (context) {
+                                    bottom: size.height / 15,
+                                    child: InkWell(
+                                      onTap: () {
+                                        if (loginStatus) {
+                                          Navigator.of(context).pushNamed(AddNewAd.id);
+                                        } else {
+                                          loginStatus = false;
+                                          print('no');
+                                          Navigator.pushReplacement(context,
+                                              MaterialPageRoute(builder: (context) {
                                                 return NewLogin(
                                                   autoLogin: false,
                                                 );
                                               }));
+                                        }
+                                      },
+                                      child: Container(
+                                        width: 58,
+                                        height: 58,
+                                        decoration: BoxDecoration(
+                                            borderRadius: BorderRadius.circular(30),
+                                            color: Color(0xffF26726)),
+                                        child: IconButton(
+                                          icon: Padding(
+                                              padding:
+                                              EdgeInsets.only(left: 3, right: 22, bottom: 5),
+                                              child: Icon(
+                                                Icons.add_a_photo,
+                                                size: 35,
+                                                color: Colors.white,
+                                              )),
+                                          onPressed: () {
+                                            if (loginStatus) {
+                                              Navigator.of(context).pushNamed(AddNewAd.id);
+                                            } else {
+                                              loginStatus = false;
+                                              print('no');
+                                              Navigator.pushReplacement(context,
+                                                  MaterialPageRoute(builder: (context) {
+                                                    return NewLogin(
+                                                      autoLogin: false,
+                                                    );
+                                                  }));
                                             }
-                                          }),
+                                          },
+                                        ),
+                                      ),
                                     ),
                                   ),
                                   Positioned(
@@ -1021,8 +1048,9 @@ class _MyAccountFState extends State<MyAccountF> {
                             height: 10,
                           ),
                           InkWell(
-                            onTap: (){
-                              Navigator.push(context,BouncyPageRoute(widget: EditAccount()));
+                            onTap: () {
+                              Navigator.push(context,
+                                  BouncyPageRoute(widget: EditAccount()));
                             },
                             child: Container(
                                 width: 180,
@@ -1033,9 +1061,11 @@ class _MyAccountFState extends State<MyAccountF> {
                                 child: Center(
                                   child: Row(
                                     mainAxisAlignment: MainAxisAlignment.end,
-                                    crossAxisAlignment: CrossAxisAlignment.center,
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.center,
                                     children: [
-                                      Text('تعديل معلومات حسابي', textAlign: TextAlign.right,
+                                      Text('تعديل معلومات حسابي',
+                                          textAlign: TextAlign.right,
                                           style: TextStyle(
                                               decoration: TextDecoration.none,
                                               fontSize: 15,
@@ -1043,9 +1073,11 @@ class _MyAccountFState extends State<MyAccountF> {
                                               height: 1,
                                               color: Colors.black)),
                                       IconButton(
-                                          icon: Icon(Icons.edit_outlined,
+                                          icon: Icon(
+                                            Icons.edit_outlined,
                                             size: 25,
-                                            color: Colors.blue[900],),
+                                            color: Colors.blue[900],
+                                          ),
                                           onPressed: () {}),
                                     ],
                                   ),
