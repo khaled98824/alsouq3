@@ -68,6 +68,7 @@ calculate(select){
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
+        centerTitle: true,
         title: Text('سعر الصرف اليومي',textAlign: TextAlign.center,
             style: TextStyle(
               height: 1,
@@ -226,7 +227,7 @@ calculate(select){
                 color: Colors.grey[400]
             ),
           ),
-          SizedBox(height: 40,),
+          SizedBox(height: 70,),
 
           Card(
             color: Colors.grey[200],
@@ -274,6 +275,10 @@ calculate(select){
                                   borderRadius: BorderRadius.circular(4),
                                 ),
                                 hintText: '!... ادخل المبلغ بالدولار',
+                                hintStyle: TextStyle(
+                                    fontSize: 16,
+                                    height: 1
+                                ),
                                 fillColor: Colors.white,
                                 hoverColor: Colors.white,
                               ),

@@ -248,6 +248,10 @@ class _PrivateChatState extends State<PrivateChat> {
                                       maxLength: 47,
                                       decoration: InputDecoration(
                                         hintText: "!... اكتب تعليقك هنا",
+                                        hintStyle: TextStyle(
+                                            fontSize: 16,
+                                            height: 1
+                                        ),
                                       ),
                                       onSubmitted: (value) => callBack(),
                                     ),

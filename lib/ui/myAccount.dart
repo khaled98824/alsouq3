@@ -365,13 +365,10 @@ class _MyAccountFState extends State<MyAccountF> {
                     Container(
                       color: Colors.white,
                       child: Center(
-                        child: Text(
-                          'Loading...',
-                          style: TextStyle(
-                              decoration: TextDecoration.none,
-                              fontSize: 37,
-                              color: Colors.red,
-                              fontWeight: FontWeight.bold),
+                        child: SpinKitFadingCircle(
+                          color: Colors.red,
+                          size: 70,
+                          duration: Duration(seconds: 2),
                         ),
                       ),
                     ),

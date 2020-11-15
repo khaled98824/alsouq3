@@ -78,7 +78,11 @@ class _ComplaintsAndSuggestionsState extends State<ComplaintsAndSuggestions> {
                     textAlign: TextAlign.right,
                     keyboardType: TextInputType.number,
                     decoration: InputDecoration(
-                        hintText: 'رقم الموبايل'
+                        hintText: 'رقم الموبايل',
+                        hintStyle: TextStyle(
+                        fontSize: 15,
+                        height: 1
+                    ),
                     ),
                     validator: (value) {
                       if (value.isEmpty) {
@@ -108,7 +112,11 @@ class _ComplaintsAndSuggestionsState extends State<ComplaintsAndSuggestions> {
                     maxLength: 500,
                     maxLines: 10,
                     decoration: InputDecoration(
-                        hintText: 'الرسالة'
+                        hintText: 'الرسالة',
+                      hintStyle: TextStyle(
+                          fontSize: 15,
+                          height: 1
+                      ),
                     ),
                     validator: (value) {
                       if (value.isEmpty) {

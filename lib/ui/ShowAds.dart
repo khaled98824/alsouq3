@@ -161,6 +161,7 @@ class _ShowAdState extends State<ShowAd> {
                       child: ListView(
                         controller: scrollController,
                         children: <Widget>[
+                          SizedBox(height: 4,),
                           Row(
                             mainAxisAlignment: MainAxisAlignment.end,
                             children: <Widget>[
@@ -183,8 +184,9 @@ class _ShowAdState extends State<ShowAd> {
                                   },
                                   child: Icon(
                                     Icons.arrow_forward_ios,
-                                    size: 27,
+                                    size: 30,
                                   )),
+                              SizedBox(width: 3,)
                             ],
                           ),
                           SizedBox(

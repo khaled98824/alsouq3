@@ -151,10 +151,7 @@ class _AddNewRequestState extends State<AddNewRequest> {
   ];
   var dropSelectItemCategory = 'إختر القسم الرئيسي';
   String category = '';
-  List<String> dropItemsArea = ['إختر المحافظة','دير الزور','الرقة',
-    'الحسكة','القامشلي','حلب','حماة','إدلب','حمص','دمشق','درعا',
-    'ريف دمشق','السويداء','طرطوس','القنيطرة','اللاذقية',
-  ];
+  List<String> dropItemsArea = ['إختر المحافظة'];
 
   var dropSelectItemArea = 'إختر المحافظة';
   String area = '';
@@ -917,6 +914,10 @@ class _AddNewRequestState extends State<AddNewRequest> {
                               textAlign: TextAlign.right,
                               decoration: InputDecoration(
                                 hintText: '"مثال : "مطلوب آيفون ٧ ',
+                                hintStyle: TextStyle(
+                                    fontSize: 15,
+                                    height: 1
+                                ),
                               ),
                             ),
                           ),
@@ -965,6 +966,10 @@ class _AddNewRequestState extends State<AddNewRequest> {
                                     borderSide: BorderSide(color: Colors.blue),
                                     borderRadius: BorderRadius.circular(10)),
                                 hintText: 'ضع تفاصيل أكثر لطلبك ',
+                                hintStyle: TextStyle(
+                                    fontSize: 16,
+                                    height: 1
+                                ),
                                 fillColor: Colors.grey,
                                 hoverColor: Colors.grey,
                               ),
@@ -1177,7 +1182,7 @@ class _AddNewRequestState extends State<AddNewRequest> {
                             padding: EdgeInsets.only(
                                 top: 2, bottom: 3, left: 3, right: 1),
                             child: SizedBox(
-                              width: 220,
+                              width: 230,
                               height: 43,
                               child: TextFormField(
                                 controller: priceController,
@@ -1202,7 +1207,8 @@ class _AddNewRequestState extends State<AddNewRequest> {
                                   ),
                                   hintText: '!... أدخل السعر المطلوب ,ارقام انجليزية',
                                   hintStyle: TextStyle(
-                                    fontSize: 14
+                                      fontSize: 14,
+                                      height: 1
                                   ),
                                   fillColor: Colors.white,
                                   hoverColor: Colors.white,
@@ -1244,7 +1250,7 @@ class _AddNewRequestState extends State<AddNewRequest> {
                             padding: EdgeInsets.only(
                                 top: 2, bottom: 3, left: 3, right: 1),
                             child: SizedBox(
-                              width: 220,
+                              width: 230,
                               height: 43,
                               child: TextFormField(
                                 controller: phoneController,
@@ -1269,7 +1275,8 @@ class _AddNewRequestState extends State<AddNewRequest> {
                                   ),
                                   hintText: '!... أدخل رقم جوالك, ارقام انجليزية',
                                   hintStyle: TextStyle(
-                                      fontSize: 15
+                                      fontSize: 14,
+                                      height: 1
                                   ),
                                   fillColor: Colors.white,
                                   hoverColor: Colors.white,
@@ -1367,6 +1374,7 @@ class _AddNewRequestState extends State<AddNewRequest> {
   void dispose() {
     // TODO: implement dispose
     super.dispose();
+    newZList.clear();
   }
 
   deleteImage() {

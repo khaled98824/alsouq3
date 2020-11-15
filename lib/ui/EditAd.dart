@@ -166,10 +166,7 @@ class _EditAdState extends State<EditAd> {
   String category = '';
 
   var dropSelectItemArea = 'إختر المحافظة';
-  var dropItemsArea = ['إختر المحافظة','دير الزور','الرقة',
-    'الحسكة','القامشلي','حلب','حماة','إدلب','حمص','دمشق','درعا',
-    'ريف دمشق','السويداء','طرطوس','القنيطرة','اللاذقية',
-  ];
+  var dropItemsArea = ['إختر المحافظة',];
 
 
   String area = '';
@@ -1343,6 +1340,7 @@ class _EditAdState extends State<EditAd> {
   void dispose() {
     // TODO: implement dispose
     super.dispose();
+    newZList.clear();
   }
 
   deleteImage() {

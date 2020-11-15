@@ -1122,7 +1122,7 @@ class _NewAdsState extends State<NewAds> {
                                                   SizedBox(
                                                     width:snapshot.data
                                                         .documents[index]
-                                                    ['name'].toString().length<9 ?10:5,
+                                                    ['name'].toString().length<11 ?10:6,
                                                   ),
                                                 ],
                                               ),

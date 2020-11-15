@@ -152,23 +152,7 @@ class _AddNewAdState extends State<AddNewAd> {
   var dropSelectItemCategory = 'إختر القسم الرئيسي';
   String category = '';
   List<String> dropItemsArea = [
-    'إختر المحافظة',
-    'دير الزور',
-    'الرقة',
-    'الحسكة',
-    'القامشلي',
-    'حلب',
-    'حماة',
-    'إدلب',
-    'حمص',
-    'دمشق',
-    'درعا',
-    'ريف دمشق',
-    'السويداء',
-    'طرطوس',
-    'القنيطرة',
-    'اللاذقية',
-  ];
+    'إختر المحافظة',];
 
   var dropSelectItemArea = 'إختر المحافظة';
   String area = '';
@@ -939,6 +923,10 @@ class _AddNewAdState extends State<AddNewAd> {
                               textAlign: TextAlign.right,
                               decoration: InputDecoration(
                                 hintText: '"مثال : "آيفون ٧ للبيع',
+                                hintStyle: TextStyle(
+                                    fontSize: 14,
+                                    height: 1
+                                ),
                               ),
                             ),
                           ),
@@ -1203,7 +1191,7 @@ class _AddNewAdState extends State<AddNewAd> {
                             padding: EdgeInsets.only(
                                 top: 5, bottom: 3, left: 3, right: 1),
                             child: SizedBox(
-                              width: 220,
+                              width: 230,
                               height: 43,
                               child: TextFormField(
                                 controller: priceController,
@@ -1228,6 +1216,10 @@ class _AddNewAdState extends State<AddNewAd> {
                                   ),
                                   hintText:
                                       '!... أدخل السعر المطلوب ,ارقام انجليزية',
+                                  hintStyle: TextStyle(
+                                    fontSize: 14,
+                                    height: 1
+                                  ),
                                   fillColor: Colors.white,
                                   hoverColor: Colors.white,
                                 ),
@@ -1268,7 +1260,7 @@ class _AddNewAdState extends State<AddNewAd> {
                             padding: EdgeInsets.only(
                                 top: 6, bottom: 3, left: 3, right: 1),
                             child: SizedBox(
-                              width: 220,
+                              width: 230,
                               height: 43,
                               child: TextFormField(
                                 controller: phoneController,
@@ -1293,6 +1285,10 @@ class _AddNewAdState extends State<AddNewAd> {
                                   ),
                                   hintText:
                                       '!... أدخل رقم جوالك, ارقام انجليزية',
+                                  hintStyle: TextStyle(
+                                      fontSize: 14,
+                                      height: 1
+                                  ),
                                   fillColor: Colors.white,
                                   hoverColor: Colors.white,
                                 ),
@@ -1599,6 +1595,7 @@ class _AddNewAdState extends State<AddNewAd> {
   void dispose() {
     // TODO: implement dispose
     super.dispose();
+    newZList.clear();
   }
 
   deleteImage() {
