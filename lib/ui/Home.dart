@@ -1114,7 +1114,7 @@ class _NewAdsState extends State<NewAds> {
                                                             .documents[index]
                                                         ['name'],
                                                     style: TextStyle(
-                                                      fontSize: 13,
+                                                      fontSize: 12,
                                                       fontFamily: 'AmiriQuran',
                                                       height: 1.2,
                                                     ),

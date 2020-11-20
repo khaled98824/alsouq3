@@ -909,7 +909,7 @@ class _AddNewRequestState extends State<AddNewRequest> {
                                 }
                               },
                               maxLines: 1,
-                              maxLength: 38,
+                              maxLength: 32,
                               controller: nameController,
                               textAlign: TextAlign.right,
                               decoration: InputDecoration(
@@ -1120,7 +1120,7 @@ class _AddNewRequestState extends State<AddNewRequest> {
                                   height: 1),
                             ),
                             showAreaTextField ? SizedBox(
-                              height: 33,
+                              height: 52,
                               width: 200,
                               child: TextFormField(
                                 controller: areaController,
@@ -1129,7 +1129,7 @@ class _AddNewRequestState extends State<AddNewRequest> {
                                     return 'أدخل منطقتك ...';
                                   }
                                 },
-                                maxLines: 1,
+                               maxLength: 18,
                                 textAlign: TextAlign.right,
                                 decoration: InputDecoration(
                                   hintText: '... أدخل منطقتك هنا',

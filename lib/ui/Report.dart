@@ -3,14 +3,18 @@ import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:sooq1alzour/Auth/NewLogin.dart';
 
-class ComplaintsAndSuggestions extends StatefulWidget {
+class Report extends StatefulWidget {
+  String adId ;
+  Report({this.adId});
   @override
-  _ComplaintsAndSuggestionsState createState() => _ComplaintsAndSuggestionsState();
+  _ReportState createState() => _ReportState(adId:adId);
 }
 
-class _ComplaintsAndSuggestionsState extends State<ComplaintsAndSuggestions> {
+class _ReportState extends State<Report> {
+  String adId ;
+  _ReportState({this.adId});
+
   TextEditingController nameController = TextEditingController();
-  TextEditingController mobileController = TextEditingController();
   TextEditingController kindController = TextEditingController();
   TextEditingController messageController = TextEditingController();
   final _formkey = GlobalKey<FormState>();
@@ -20,8 +24,8 @@ class _ComplaintsAndSuggestionsState extends State<ComplaintsAndSuggestions> {
     return Scaffold(
       appBar: AppBar(
         centerTitle: true,
-        title: Text('الشكاوى والإقتراحات',style: TextStyle(
-            fontSize: 22,
+        title: Text('الإبلاغ عن محتوى مخالف',style: TextStyle(
+            fontSize: 20,
             fontFamily: 'AmiriQuran',
             color: Colors.white,
             height: 1.5)),
@@ -31,27 +35,7 @@ class _ComplaintsAndSuggestionsState extends State<ComplaintsAndSuggestions> {
         child: ListView(
           children: <Widget>[
             Padding(padding: EdgeInsets.only(top: 12)),
-            Padding(
-              padding: EdgeInsets.only(right: 10,left: 10),
-              child: Container(
-                decoration: BoxDecoration(
-                  borderRadius: BorderRadius.circular(10),
-                  color: Colors.grey[300]
-                ),
-                child: Center(
-                  child: Padding(
-                    padding: EdgeInsets.symmetric(vertical: 10,horizontal: 10),
-                    child: Text('أرسل لنا ملاحظاتك او شكاويك وبإذن الله سنستجيب لك بأسرع وقت ممكن .',
-                        textAlign: TextAlign.center,
-                        style: TextStyle(
-                            fontSize: 18,
-                            fontFamily: 'AmiriQuran',
-                            color: Colors.black,
-                            height: 1.5)),
-                  ),
-                ),
-              ),
-            ),
+
             Padding(
               padding: EdgeInsets.only(top:50,right: 20,left: 20),
               child: Column(
@@ -59,9 +43,12 @@ class _ComplaintsAndSuggestionsState extends State<ComplaintsAndSuggestions> {
                   TextFormField(
                     controller: nameController,
                     textAlign: TextAlign.right,
-                    maxLines: 2,
                     decoration: InputDecoration(
-                      hintText: 'ضع أسمك هنا'
+                        hintText: 'ضع أسمك هنا',
+                      hintStyle: TextStyle(
+                        fontSize: 16,
+                        height: 0
+                      )
                     ),
                     validator: (value) {
                       if (value.isEmpty) {
@@ -70,32 +57,17 @@ class _ComplaintsAndSuggestionsState extends State<ComplaintsAndSuggestions> {
                       // return 'Valid Name';
                     },
                   ),
-                  SizedBox(height: 10,),
 
-                  TextFormField(
-                    controller: mobileController,
-                    textAlign: TextAlign.right,
-                    keyboardType: TextInputType.number,
-                    decoration: InputDecoration(
-                        hintText: 'رقم الموبايل',
-                        hintStyle: TextStyle(
-                        fontSize: 15,
-                        height: 1
-                    ),
-                    ),
-                    validator: (value) {
-                      if (value.isEmpty) {
-                        return 'Please Fill name Input';
-                      }
-                      // return 'Valid Name';
-                    },
-                  ),
                   SizedBox(height: 10,),
                   TextFormField(
                     controller: kindController,
                     textAlign: TextAlign.right,
                     decoration: InputDecoration(
-                        hintText: '... إقتراح , شكوى , مشكلة تقنية , تبليغ , أو غير ذلك'
+                        hintText: '... نوع المخالفة',
+                        hintStyle: TextStyle(
+                            fontSize: 16,
+                            height: 0
+                        )
                     ),
                     validator: (value) {
                       if (value.isEmpty) {
@@ -109,9 +81,9 @@ class _ComplaintsAndSuggestionsState extends State<ComplaintsAndSuggestions> {
                     controller: messageController,
                     textAlign: TextAlign.right,
                     maxLength: 500,
-                    maxLines: 10,
+                    maxLines: 8,
                     decoration: InputDecoration(
-                        hintText: 'الرسالة',
+                      hintText: 'الرسالة',
                       hintStyle: TextStyle(
                           fontSize: 15,
                           height: 1
@@ -128,27 +100,27 @@ class _ComplaintsAndSuggestionsState extends State<ComplaintsAndSuggestions> {
                   InkWell(
                     onTap: ()async{
                       if(_formkey.currentState.validate()){
-                        Firestore.instance.collection('Complaints and Suggestions').add({
+                        Firestore.instance.collection('Reports').add({
                           'name':nameController.text,
-                          'mobile': mobileController.text,
                           'kind': kindController.text,
                           'message': messageController.text,
                           'time': DateFormat('yyyy-MM-dd-HH:mm').format(DateTime.now()),
-                          'user_uid':currentUserId
+                          'user_uid':currentUserId,
+                          'Ad_id':adId
                         });
                       }
                       nameController.clear();
                       messageController.clear();
                       kindController.clear();
-                      mobileController.clear();
+                      Navigator.of(context).pop();
 
                     },
                     child: Center(
                       child: Container(
                         height: 40,
                         decoration: BoxDecoration(
-                          borderRadius: BorderRadius.circular(5),
-                          color: Colors.blue[800]
+                            borderRadius: BorderRadius.circular(5),
+                            color: Colors.blue[800]
                         ),
                         child: Center(
                           child: Text('أرسل',style: TextStyle(

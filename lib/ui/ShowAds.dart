@@ -11,6 +11,7 @@ import 'package:photo_view/photo_view_gallery.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:sooq1alzour/Auth/NewLogin.dart';
 import 'package:sooq1alzour/models/PageRoute.dart';
+import 'package:sooq1alzour/ui/Report.dart';
 import 'package:sooq1alzour/ui/private_chat.dart';
 import 'package:url_launcher/url_launcher.dart';
 import 'package:http/http.dart';
@@ -521,7 +522,6 @@ class _ShowAdState extends State<ShowAd> {
                           Wrap(
                             crossAxisAlignment: WrapCrossAlignment.center,
                             alignment: WrapAlignment.end,
-                            runAlignment: WrapAlignment.center,
                             children: <Widget>[
                               Text(
                                 documentsAds['description'],
@@ -529,18 +529,20 @@ class _ShowAdState extends State<ShowAd> {
                                 style: TextStyle(
                                   fontSize: 13,
                                   fontFamily: 'AmiriQuran',
-                                  height: 1,
+                                  height: 1.3,
+                                  wordSpacing: 0,
+                                  letterSpacing: 0,
                                   color: Colors.black,
                                 ),
                               ),
                               SizedBox(
-                                width: 80,
+                                width: 10,
                               ),
                               Text(
                                 ': الوصف ',
-                                textAlign: TextAlign.right,
+                                textAlign: TextAlign.center,
                                 style: TextStyle(
-                                  fontSize: 16,
+                                  fontSize: 15,
                                   fontFamily: 'AmiriQuran',
                                   height: 1,
                                   color: Colors.grey[700],
@@ -817,6 +819,43 @@ class _ShowAdState extends State<ShowAd> {
                           ),
                           SizedBox(
                             height: 5,
+                          ),
+                          Container(
+                            width: MediaQuery.of(context).size.width - 6,
+                            height: 2,
+                            decoration: BoxDecoration(
+                                borderRadius: BorderRadius.circular(5),
+                                color: Colors.grey[300]),
+                          ),
+                          SizedBox(
+                            height: 5,
+                          ),
+                          Center(
+                            child: InkWell(
+                              onTap: (){
+                                Navigator.push(context, BouncyPageRoute(widget: Report(adId: documentId,)));
+                              },
+                              child: Container(
+                                child:Column(
+                                  children: [
+                                    Icon(
+                                      Icons.report_problem_outlined,
+                                      color: Colors.red,
+                                    size: 32,),
+                                    Text('الإبلاغ عن محتوى مخالف', textAlign: TextAlign.center,
+                                      style: TextStyle(
+                                        fontSize: 14,
+                                        fontFamily: 'AmiriQuran',
+                                        height: 1,
+                                        color: Colors.grey[700],
+                                      ),),
+                                  ],
+                                )
+                              ),
+                            ),
+                          ),
+                          SizedBox(
+                            height: 8,
                           ),
                           Container(
                             width: MediaQuery.of(context).size.width - 6,

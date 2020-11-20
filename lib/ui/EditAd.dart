@@ -885,7 +885,7 @@ class _EditAdState extends State<EditAd> {
                           width: 220,
                           child: TextFormField(
                             maxLines: 1,
-                            maxLength: 38,
+                            maxLength: 32,
                             controller: nameController,
                             textAlign: TextAlign.right,
                             decoration: InputDecoration(
@@ -1088,7 +1088,7 @@ class _EditAdState extends State<EditAd> {
                                 height: 1),
                           ),
                           showAreaTextField ? SizedBox(
-                            height: 33,
+                            height: 52,
                             width: 200,
                             child: TextFormField(
                               controller: areaController,
@@ -1097,7 +1097,7 @@ class _EditAdState extends State<EditAd> {
                                   return 'أدخل منطقتك ...';
                                 }
                               },
-                              maxLines: 1,
+                             maxLength: 18,
                               textAlign: TextAlign.right,
                               decoration: InputDecoration(
                                 hintText: '... أدخل منطقتك هنا',

@@ -28,11 +28,14 @@
 			<key>CFBundleURLSchemes</key>
 			<array>
 				<string>com.googleusercontent.apps.952078302451-nj3abbvat7sq62kfbe0rjtpkhkboc7j1</string>
+				<string>com.googleusercontent.apps.80134356736-cigl66le70qn6oc1lfbnlp8k1fs77656</string>
 			</array>
 		</dict>
 	</array>
 	<key>CFBundleVersion</key>
 	<string>$(CURRENT_PROJECT_VERSION)</string>
+	<key>LSApplicationCategoryType</key>
+	<string></string>
 	<key>LSRequiresIPhoneOS</key>
 	<true/>
 	<key>NSAppleMusicUsageDescription</key>
