@@ -29,7 +29,7 @@ class _ExchangeState extends State<Exchange> {
   }
 getData()async{
   var firestore = Firestore.instance;
-  querySnapshotEx = await firestore.collection('exchange').getDocuments();
+  querySnapshotEx = await firestore.collection('IOSexchange').getDocuments();
   setState(() {
     dropSelectItemArea = querySnapshotEx.documents[0]['d'];
     dEx = querySnapshotEx.documents[0]['dEx'];

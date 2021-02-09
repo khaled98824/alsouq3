@@ -395,7 +395,7 @@ class _AddNewRequestState extends State<AddNewRequest> {
     var firestore = Firestore.instance;
 
     QuerySnapshot qusListUsers =
-    await firestore.collection('NewZios').getDocuments();
+    await firestore.collection('ZonesIOS').getDocuments();
     if (qusListUsers != null) {
       for (int i = 0; qusListUsers.documents.length > newZList.length; i++) {
         setState(() {

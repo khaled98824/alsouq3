@@ -382,7 +382,7 @@ class _EditAdState extends State<EditAd> {
     var firestore = Firestore.instance;
 
     QuerySnapshot qusListUsers =
-    await firestore.collection('NewZios').getDocuments();
+    await firestore.collection('ZonesIOS').getDocuments();
     if (qusListUsers != null) {
       newZList.clear();
       for (int i = 0; qusListUsers.documents.length > newZList.length; i++) {

@@ -397,7 +397,7 @@ class _AddNewAdState extends State<AddNewAd> {
     var firestore = Firestore.instance;
 
     QuerySnapshot qusListUsers =
-        await firestore.collection('NewZios').getDocuments();
+        await firestore.collection('ZonesIOS').getDocuments();
     if (qusListUsers != null) {
       for (int i = 0; qusListUsers.documents.length > newZList.length; i++) {
         setState(() {

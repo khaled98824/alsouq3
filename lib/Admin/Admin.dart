@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:sooq1alzour/Admin/Ads.dart';
+import 'package:sooq1alzour/Admin/EditExchange.dart';
 import 'package:sooq1alzour/Admin/Users.dart';
 import 'package:sooq1alzour/models/PageRoute.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
@@ -56,7 +57,7 @@ class _AdminState extends State<Admin> {
                         size: 36,
                       ),
                       SizedBox(width: 80,),
-                      SizedBox(width: 100,),
+                      SizedBox(width: 80,),
                       SizedBox(width: 22,),
                       Padding(
                         padding: EdgeInsets.only(right: 15),
@@ -181,7 +182,7 @@ class _AdminState extends State<Admin> {
                         size: 36,
                       ),
                       SizedBox(width: 20,),
-                      SizedBox(width: 22,),
+                      SizedBox(width: 1,),
                       Padding(
                         padding: EdgeInsets.only(right: 32),
                         child: Text(
@@ -194,6 +195,45 @@ class _AdminState extends State<Admin> {
                         ),
                       ),
                       Icon(Icons.markunread_mailbox,color: Colors.blue,size: 34,)
+                    ],
+                  ),
+                ),
+              ),
+              Container(
+                height: 1,
+                width: MediaQuery.of(context).size.width - 8,
+                decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(5),
+                    color: Colors.red[900]),
+              ),
+              Padding(
+                padding: EdgeInsets.only(top: 12, bottom: 12,right: 5),
+                child: InkWell(
+                  onTap: () {
+                    Navigator.push(context, BouncyPageRoute(widget: EditExchange()));
+                  },
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    children: <Widget>[
+                      Icon(
+                        Icons.arrow_back_ios,
+                        size: 36,
+                      ),
+                      SizedBox(width: 20,),
+                      SizedBox(width: 22,),
+                      Padding(
+                        padding: EdgeInsets.only(right: 5),
+                        child: Text(
+                          'تعديل اسعار الصرف',
+                          textAlign: TextAlign.center,
+                          style: TextStyle(
+                              fontSize: 24,
+                              fontFamily: 'AmiriQuran',
+                              height: 0.6),
+                        ),
+                      ),
+                      Icon(Icons.money,color: Colors.blue,size: 34,)
                     ],
                   ),
                 ),

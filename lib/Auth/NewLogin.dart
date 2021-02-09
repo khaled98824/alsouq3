@@ -419,6 +419,12 @@ class _NewLoginState extends State<NewLogin> {
       setState(() {
         currentUserId = _googleSignIn.currentUser.id;
       });
+      print({_googleSignIn.currentUser.id});
+      print({_googleSignIn.currentUser.email});
+      print({_googleSignIn.currentUser.displayName});
+      print({_googleSignIn.currentUser.photoUrl});
+
+
       Firestore.instance.collection('users').document(_googleSignIn.currentUser.id).setData({
         'name': _googleSignIn.currentUser.displayName,
         'user_uid':_googleSignIn.currentUser.id,

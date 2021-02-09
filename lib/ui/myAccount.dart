@@ -1,8 +1,10 @@
 import 'dart:async';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:curved_navigation_bar/curved_navigation_bar.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
+import 'package:google_sign_in/google_sign_in.dart';
 import 'package:intl/intl.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:sooq1alzour/Auth/NewLogin.dart';
@@ -28,6 +30,10 @@ class MyAccount extends StatelessWidget {
     return MyAccountF();
   }
 }
+GoogleSignIn _googleSignIn = GoogleSignIn(
+    scopes: ['email']
+);
+FirebaseAuth _auth = FirebaseAuth.instance;
 
 DocumentSnapshot documentsUser;
 bool deleteThisAd = false;
@@ -401,6 +407,7 @@ class _MyAccountFState extends State<MyAccountF> {
                       ),
                       InkWell(
                           onTap: () async {
+                            gooleSignout();
                             SharedPreferences sharedPref =
                                 await SharedPreferences.getInstance();
                             sharedPref.setInt('navigatorSelect', null);
@@ -1629,8 +1636,16 @@ class _AboutUsState extends State<AboutUs> {
       ),
     );
   }
-}
 
+}
+Future<void> gooleSignout() async {
+  await _auth.signOut().then((onValue) {
+    _googleSignIn.signOut();
+    print('google log uot');
+      isSignIn = true;
+
+  });
+}
 class BNBCustomPainter extends CustomPainter {
   @override
   void paint(Canvas canvas, Size size) {
@@ -1666,3 +1681,4 @@ saveAdsSaled(name, id) {
     "time": DateFormat('yyyy-MM-dd-HH:mm').format(DateTime.now()),
   });
 }
+
